@@ -51,11 +51,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Joystick Shooter", group="147")
-public class TeleopJoystickShooter extends OpMode{
+@TeleOp(name="Teleop Joystick Four Motor", group="147")
+public class TeleopJoystickFourMotor extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147Shooter robot       = new Hardware147Shooter(); // use the class created to define a Pushbot's hardware
+    Hardware147FourMotors robot       = new Hardware147FourMotors(); // use the class created to define a Pushbot's hardware
     ElapsedTime time=new ElapsedTime();
 
     double MAX_ACCEL=20.0/1000,TURN_ACCEL=10.0/1000;
@@ -118,25 +118,10 @@ public class TeleopJoystickShooter extends OpMode{
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
 
-        //robot.leftMotor.setPower(power+turn);
-        //robot.rightMotor.setPower(-power+turn);
-
-
-        if(gamepad1.a)
-        {
-            robot.shooter.setPower(1);
-            telemetry.addData("shooter", "on");
-        }
-        else if(gamepad1.b)
-        {
-            robot.shooter.setPower(-1);
-            telemetry.addData("shooter", "reverse");
-        }
-        else
-        {
-            robot.shooter.setPower(0);
-            telemetry.addData("shooter", "off");
-        }
+        robot.leftMotorA.setPower(power+turn);
+        robot.leftMotorB.setPower(power+turn);
+        robot.rightMotorA.setPower(-power+turn);
+        robot.rightMotorB.setPower(-power+turn);
 
         telemetry.addData("power",  "%.2f", power);
         telemetry.addData("turn", "%.2f", turn);

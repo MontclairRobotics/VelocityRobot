@@ -20,19 +20,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147Shooter
+public class Hardware147FourMotors
 {
     /* Public OpMode members. */
-    //public DcMotor  leftMotor   = null;
-    //public DcMotor  rightMotor  = null;
-    public DcMotor shooter=null;
+    public DcMotor  leftMotorA   = null;
+    public DcMotor  leftMotorB    = null;
+    public DcMotor  rightMotorA  = null;
+    public DcMotor  rightMotorB = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Hardware147Shooter(){
+    public Hardware147FourMotors(){
 
     }
 
@@ -42,21 +43,25 @@ public class Hardware147Shooter
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        //leftMotor   = hwMap.dcMotor.get("left");
-        //rightMotor  = hwMap.dcMotor.get("right");
-        shooter=hwMap.dcMotor.get("shooter");
+        leftMotorA   = hwMap.dcMotor.get("left_a");
+        leftMotorB   = hwMap.dcMotor.get("left_b");
+        rightMotorA  = hwMap.dcMotor.get("right_a");
+        rightMotorB  = hwMap.dcMotor.get("right_b");
 
         // Set all motors to zero power
-        //leftMotor.setPower(0);
-        //rightMotor.setPower(0);
-        shooter.setPower(0);
+        leftMotorA.setPower(0);
+        leftMotorB.setPower(0);
+        rightMotorA.setPower(0);
+        rightMotorB.setPower(0);
 
         // Set all motors to run without encoders.
         //RUN_WITHOUT_ENCODERS
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        //leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     /***
