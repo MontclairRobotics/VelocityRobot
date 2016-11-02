@@ -118,6 +118,12 @@ public class TeleopJoystickFourMotor extends OpMode{
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
 
+        if(gamepad1.a) {
+            robot.shooter.setPower(1);
+        } else if(gamepad1.b) {
+            robot.shooter.setPower(-1);
+        }
+
         robot.leftMotorA.setPower(power+turn);
         robot.leftMotorB.setPower(power+turn);
         robot.rightMotorA.setPower(-power+turn);

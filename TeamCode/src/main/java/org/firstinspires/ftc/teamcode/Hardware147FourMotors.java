@@ -28,6 +28,8 @@ public class Hardware147FourMotors
     public DcMotor  rightMotorA  = null;
     public DcMotor  rightMotorB = null;
 
+    public DcMotor shooter      = null;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -48,11 +50,14 @@ public class Hardware147FourMotors
         rightMotorA  = hwMap.dcMotor.get("right_a");
         rightMotorB  = hwMap.dcMotor.get("right_b");
 
+        shooter = hwMap.dcMotor.get("shooter");
+
         // Set all motors to zero power
         leftMotorA.setPower(0);
         leftMotorB.setPower(0);
         rightMotorA.setPower(0);
         rightMotorB.setPower(0);
+        shooter.setPower(0);
 
         // Set all motors to run without encoders.
         //RUN_WITHOUT_ENCODERS
@@ -61,6 +66,7 @@ public class Hardware147FourMotors
         leftMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 

@@ -55,6 +55,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @TeleOp(name="Teleop Second Robot", group="147")
+@Disabled
 public class TeleopSecondRobot extends OpMode{
 
     /* Declare OpMode members. */
