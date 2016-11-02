@@ -23,8 +23,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Hardware147Shooter
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
     public DcMotor shooter=null;
 
     /* local OpMode members. */
@@ -42,20 +40,14 @@ public class Hardware147Shooter
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get("left");
-        rightMotor  = hwMap.dcMotor.get("right");
         shooter=hwMap.dcMotor.get("shooter");
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
         shooter.setPower(0);
 
         // Set all motors to run without encoders.
         //RUN_WITHOUT_ENCODERS
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 

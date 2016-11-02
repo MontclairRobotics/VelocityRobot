@@ -34,7 +34,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -51,18 +50,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Joystick Shooter", group="147")
-public class TeleopJoystickShooter extends OpMode{
+@TeleOp(name="Slam Dunk", group="147")
+public class SlamDunk extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147Shooter robot       = new Hardware147Shooter(); // use the class created to define a Pushbot's hardware
-    ElapsedTime time=new ElapsedTime();
+    Hardware147 robot       = new Hardware147(); // use the class created to define a Pushbot's hardware
 
-    double MAX_ACCEL=20.0/1000,TURN_ACCEL=10.0/1000;
-
-    double HALF=0.4,QUARTER=0.2,TURN_SPD=0.5,SMALL_TURN_SPD=0.5;
-
-    double lastPower=0,lastTurn=0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -98,51 +91,13 @@ public class TeleopJoystickShooter extends OpMode{
      */
     @Override
     public void loop() {
-        /*double power,turn;
-        double ms;
+        float rightPower;
+        float leftPower;
+        float rightStickY = gamepad1.right_stick_y;
+        float rightStickX = gamepad1.right_stick_x;
+        rightPower = rightStickY - rightStickX;
+        leftPower = rightStickY + rightStickX;
 
-        ms=time.milliseconds();
-        power=-gamepad1.left_stick_y;
-        turn=gamepad1.right_stick_x*TURN_SPD;
-
-        if(gamepad1.right_bumper) {
-            power *= 1;
-            power += gamepad1.left_stick_x * SMALL_TURN_SPD;
-        }
-        else if(gamepad1.left_bumper) {
-            power *= QUARTER;
-        }
-        else {
-            power *= HALF;
-        }
-        power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
-        turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
-
-        robot.leftMotor.setPower(power+turn);
-        robot.rightMotor.setPower(-power+turn);
-
-*/
-        if(gamepad1.a)
-        {
-            robot.shooter.setPower(1);
-        }
-        else if(gamepad1.b)
-        {
-            robot.shooter.setPower(-1);
-        }
-        else
-        {
-            robot.shooter.setPower(0);
-        }
-
-        /*telemetry.addData("power",  "%.2f", power);
-        telemetry.addData("turn", "%.2f", turn);
-        telemetry.addData("ms","%.2f",ms);
-        updateTelemetry(telemetry);
-
-        lastPower=power;
-        lastTurn=turn;
-        time.reset();*/
     }
 
     /*
@@ -152,11 +107,4 @@ public class TeleopJoystickShooter extends OpMode{
     public void stop() {
     }
 
-
-    public double constrain(double val,double min,double max)
-    {
-        if(val<min)return min;
-        if(val>max)return max;
-        return val;
-    }
 }
