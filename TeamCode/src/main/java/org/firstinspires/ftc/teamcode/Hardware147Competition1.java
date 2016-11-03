@@ -23,7 +23,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Hardware147Competition1
 {
     /* Public OpMode members. */
-    public DcMotor[][] motors=new DcMotor[2][];
+    public DcMotor[][] motors=new DcMotor[2][2];
     public DcMotor  intake,shooter;
 
     /* local OpMode members. */
@@ -46,7 +46,7 @@ public class Hardware147Competition1
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
         {
-            for(int j=0;j<motors[0].length;i++)
+            for(int j=0;j<motors[0].length;j++)
             {
                 motors[i][j].setPower(0);
                 motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
