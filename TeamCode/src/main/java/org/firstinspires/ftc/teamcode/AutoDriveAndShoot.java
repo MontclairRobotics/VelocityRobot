@@ -62,6 +62,8 @@ public class AutoDriveAndShoot extends OpMode{
         TARGET_DRIVE_POS=1000,//TODO: and 2 below
         TARGET_INTAKE_POS=0,
         TARGET_SHOOTER_POS=0;
+
+    boolean shot=false;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -99,9 +101,21 @@ public class AutoDriveAndShoot extends OpMode{
     public void loop() {
         int drivePos=robot.setTgtPos(TARGET_DRIVE_POS);
         robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        if(drivePos>=TARGET_DRIVE_POS-90)
+        if(shot||drivePos<=TARGET_DRIVE_POS-5)
         {
             robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
+            telemetry.addData("shoot","I am not shooting");
+        }
+        else
+        {
+            if(robot.shooter.getCurrentPosition()>=TARGET_SHOOTER_POS-5)
+            {
+                shot=true;
+            }
+            else
+            {
+                robot.shooter.setTargetPosition(0);
+            }
             telemetry.addData("shoot","I am shooting; watch out!");
         }
 
