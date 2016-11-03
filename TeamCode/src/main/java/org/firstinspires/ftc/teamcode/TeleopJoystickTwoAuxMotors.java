@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Joystick Two Additional Motors", group="147")
+@TeleOp(name="Old Teleop", group="147")
 public class TeleopJoystickTwoAuxMotors extends OpMode{
 
     /* Declare OpMode members. */
@@ -135,8 +135,8 @@ public class TeleopJoystickTwoAuxMotors extends OpMode{
         telemetry.addData("power",  "%.2f", power);
         telemetry.addData("turn", "%.2f", turn);
         telemetry.addData("ms","%.2f",ms);
-        telemetry.addData("AuxA", "0.2f", motorAPower);
-        telemetry.addData("AuxB", "0.2f", motorBPower);
+        telemetry.addData("AuxA", "0.2f", robot.auxA.getCurrentPosition());
+        telemetry.addData("AuxB", "0.2f", robot.auxB.getCurrentPosition());
         updateTelemetry(telemetry);
 
         lastPower=power;

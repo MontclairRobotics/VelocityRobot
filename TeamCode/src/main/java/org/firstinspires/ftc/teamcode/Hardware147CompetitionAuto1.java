@@ -20,20 +20,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147
+public class Hardware147CompetitionAuto1
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor[][] motors=new DcMotor[2][];
+    public DcMotor  intake,shooter;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
-
-    /* Constructor */
-    public Hardware147(){
-
-    }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -41,19 +36,36 @@ public class Hardware147
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get("left");
-        rightMotor  = hwMap.dcMotor.get("right");
+        motors[0][0]   = hwMap.dcMotor.get("left_a");
+        motors[0][1]   = hwMap.dcMotor.get("left_b");
+        motors[1][0]  = hwMap.dcMotor.get("right_a");
+        motors[1][1]  = hwMap.dcMotor.get("right_b");
+        intake = hwMap.dcMotor.get("aux_a");
+        shooter = hwMap.dcMotor.get("aux_b");
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        for(int i=0;i<motors.length;i++)
+        {
+            for(int j=0;j<motors[0].length;i++)
+            {
+                motors[i][j].setPower(0.8);
+                motors[i][j].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+        }
+        intake.setPower(0.5);
+        intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setPower(1);
+        shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 
-        // Set all motors to run without encoders.
-        //RUN_WITHOUT_ENCODERS
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+    public int setTgtPos(int pos)
+    {
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setTargetPosition(pos);
+            motors[1][i].setTargetPosition(-pos);
+        }
+        return motors[0][0].getCurrentPosition();
     }
 
     /***

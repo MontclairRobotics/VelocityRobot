@@ -32,8 +32,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -50,13 +51,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Tank", group="147")
-public class TeleopTank extends OpMode{
+@Autonomous(name="Auto Drive", group="147")
+public class AutoDrive extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147 robot       = new Hardware147(); // use the class created to define a Pushbot's hardware
+    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
+    ElapsedTime timer=new ElapsedTime();
 
-
+    int
+        TARGET_DRIVE_POS=1000,//TODO: and 2 below
+        TARGET_INTAKE_POS=0,
+        TARGET_SHOOTER_POS=0;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -68,7 +73,7 @@ public class TeleopTank extends OpMode{
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "SETUP COMPLETE");    //
+        telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
     }
 
@@ -84,6 +89,7 @@ public class TeleopTank extends OpMode{
      */
     @Override
     public void start() {
+
     }
 
     /*
@@ -91,17 +97,17 @@ public class TeleopTank extends OpMode{
      */
     @Override
     public void loop() {
-        double left;
-        double right;
+        int drivePos=robot.setTgtPos(TARGET_DRIVE_POS);
+        robot.intake.setTargetPosition(TARGET_INTAKE_POS);
+        /*if(drivePos>=TARGET_DRIVE_POS-90)
+        {
+            robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
+            telemetry.addData("shoot","I am shooting; watch out!");
+        }*/
 
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
-        robot.leftMotor.setPower(left);
-        robot.rightMotor.setPower(-right);
-
-        telemetry.addData("left",  "%.2f", left);
-        telemetry.addData("right", "%.2f", -right);
+        telemetry.addData("Say","Auto enabled: watch out!");
+        telemetry.addData("drive remaining",  "%.2f", TARGET_DRIVE_POS-drivePos);
+        telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 

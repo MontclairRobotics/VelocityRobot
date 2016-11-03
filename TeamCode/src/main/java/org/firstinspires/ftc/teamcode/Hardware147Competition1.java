@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -21,23 +20,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147NewFourMotors
+public class Hardware147Competition1
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotorA   = null;
-    public DcMotor  leftMotorB   = null;
-    public DcMotor  rightMotorA  = null;
-    public DcMotor  rightMotorB  = null;
-
+    public DcMotor[][] motors=new DcMotor[2][];
+    public DcMotor  intake,shooter;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
-
-    /* Constructor */
-    public Hardware147NewFourMotors(){
-
-    }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -45,25 +36,35 @@ public class Hardware147NewFourMotors
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotorA   = hwMap.dcMotor.get("left_a");
-        leftMotorB   = hwMap.dcMotor.get("left_b");
-        rightMotorA  = hwMap.dcMotor.get("right_a");
-        rightMotorB  = hwMap.dcMotor.get("right_b");
-
+        motors[0][0]   = hwMap.dcMotor.get("left_a");
+        motors[0][1]   = hwMap.dcMotor.get("left_b");
+        motors[1][0]  = hwMap.dcMotor.get("right_a");
+        motors[1][1]  = hwMap.dcMotor.get("right_b");
+        intake = hwMap.dcMotor.get("aux_a");
+        shooter = hwMap.dcMotor.get("aux_b");
 
         // Set all motors to zero power
-        leftMotorA.setPower(0);
-        leftMotorB.setPower(0);
-        rightMotorA.setPower(0);
-        rightMotorB.setPower(0);
+        for(int i=0;i<motors.length;i++)
+        {
+            for(int j=0;j<motors[0].length;i++)
+            {
+                motors[i][j].setPower(0);
+                motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+        }
+        intake.setPower(0.5);
+        intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setPower(1);
+        shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 
-
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftMotorB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotorA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotorB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    public void setDriveTank(double left,double right)
+    {
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setPower(left);
+            motors[1][i].setPower(-right);
+        }
     }
 
     /***

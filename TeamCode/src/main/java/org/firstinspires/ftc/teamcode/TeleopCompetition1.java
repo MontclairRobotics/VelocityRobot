@@ -44,98 +44,132 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * All device access is managed through the HardwarePushbot class.
  *
  * This particular OpMode executes a basic Tank Drive Teleop for a PushBot
- * It raises and lowers the claw using the Gampad Y and A buttons respectively.
+ * It raises and lowers the claw using the Gamepad Y and A buttons respectively.
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Joystick", group="147")
-public class TeleopJoystick extends OpMode{
+@TeleOp(name="Teleop Competition 1", group="147")
+public class TeleopCompetition1 extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147 robot       = new Hardware147(); // use the class created to define a Pushbot's hardware
+    Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
+    Controller147Competition1 ctrl = new Controller147Competition1();
     ElapsedTime time=new ElapsedTime();
 
-    double MAX_ACCEL=20.0/1000,TURN_ACCEL=10.0/1000;
+    //========================================
+    //configs:
+    double
+            //drive configs
+            MAX_ACCEL=20.0/1000,
+            TURN_ACCEL=10.0/1000,
+            HIGH_POWER=1.0,
+            HALF_POWER=0.4,
+            LOW_POWER=0.2,
+            TURN_SPD=0.5,
+            SMALL_TURN_SPD=0.25;
+    int
+            //intake configs
+            INTAKE_DOWN_POS=0,//TODO: all of these
+            INTAKE_HALF_POS=0,
+            INTAKE_UP_POS=0,
+            //shooter configs
+            SHOOTER_DOWN_POS=0,
+            SHOOTER_UP_POS=0,
+            INTAKE_AWAY_TOLERANCE=5;
+    //========================================
 
-    double HALF=0.4,QUARTER=0.2,TURN_SPD=0.5,SMALL_TURN_SPD=0.5;
+    String dp="%.2f";
+    double
+            //drive variables
+            lastPower=0,
+            lastTurn=0;
+    int
+            //intake variables
+            intakePos=0,
+            //shooter variables
+            shooterPos=0;
 
-    double lastPower=0,lastTurn=0;
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
+        hardware.init(hardwareMap);
+        ctrl.init(gamepad1,gamepad2);
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "SETUP COMPLETE");    //
+        telemetry.addData("Say", "Don't forget to press START+(A or B)");    //
         updateTelemetry(telemetry);
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
     @Override
     public void init_loop() {
     }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
     public void start() {
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
     public void loop() {
+        //==========DRIVE==========
         double power,turn;
         double ms;
 
         ms=time.milliseconds();
-        power=-gamepad1.left_stick_y;
-        turn=gamepad1.right_stick_x*TURN_SPD;
+        power=ctrl.getPower();
+        turn=ctrl.getTurn()*TURN_SPD;
 
-        if(gamepad1.right_bumper) {
-            power *= 1;
-            power += gamepad1.left_stick_x * SMALL_TURN_SPD;
+        if(ctrl.highSpeed()) {
+            power *= HIGH_POWER;
+            turn += ctrl.getSmallTurn() * SMALL_TURN_SPD;
         }
-        else if(gamepad1.left_bumper) {
-            power *= QUARTER;
+        else if(ctrl.lowSpeed()) {
+            power *= LOW_POWER;
         }
         else {
-            power *= HALF;
+            power *= HALF_POWER;
         }
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
-
-        robot.leftMotor.setPower(power+turn);
-        robot.rightMotor.setPower(-power+turn);
-
-        telemetry.addData("power",  "%.2f", power);
-        telemetry.addData("turn", "%.2f", turn);
-        telemetry.addData("ms","%.2f",ms);
-        updateTelemetry(telemetry);
-
         lastPower=power;
         lastTurn=turn;
+        hardware.setDriveTank(power+turn,power-turn);
+        //==========Intake==========
+        if(ctrl.intakeHalf())
+            intakePos=INTAKE_HALF_POS;
+        else if(ctrl.intakeUp())
+            intakePos=INTAKE_UP_POS;
+        else if(ctrl.intakeDown())
+            intakePos=INTAKE_DOWN_POS;
+
+        //==========Shooter==========
+        shooterPos=SHOOTER_DOWN_POS;
+        if(ctrl.shoot())
+        {
+            if(intakePos>INTAKE_HALF_POS)//TODO: flip if the intake positions are negative
+                intakePos=INTAKE_HALF_POS;
+            if(hardware.intake.getCurrentPosition()<INTAKE_HALF_POS+INTAKE_AWAY_TOLERANCE)
+                shooterPos=SHOOTER_UP_POS;
+        }
+
+        hardware.intake.setTargetPosition(intakePos);
+        hardware.shooter.setTargetPosition(shooterPos);
+
+        telemetry.addData("say","teleop mode enabled");
+        telemetry.addData("power", dp , power);
+        telemetry.addData("turn", dp, turn);
+        telemetry.addData("intake", dp, intakePos);
+        telemetry.addData("shooter", dp, shooterPos);
+        telemetry.addData("ms per cycle", dp,ms);
+        updateTelemetry(telemetry);
+
         time.reset();
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
+        telemetry.addData("say","Disabled");
+        updateTelemetry(telemetry);
     }
 
 
