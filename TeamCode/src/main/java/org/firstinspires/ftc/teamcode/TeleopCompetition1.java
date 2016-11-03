@@ -72,16 +72,17 @@ public class TeleopCompetition1 extends OpMode{
             SMALL_TURN_SPD=0.25;
     int
             //intake configs
-            INTAKE_DOWN_POS=0,//TODO: all of these
-            INTAKE_HALF_POS=0,
+            INTAKE_DOWN_POS=-1060,
+            INTAKE_HALF_POS=-400,
             INTAKE_UP_POS=0,
             //shooter configs
             SHOOTER_DOWN_POS=0,
-            SHOOTER_UP_POS=0,
-            INTAKE_AWAY_TOLERANCE=5;
+            SHOOTER_UP_POS=850,
+            INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
     String dp="%.2f";
+    String ip="%d";
     double
             //drive variables
             lastPower=0,
@@ -158,8 +159,8 @@ public class TeleopCompetition1 extends OpMode{
         telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
         telemetry.addData("turn", dp, turn);
-        telemetry.addData("intake", dp, intakePos);
-        telemetry.addData("shooter", dp, shooterPos);
+        telemetry.addData("intake", ip, intakePos);
+        telemetry.addData("shooter", ip, shooterPos);
         telemetry.addData("ms per cycle", dp,ms);
         updateTelemetry(telemetry);
 

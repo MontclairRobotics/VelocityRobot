@@ -75,6 +75,7 @@ public class TeleopDebug extends OpMode{
     //========================================
 
     String dp="%.2f";
+    String ip="%d";
     double
             //drive variables
             lastPower=0,
@@ -149,8 +150,8 @@ public class TeleopDebug extends OpMode{
         telemetry.addData("say","YOU ARE IN DEBUG MODE");
         telemetry.addData("power", dp , power);
         telemetry.addData("turn", dp, turn);
-        telemetry.addData("intake", dp, intakePos);
-        telemetry.addData("shooter", dp, shooterPos);
+        telemetry.addData("intake", ip, intakePos);
+        telemetry.addData("shooter", ip, shooterPos);
         telemetry.addData("ms per cycle", dp,ms);
         updateTelemetry(telemetry);
 
