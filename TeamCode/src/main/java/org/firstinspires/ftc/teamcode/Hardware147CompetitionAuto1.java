@@ -23,7 +23,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Hardware147CompetitionAuto1
 {
     /* Public OpMode members. */
-    public DcMotor[][] motors=new DcMotor[2][];
+    public DcMotor[][] motors=new DcMotor[2][2];
+    public int[][] motorOffset = new int[2][2];
     public DcMotor  intake,shooter;
 
     /* local OpMode members. */
@@ -58,15 +59,50 @@ public class Hardware147CompetitionAuto1
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public int setTgtPos(int pos)
+    public int setTgtPos(int tgt)
+    {
+        return setTgtPos(tgt,tgt);
+    }
+
+    public int setTurnDistance(int start,int change)
+    {
+        return setTgtPos(start+change,start-change);
+    }
+
+    public int setTgtPos(int left,int right)
     {
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setTargetPosition(pos);
-            motors[1][i].setTargetPosition(-pos);
+            motors[0][i].setTargetPosition(left);
+            motors[1][i].setTargetPosition(-right);
         }
         return motors[0][0].getCurrentPosition();
     }
+
+    public int changeTgtPos(int dPos) {
+        return changeTgtPos(dPos, dPos);
+    }
+
+    public int changeTgtPos(int dLeft, int dRight) {
+        return setTgtPos(dLeft+motorOffset[0][0], dRight+motorOffset[1][0]);
+    }
+
+    public void resetMotorOffset() {
+        for(int i = 0; i < motors.length; i++) {
+            for(int j = 0; j < motors[i].length; j++) {
+                motorOffset[i][j] = motors[i][j].getCurrentPosition();
+            }
+        }
+    }
+
+    public int getLeftSide() {
+        return motors[0][0].getCurrentPosition();
+    }
+
+    public int getRightSide() {
+        return motors[1][0].getCurrentPosition();
+    }
+
 
     /***
      *
