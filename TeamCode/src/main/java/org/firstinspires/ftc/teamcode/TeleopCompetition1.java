@@ -72,12 +72,12 @@ public class TeleopCompetition1 extends OpMode{
             SMALL_TURN_SPD=0.25;
     int
             //intake configs
-            INTAKE_DOWN_POS=-1200,
+            INTAKE_DOWN_POS=-1400,
             INTAKE_HALF_POS=-500,
             INTAKE_UP_POS=0,
             //shooter configs
             SHOOTER_DOWN_POS=0,
-            SHOOTER_UP_POS=1000,
+            SHOOTER_UP_POS=1200,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
