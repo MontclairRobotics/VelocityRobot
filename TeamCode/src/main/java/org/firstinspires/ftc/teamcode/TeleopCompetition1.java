@@ -72,12 +72,12 @@ public class TeleopCompetition1 extends OpMode{
             SMALL_TURN_SPD=0.25;
     int
             //intake configs
-            INTAKE_DOWN_POS=-1400,
+            INTAKE_DOWN_POS=-1500,
             INTAKE_HALF_POS=-500,
             INTAKE_UP_POS=0,
             //shooter configs
             SHOOTER_DOWN_POS=0,
-            SHOOTER_UP_POS=1200,
+            SHOOTER_UP_POS=1300,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
@@ -136,12 +136,18 @@ public class TeleopCompetition1 extends OpMode{
         lastTurn=turn;
         hardware.setDriveTank(power+turn,power-turn);
         //==========Intake==========
-        if(ctrl.intakeHalf())
-            intakePos=INTAKE_HALF_POS;
-        else if(ctrl.intakeUp())
-            intakePos=INTAKE_UP_POS;
-        else if(ctrl.intakeDown())
-            intakePos=INTAKE_DOWN_POS;
+        if(ctrl.intakeHalf()) {
+            intakePos = INTAKE_HALF_POS;
+            hardware.intake.setPower(0.5);
+        }
+        else if(ctrl.intakeUp()) {
+            intakePos = INTAKE_UP_POS;
+            hardware.intake.setPower(0.5);
+        }
+        else if(ctrl.intakeDown()) {
+            intakePos = INTAKE_DOWN_POS;
+            hardware.intake.setPower(1);
+        }
 
         //==========Shooter==========
         shooterPos=SHOOTER_DOWN_POS;
