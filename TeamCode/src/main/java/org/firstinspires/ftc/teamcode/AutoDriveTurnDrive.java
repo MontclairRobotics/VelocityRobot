@@ -119,8 +119,8 @@ public class AutoDriveTurnDrive extends OpMode{
                 break;
         }
 
-        telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
+        //telemetry.addData("Say","Auto enabled: watch out!");
+        //telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 
