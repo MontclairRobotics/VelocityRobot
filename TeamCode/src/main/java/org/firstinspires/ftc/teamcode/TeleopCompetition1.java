@@ -81,6 +81,8 @@ public class TeleopCompetition1 extends OpMode{
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
+    boolean intaking=false;
+
     String dp="%.2f";
     String ip="%d";
     double
@@ -136,17 +138,24 @@ public class TeleopCompetition1 extends OpMode{
         lastTurn=turn;
         hardware.setDriveTank(power+turn,power-turn);
         //==========Intake==========
-        if(ctrl.intakeHalf()) {
-            intakePos = INTAKE_HALF_POS;
-            hardware.intake.setPower(0.5);
-        }
-        else if(ctrl.intakeUp()) {
-            intakePos = INTAKE_UP_POS;
-            hardware.intake.setPower(0.5);
-        }
-        else if(ctrl.intakeDown()) {
+        if(ctrl.intake()) {
             intakePos = INTAKE_DOWN_POS;
             hardware.intake.setPower(1);
+            intaking=true;
+        }
+        else if (intaking)
+        {
+            intakePos=INTAKE_UP_POS;
+            hardware.intake.setPower(0.5);
+            if(hardware.intake.getCurrentPosition()>=INTAKE_UP_POS-INTAKE_AWAY_TOLERANCE)
+            {
+                intaking=false;
+            }
+        }
+        else
+        {
+            intakePos=INTAKE_HALF_POS;
+            hardware.intake.setPower(0.5);
         }
 
         //==========Shooter==========

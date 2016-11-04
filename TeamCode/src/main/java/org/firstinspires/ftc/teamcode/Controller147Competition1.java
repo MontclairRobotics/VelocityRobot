@@ -33,17 +33,9 @@ public class Controller147Competition1 {
     {
         return drive.left_bumper;
     }
-    public boolean intakeDown()
+    public boolean intake()
     {
-        return shoot.dpad_down;
-    }
-    public boolean intakeHalf()
-    {
-        return shoot.dpad_right||drive.dpad_left;
-    }
-    public boolean intakeUp()
-    {
-        return shoot.dpad_up;
+        return shoot.y;
     }
     public boolean shoot()
     {
