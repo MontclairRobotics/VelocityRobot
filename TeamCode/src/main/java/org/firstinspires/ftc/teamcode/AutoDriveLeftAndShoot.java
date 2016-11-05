@@ -65,8 +65,8 @@ public class AutoDriveLeftAndShoot extends OpMode{
     int
             TARGET_DRIVE_0=25,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_TURN_1=-45,
-            TARGET_DRIVE_2=12,
-            TARGET_DRIVE_3=14;
+            TARGET_DRIVE_2=14,
+            TARGET_DRIVE_3=12;
 
     double
             deg0 = TARGET_DRIVE_0*DEGREES_PER_INCH,

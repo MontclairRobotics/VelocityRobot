@@ -51,8 +51,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Competition 1", group="147")
-public class TeleopCompetition1 extends OpMode{
+@TeleOp(name="Teleop Competition", group="147")
+public class TeleopCompetition extends OpMode{
 
     /* Declare OpMode members. */
     Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
@@ -69,14 +69,15 @@ public class TeleopCompetition1 extends OpMode{
             HALF_POWER=0.4,
             LOW_POWER=0.2,
             TURN_SPD=0.5,
+            HIGH_TURN_SPD_FACTOR=2.0,
             SMALL_TURN_SPD=0.25;
     int
             //intake configs
             INTAKE_DOWN_POS=-1500,
             INTAKE_HALF_POS=-500,
             INTAKE_UP_POS=0,
-    //shooter configs
-    SHOOTER_DOWN_POS=0,
+            //shooter configs
+            SHOOTER_DOWN_POS=0,
             SHOOTER_UP_POS=1300,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
@@ -92,8 +93,8 @@ public class TeleopCompetition1 extends OpMode{
     int
             //intake variables
             intakePos=0,
-    //shooter variables
-    shooterPos=0;
+            //shooter variables
+            shooterPos=0;
 
     @Override
     public void init() {
@@ -124,6 +125,7 @@ public class TeleopCompetition1 extends OpMode{
 
         if(ctrl.highSpeed()) {
             power *= HIGH_POWER;
+            turn *= HIGH_TURN_SPD_FACTOR;
             turn += ctrl.getSmallTurn() * SMALL_TURN_SPD;
         }
         else if(ctrl.lowSpeed()) {
@@ -168,8 +170,32 @@ public class TeleopCompetition1 extends OpMode{
                 shooterPos=SHOOTER_UP_POS;
         }
 
-        hardware.intake.setTargetPosition(intakePos);
-        hardware.shooter.setTargetPosition(shooterPos);
+        //===Manual Reset===
+        if(ctrl.shooterUp())
+        {
+            hardware.shooterOffset+=1*ms;
+        }
+        if(ctrl.shooterDown())
+        {
+            hardware.shooterOffset-=1*ms;
+        }
+
+        if(ctrl.intakeUp())
+        {
+            hardware.intakeOffset+=1*ms;
+        }
+        if(ctrl.intakeUp())
+        {
+            hardware.intakeOffset-=1*ms;
+        }
+        if(ctrl.shoot.back)
+        {
+            hardware.intakeOffset=0;
+        }
+
+
+        hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
+        hardware.shooter.setTargetPosition(shooterPos+(int)hardware.shooterOffset);
 
         telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
