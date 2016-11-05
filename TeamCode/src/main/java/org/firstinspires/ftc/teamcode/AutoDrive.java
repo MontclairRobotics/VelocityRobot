@@ -80,6 +80,7 @@ public class AutoDrive extends OpMode{
         updateTelemetry(telemetry);
 
         tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
+        robot.resetMotorOffset();
     }
 
     /*
@@ -102,7 +103,7 @@ public class AutoDrive extends OpMode{
      */
     @Override
     public void loop() {
-        int drivePos=robot.setTgtPos(tgtDegrees);
+        double drivePos=robot.setTgtPos(tgtDegrees);
         robot.intake.setTargetPosition(TARGET_INTAKE_POS);
         /*if(drivePos>=TARGET_DRIVE_POS-90)
         {
