@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive And Shoot", group="147")
+@Autonomous(name="Auto Drive RIGHT And Shoot", group="147")
 public class AutoDriveAndShoot extends OpMode{
 
     /* Declare OpMode members. */
@@ -63,15 +63,21 @@ public class AutoDriveAndShoot extends OpMode{
     double TOLERANCE=0.5*DEGREES_PER_INCH;
 
     int
-            TARGET_DRIVE_INCHES=36,//TODO: and 2 below
-            TARGET_INTAKE_POS=-500,
-            TARGET_SHOOTER_POS=1300;
+            TARGET_DRIVE_0=25,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_TURN_1=45,
+            TARGET_DRIVE_2=12,
+            TARGET_DRIVE_3=14;
 
-    int tgtDegrees;
+    double
+            deg0 = TARGET_DRIVE_0*DEGREES_PER_INCH,
+            deg2 = TARGET_DRIVE_2*DEGREES_PER_INCH,
+            deg3 = TARGET_DRIVE_3*DEGREES_PER_INCH;
+
+    //int tgtDegrees;
 
     boolean shot=false;
     /*
-     * Code to run ONCE when the driver hits INIT
+     * Code to run ONCE when the driver hits PLAY
      */
     @Override
     public void init() {
@@ -84,7 +90,7 @@ public class AutoDriveAndShoot extends OpMode{
         telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
 
-        tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
+        //tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
         robot.resetMotorOffset();
     }
 
@@ -96,7 +102,7 @@ public class AutoDriveAndShoot extends OpMode{
     }
 
     /*
-     * Code to run ONCE when the driver hits PLAY
+     * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void start() {
@@ -106,26 +112,58 @@ public class AutoDriveAndShoot extends OpMode{
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
+
+    int state = 0;
+    double diff;
+
     @Override
     public void loop() {
-        double drivePos=robot.setTgtPos(tgtDegrees);
-        robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        if(!shot&&drivePos<TOLERANCE) {
-            robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
-            if (robot.shooter.getCurrentPosition() >= TARGET_SHOOTER_POS - 100) {
-                shot = true;
-            }
+        robot.intake.setTargetPosition(-500);
+        switch (state) {
+            case 0: //Move forward
+                diff = robot.setTgtPos(deg0);
+                if (diff < TOLERANCE) {
+                    prepareNextState();
+                }
+                break;
+            case 1: //Turn 45 left
+                diff = robot.setTurnDegrees(TARGET_TURN_1*DEGREES_PER_INCH);
+                if (diff < TOLERANCE) {
+                    prepareNextState();
+                }
+                break;
+            case 2: //Move forward
+                diff = robot.setTgtPos(deg2);
+                if (diff < TOLERANCE) {
+                    prepareNextState();
+                }
+                break;
+            case 3: //Shoot
+                robot.shooter.setTargetPosition(1300);
+                if(robot.shooter.getCurrentPosition() >= 1300 - 100) {
+                    prepareNextState();
+                }
+                break;
+            case 4: //Push ball off
+                diff = robot.setTgtPos(deg3);
+                robot.shooter.setTargetPosition(0);
+                break;
         }
-        else
-        {
-            robot.shooter.setTargetPosition(0);
-        }
-
+        telemetry.addData("state",state);
+        telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining",  "%d", tgtDegrees-drivePos);
-        telemetry.addData("intake pos", "%d", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
+
+    public void prepareNextState() {
+        state++;
+        robot.resetMotorOffset();
+    }
+
+//    public void resetState() {
+//        state = 0;
+//        robot.resetMotorOffset();
+//    }
 
     /*
      * Code to run ONCE after the driver hits STOP

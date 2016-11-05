@@ -51,20 +51,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive", group="147")
-public class AutoDrive extends OpMode{
+@Autonomous(name="Auto Drive Turn LEFT RED Drive", group="147")
+public class AutoDriveTurnLeftDrive extends OpMode{
 
     /* Declare OpMode members. */
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer=new ElapsedTime();
-
     double DEGREES_PER_INCH=10000/85;
-    int
-        TARGET_DRIVE_INCHES=36,//TODO: and 2 below
-        TARGET_INTAKE_POS=0,
-        TARGET_SHOOTER_POS=0;
 
-    int tgtDegrees;
+    double TOLERANCE=DEGREES_PER_INCH;
+
+    double
+        STATE_0_IN=16, //13 out turn 90 right 18 forward
+        STATE_1_TURN=-90,
+        STATE_2_IN=33;
+
+    double
+        state0Deg=STATE_0_IN*DEGREES_PER_INCH,
+        state2Deg=STATE_2_IN*DEGREES_PER_INCH;
+
+
+    int state = 0;
+    int startLeft,startRight;
+    double diff;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -79,7 +89,6 @@ public class AutoDrive extends OpMode{
         telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
 
-        tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
         robot.resetMotorOffset();
     }
 
@@ -101,19 +110,31 @@ public class AutoDrive extends OpMode{
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
+
     @Override
     public void loop() {
-        double drivePos=robot.setTgtPos(tgtDegrees);
-        robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        /*if(drivePos>=TARGET_DRIVE_POS-90)
-        {
-            robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
-            telemetry.addData("shoot","I am shooting; watch out!");
-        }*/
-
+        switch(state) {
+            case 0:
+                diff=robot.setTgtPos(state0Deg);
+                if(diff<TOLERANCE) {
+                    state = 1;
+                    robot.resetMotorOffset();
+                }
+                break;
+            case 1:
+                diff=robot.setTurnDegrees(STATE_1_TURN*DEGREES_PER_INCH);
+                if(diff<TOLERANCE) {
+                    state = 2;
+                    robot.resetMotorOffset();
+                }
+                break;
+            case 2:
+                diff=robot.setTgtPos(startLeft+state2Deg,state2Deg);
+                break;
+        }
+        telemetry.addData("state",state);
+        telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining", drivePos);
-        telemetry.addData("intake pos", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 
@@ -123,5 +144,4 @@ public class AutoDrive extends OpMode{
     @Override
     public void stop() {
     }
-
 }

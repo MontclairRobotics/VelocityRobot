@@ -61,12 +61,8 @@ public class Hardware147CompetitionAuto1
 
     public double setTurnDegrees(double degrees)
     {
-        return setTgtPos(degrees*9/360*Math.PI);
-    }
-
-    public double setTurnDistance(int change)
-    {
-        return setTgtPos(change,-change);
+        double chg=(degrees/360)*18*Math.PI;
+        return setTgtPos(chg,-chg);
     }
 
     public double setTgtPos(double tgt)
@@ -88,9 +84,10 @@ public class Hardware147CompetitionAuto1
         double error=0;
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setTargetPosition(left);
-            motors[1][i].setTargetPosition(-right);
-            error+=Math.abs(motors[0][i].getCurrentPosition()-left)+Math.abs(motors[1][i].getCurrentPosition()-right);
+            motors[0][i].setTargetPosition(left+motorOffset[0][i]);
+            motors[1][i].setTargetPosition(-right+motorOffset[1][i]);
+            error += Math.abs(motors[0][i].getCurrentPosition() - (left+motorOffset[0][i]))
+                    + Math.abs(motors[1][i].getCurrentPosition() - (-right+motorOffset[1][i]));
         }
         return error/4;
     }

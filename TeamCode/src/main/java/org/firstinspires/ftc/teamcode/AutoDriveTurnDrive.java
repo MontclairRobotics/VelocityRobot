@@ -51,21 +51,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive Turn Drive", group="147")
+@Autonomous(name="Auto Drive Turn RIGHT BLUE Drive", group="147")
 public class AutoDriveTurnDrive extends OpMode{
 
     /* Declare OpMode members. */
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer=new ElapsedTime();
-
     double DEGREES_PER_INCH=10000/85;
 
     double TOLERANCE=DEGREES_PER_INCH;
 
     double
-        STATE_0_IN=24,
-        STATE_1_TURN=135,
-        STATE_2_IN=36;
+        STATE_0_IN=16, //13 out turn 90 right 18 forward
+        STATE_1_TURN=90,
+        STATE_2_IN=33;
 
     double
         state0Deg=STATE_0_IN*DEGREES_PER_INCH,
@@ -123,7 +122,7 @@ public class AutoDriveTurnDrive extends OpMode{
                 }
                 break;
             case 1:
-                diff=robot.setTurnDegrees(STATE_1_TURN);
+                diff=robot.setTurnDegrees(STATE_1_TURN*DEGREES_PER_INCH);
                 if(diff<TOLERANCE) {
                     state = 2;
                     robot.resetMotorOffset();
@@ -134,6 +133,7 @@ public class AutoDriveTurnDrive extends OpMode{
                 break;
         }
         telemetry.addData("state",state);
+        telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }
