@@ -74,7 +74,7 @@ public class AutoDriveTurnDrive extends OpMode{
 
     int state = 0;
     int startLeft,startRight;
-    int diff;
+    double diff;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -89,6 +89,8 @@ public class AutoDriveTurnDrive extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
+
+        robot.resetMotorOffset();
     }
 
     /*
@@ -115,28 +117,23 @@ public class AutoDriveTurnDrive extends OpMode{
         switch(state) {
             case 0:
                 diff=robot.setTgtPos(state0Deg);
-                telemetry.addData("state",0);
                 if(diff<TOLERANCE) {
                     state = 1;
-                    startLeft=robot.motors[0][0].getCurrentPosition();
-                    startRight=robot.motors[1][0].getCurrentPosition();
+                    robot.resetMotorOffset();
                 }
                 break;
             case 1:
-                diff=robot.setTurnDegrees(startLeft,STATE_1_TURN);
-                telemetry.addData("state",1);
+                diff=robot.setTurnDegrees(STATE_1_TURN);
                 if(diff<TOLERANCE) {
                     state = 2;
-                    startLeft=robot.motors[0][0].getCurrentPosition();
-                    startRight=robot.motors[1][0].getCurrentPosition();
+                    robot.resetMotorOffset();
                 }
                 break;
             case 2:
                 diff=robot.setTgtPos(startLeft+state2Deg,state2Deg);
-                telemetry.addData("state",2);
                 break;
         }
-
+        telemetry.addData("state",state);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }

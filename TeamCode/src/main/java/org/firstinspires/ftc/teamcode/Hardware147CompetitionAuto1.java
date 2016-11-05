@@ -59,47 +59,40 @@ public class Hardware147CompetitionAuto1
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public int setTurnDegrees(int start,double degrees)
+    public double setTurnDegrees(double degrees)
     {
-        return setTgtPos(start, degrees*18/360*Math.PI);
+        return setTgtPos(degrees*9/360*Math.PI);
     }
 
-    public int setTurnDistance(int start,int change)
+    public double setTurnDistance(int change)
     {
-        return setTgtPos(start+change,start-change);
+        return setTgtPos(change,-change);
     }
 
-    public int setTgtPos(double tgt)
+    public double setTgtPos(double tgt)
     {
         return setTgtPos((int)(tgt+0.5));
     }
 
-    public int setTgtPos(int tgt)
+    public double setTgtPos(int tgt)
     {
         return setTgtPos(tgt,tgt);
     }
 
-    public int setTgtPos(double left,double right)
+    public double setTgtPos(double left,double right)
     {
         return setTgtPos((int)(left+0.5),(int)(right+0.5));
     }
-    public int setTgtPos(int left,int right)
+    public double setTgtPos(int left,int right)
     {
+        double error=0;
         for(int i=0;i<motors[0].length;i++)
         {
             motors[0][i].setTargetPosition(left);
             motors[1][i].setTargetPosition(-right);
+            error+=Math.abs(motors[0][i].getCurrentPosition()-left)+Math.abs(motors[1][i].getCurrentPosition()-right);
         }
-        return Math.abs(motors[0][0].getCurrentPosition()-left)+
-                Math.abs(motors[1][0].getCurrentPosition()-right);
-    }
-
-    public int changeTgtPos(int dPos) {
-        return changeTgtPos(dPos, dPos);
-    }
-
-    public int changeTgtPos(int dLeft, int dRight) {
-        return setTgtPos(dLeft+motorOffset[0][0], dRight+motorOffset[1][0]);
+        return error/4;
     }
 
     public void resetMotorOffset() {
