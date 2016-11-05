@@ -51,8 +51,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Teleop Competition 1", group="147")
-public class TeleopCompetition1 extends OpMode{
+@TeleOp(name="Teleop Competition 2", group="147")
+public class TeleopCompetition2 extends OpMode{
 
     /* Declare OpMode members. */
     Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware

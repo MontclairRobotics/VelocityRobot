@@ -24,6 +24,10 @@ public class Hardware147Competition1
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
+
+    public double shooterOffset=0;
+    public double intakeOffset=0;
+
     public DcMotor  intake,shooter;
 
     /* local OpMode members. */

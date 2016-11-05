@@ -41,4 +41,8 @@ public class Controller147Competition1 {
     {
         return shoot.a;
     }
+    public boolean shooterUp() {return shoot.dpad_up;}
+    public boolean shooterDown(){return shoot.dpad_down;}
+    public boolean intakeUp(){return shoot.dpad_right;}
+    public boolean intakeDown(){return shoot.dpad_left;}
 }
