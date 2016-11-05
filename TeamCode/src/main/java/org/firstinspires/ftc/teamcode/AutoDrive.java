@@ -111,7 +111,7 @@ public class AutoDrive extends OpMode{
         }*/
 
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining",  "%d", tgtDegrees-drivePos);
+        telemetry.addData("drive remaining",  "%d", drivePos);
         telemetry.addData("intake pos", "%d", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }

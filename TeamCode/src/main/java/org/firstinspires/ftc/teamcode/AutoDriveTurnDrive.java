@@ -58,10 +58,24 @@ public class AutoDriveTurnDrive extends OpMode{
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer=new ElapsedTime();
 
-    int
-        TARGET_DRIVE_POS=1000,//TODO: and 2 below
-        TARGET_INTAKE_POS=0,
-        TARGET_SHOOTER_POS=0;
+    double DEGREES_PER_INCH=10000/85;
+
+    double TOLERANCE=DEGREES_PER_INCH;
+
+    double
+        STATE_0_IN=36,
+        STATE_1_TURN=135,
+        STATE_2_IN=36;
+
+    double
+        state0Deg=STATE_0_IN*DEGREES_PER_INCH,
+        state2Deg=STATE_2_IN*DEGREES_PER_INCH;
+
+
+    int state = 0;
+    int startLeft,startRight;
+    int diff;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -96,35 +110,34 @@ public class AutoDriveTurnDrive extends OpMode{
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
 
-    int state = 0;
     @Override
     public void loop() {
         switch(state) {
             case 0:
-                robot.changeTgtPos(360*2);
-                if(robot.getLeftSide() >= 360*2) {
+                diff=robot.setTgtPos(state0Deg);
+                telemetry.addData("state",0);
+                if(diff<TOLERANCE) {
                     state = 1;
-                    telemetry.addData("stage", "1");
-                    updateTelemetry(telemetry);
-                    robot.resetMotorOffset();
+                    startLeft=robot.motors[0][0].getCurrentPosition();
+                    startRight=robot.motors[1][0].getCurrentPosition();
                 }
                 break;
             case 1:
-                robot.changeTgtPos(304, -304);
-                if(robot.getLeftSide() >= 360*2+304) {
+                diff=robot.setTurnDegrees(startLeft,STATE_1_TURN);
+                telemetry.addData("state",1);
+                if(diff<TOLERANCE) {
                     state = 2;
-                    telemetry.addData("stage", "2");
-                    updateTelemetry(telemetry);
-                    robot.resetMotorOffset();
+                    startLeft=robot.motors[0][0].getCurrentPosition();
+                    startRight=robot.motors[1][0].getCurrentPosition();
                 }
                 break;
             case 2:
-                robot.changeTgtPos(360*2, 360*2);
+                diff=robot.setTgtPos(startLeft+state2Deg,state2Deg);
+                telemetry.addData("state",2);
                 break;
         }
 
-        //telemetry.addData("Say","Auto enabled: watch out!");
-        //telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
+        telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }
 
@@ -134,5 +147,4 @@ public class AutoDriveTurnDrive extends OpMode{
     @Override
     public void stop() {
     }
-
 }

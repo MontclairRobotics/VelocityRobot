@@ -59,6 +59,9 @@ public class AutoDriveAndShoot extends OpMode{
     ElapsedTime timer=new ElapsedTime();
 
     double DEGREES_PER_INCH=10000/85;
+
+    double TOLERANCE=0.5*DEGREES_PER_INCH;
+
     int
             TARGET_DRIVE_INCHES=36,//TODO: and 2 below
             TARGET_INTAKE_POS=-500,
@@ -106,7 +109,7 @@ public class AutoDriveAndShoot extends OpMode{
     public void loop() {
         int drivePos=robot.setTgtPos(tgtDegrees);
         robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        if(!shot&&drivePos>=tgtDegrees-100) {
+        if(!shot&&drivePos<TOLERANCE) {
             robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
             if (robot.shooter.getCurrentPosition() >= TARGET_SHOOTER_POS - 100) {
                 shot = true;
