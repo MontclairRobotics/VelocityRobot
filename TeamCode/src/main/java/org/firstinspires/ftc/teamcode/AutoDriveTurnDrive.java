@@ -63,7 +63,7 @@ public class AutoDriveTurnDrive extends OpMode{
     double TOLERANCE=DEGREES_PER_INCH;
 
     double
-        STATE_0_IN=36,
+        STATE_0_IN=24,
         STATE_1_TURN=135,
         STATE_2_IN=36;
 
