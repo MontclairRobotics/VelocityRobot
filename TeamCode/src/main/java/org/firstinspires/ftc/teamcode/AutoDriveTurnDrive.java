@@ -101,21 +101,25 @@ public class AutoDriveTurnDrive extends OpMode{
     public void loop() {
         switch(state) {
             case 0:
-                robot.changeTgtPos(360*10);
-                if(robot.getLeftSide() >= 360*10) {
+                robot.changeTgtPos(360*2);
+                if(robot.getLeftSide() >= 360*2) {
                     state = 1;
+                    telemetry.addData("stage", "1");
+                    updateTelemetry(telemetry);
                     robot.resetMotorOffset();
                 }
                 break;
             case 1:
-                robot.changeTgtPos(135, -135);
-                if(robot.getLeftSide() >= 360*10+135) {
+                robot.changeTgtPos(304, -304);
+                if(robot.getLeftSide() >= 360*2+304) {
                     state = 2;
+                    telemetry.addData("stage", "2");
+                    updateTelemetry(telemetry);
                     robot.resetMotorOffset();
                 }
                 break;
             case 2:
-                robot.changeTgtPos(360*10, 360*10);
+                robot.changeTgtPos(360*2, 360*2);
                 break;
         }
 

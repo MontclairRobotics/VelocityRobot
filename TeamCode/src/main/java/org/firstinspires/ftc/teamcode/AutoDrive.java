@@ -58,10 +58,13 @@ public class AutoDrive extends OpMode{
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer=new ElapsedTime();
 
+    double DEGREES_PER_INCH=10000/85;
     int
-        TARGET_DRIVE_POS=1000,//TODO: and 2 below
+        TARGET_DRIVE_INCHES=36,//TODO: and 2 below
         TARGET_INTAKE_POS=0,
         TARGET_SHOOTER_POS=0;
+
+    int tgtDegrees;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -75,6 +78,8 @@ public class AutoDrive extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
+
+        tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
     }
 
     /*
@@ -97,7 +102,7 @@ public class AutoDrive extends OpMode{
      */
     @Override
     public void loop() {
-        int drivePos=robot.setTgtPos(TARGET_DRIVE_POS);
+        int drivePos=robot.setTgtPos(tgtDegrees);
         robot.intake.setTargetPosition(TARGET_INTAKE_POS);
         /*if(drivePos>=TARGET_DRIVE_POS-90)
         {
@@ -106,8 +111,8 @@ public class AutoDrive extends OpMode{
         }*/
 
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining",  "%.2f", TARGET_DRIVE_POS-drivePos);
-        telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
+        telemetry.addData("drive remaining",  "%d", tgtDegrees-drivePos);
+        telemetry.addData("intake pos", "%d", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 

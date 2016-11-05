@@ -58,10 +58,13 @@ public class AutoDriveAndShoot extends OpMode{
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer=new ElapsedTime();
 
+    double DEGREES_PER_INCH=10000/85;
     int
-        TARGET_DRIVE_POS=1000,//TODO: and 2 below
-        TARGET_INTAKE_POS=0,
-        TARGET_SHOOTER_POS=0;
+            TARGET_DRIVE_INCHES=36,//TODO: and 2 below
+            TARGET_INTAKE_POS=-500,
+            TARGET_SHOOTER_POS=1300;
+
+    int tgtDegrees;
 
     boolean shot=false;
     /*
@@ -77,6 +80,8 @@ public class AutoDriveAndShoot extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
         updateTelemetry(telemetry);
+
+        tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
     }
 
     /*
@@ -99,29 +104,22 @@ public class AutoDriveAndShoot extends OpMode{
      */
     @Override
     public void loop() {
-        int drivePos=robot.setTgtPos(TARGET_DRIVE_POS);
+        int drivePos=robot.setTgtPos(tgtDegrees);
         robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        if(shot||drivePos<=TARGET_DRIVE_POS-5)
-        {
+        if(!shot&&drivePos>=tgtDegrees-100) {
             robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
-            telemetry.addData("shoot","I am not shooting");
+            if (robot.shooter.getCurrentPosition() >= TARGET_SHOOTER_POS - 100) {
+                shot = true;
+            }
         }
         else
         {
-            if(robot.shooter.getCurrentPosition()>=TARGET_SHOOTER_POS-5)
-            {
-                shot=true;
-            }
-            else
-            {
-                robot.shooter.setTargetPosition(0);
-            }
-            telemetry.addData("shoot","I am shooting; watch out!");
+            robot.shooter.setTargetPosition(0);
         }
 
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining",  "%.2f", TARGET_DRIVE_POS-drivePos);
-        telemetry.addData("intake pos", "%.2f", robot.intake.getCurrentPosition());
+        telemetry.addData("drive remaining",  "%d", tgtDegrees-drivePos);
+        telemetry.addData("intake pos", "%d", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 
@@ -129,7 +127,8 @@ public class AutoDriveAndShoot extends OpMode{
      * Code to run ONCE after the driver hits STOP
      */
     @Override
-    public void stop() {
+    public void stop()
+        {
     }
 
 }
