@@ -75,8 +75,8 @@ public class TeleopCompetition1 extends OpMode{
             INTAKE_DOWN_POS=-1500,
             INTAKE_HALF_POS=-500,
             INTAKE_UP_POS=0,
-            //shooter configs
-            SHOOTER_DOWN_POS=0,
+    //shooter configs
+    SHOOTER_DOWN_POS=0,
             SHOOTER_UP_POS=1300,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
@@ -92,8 +92,8 @@ public class TeleopCompetition1 extends OpMode{
     int
             //intake variables
             intakePos=0,
-            //shooter variables
-            shooterPos=0;
+    //shooter variables
+    shooterPos=0;
 
     @Override
     public void init() {
@@ -168,28 +168,8 @@ public class TeleopCompetition1 extends OpMode{
                 shooterPos=SHOOTER_UP_POS;
         }
 
-        //===Manual Reset===
-        if(ctrl.shooterUp())
-        {
-            hardware.shooterOffset+=1*ms;
-        }
-        if(ctrl.shooterDown())
-        {
-            hardware.shooterOffset-=1*ms;
-        }
-
-        if(ctrl.intakeUp())
-        {
-            hardware.intakeOffset+=0.2*ms;
-        }
-        if(ctrl.intakeUp())
-        {
-            hardware.intakeOffset-=0.2*ms;
-        }
-
-
-        hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
-        hardware.shooter.setTargetPosition(shooterPos+(int)hardware.shooterOffset);
+        hardware.intake.setTargetPosition(intakePos);
+        hardware.shooter.setTargetPosition(shooterPos);
 
         telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
