@@ -43,19 +43,19 @@ public class Hardware147CompetitionAuto1
         intake = hwMap.dcMotor.get("aux_a");
         shooter = hwMap.dcMotor.get("aux_b");
 
-        // Set all motors to zero power
+        // Set all motors to autonomous run to position power
         for(int i=0;i<motors.length;i++)
         {
             for(int j=0;j<motors[0].length;j++)
             {
-                motors[i][j].setPower(0.8);
                 motors[i][j].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motors[i][j].setPower(0.8);
             }
         }
-        intake.setPower(0.5);
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        shooter.setPower(1);
+        intake.setPower(0.5);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setPower(1);
     }
 
     public double setTurnDegrees(double degrees)
