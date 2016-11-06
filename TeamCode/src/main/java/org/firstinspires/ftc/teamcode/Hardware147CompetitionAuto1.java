@@ -24,7 +24,6 @@ public class Hardware147CompetitionAuto1
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
-    public int[][] motorOffset = new int[2][2];
     public DcMotor  intake,shooter;
 
     /* local OpMode members. */
@@ -84,18 +83,19 @@ public class Hardware147CompetitionAuto1
         double error=0;
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setTargetPosition(left+motorOffset[0][i]);
-            motors[1][i].setTargetPosition(-right+motorOffset[1][i]);
-            error += Math.abs(motors[0][i].getCurrentPosition() - (left+motorOffset[0][i]))
-                    + Math.abs(motors[1][i].getCurrentPosition() - (-right+motorOffset[1][i]));
+            motors[0][i].setTargetPosition(left);
+            motors[1][i].setTargetPosition(-right);
+            error += Math.abs(motors[0][i].getCurrentPosition() - left)
+                    + Math.abs(motors[1][i].getCurrentPosition() + right);
         }
         return error/4;
     }
 
     public void resetMotorOffset() {
-        for(int i = 0; i < motors.length; i++) {
-            for(int j = 0; j < motors[i].length; j++) {
-                motorOffset[i][j] = motors[i][j].getCurrentPosition();
+        for(DcMotor[] motorRow : motors) {
+            for(DcMotor motor : motorRow) {
+                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
         }
     }
