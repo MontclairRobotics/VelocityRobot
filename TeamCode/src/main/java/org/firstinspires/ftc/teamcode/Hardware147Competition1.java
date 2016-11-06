@@ -56,10 +56,10 @@ public class Hardware147Competition1
                 motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
         }
-        intake.setPower(0.5);
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        shooter.setPower(1);
+        intake.setPower(0.5);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setPower(1);
     }
 
     public void setDriveTank(double left,double right)
