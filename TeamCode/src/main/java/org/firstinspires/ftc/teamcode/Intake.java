@@ -15,6 +15,8 @@ public class Intake {
     }
 
     public void controlIntake(boolean pressed) {
+        // I wanted to take the button in as a parameter but i was not sure how to do it, the booleam pressed represents weather the button is pressed or not
+
         //I am not sure about the specific positions for the intake but i will change these variables later.
         int INTAKE_UP = 0;
         int INTAKE_DOWN = 0;
@@ -34,6 +36,7 @@ public class Intake {
                         intake.setPos(INTAKE_HALF);
                     }
                     break;
+
                 case 2:
                     if (intake.getPos() == INTAKE_UP){
                         state = 3;
@@ -45,6 +48,7 @@ public class Intake {
                         intake.setPos(INTAKE_DOWN);
                     }
                     break;
+
                 case 3:
                     intake.setPos(INTAKE_HALF);
                     break;
