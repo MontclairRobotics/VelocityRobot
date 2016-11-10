@@ -9,22 +9,31 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
     private Motor147 intake;
     HardwareMap hwMap;
-    public Intake(Motor147 aux_a){
+
+    public Intake(Motor147 aux_a) {
         intake = new Motor147("aux_a", hwMap);
     }
-    public void controlIntake(boolean pressed){
+
+    public void controlIntake(boolean pressed) {
         boolean intaking = false;
         boolean done = false;
-        if (pressed && (intake.getPos() < 180) && !(done)){
-            intake.setPos(180);
-            intaking = true;
-        }
-        else if(intaking && (intake.getPos() > 180)){
-            done = true;
-        }
-        else if(intaking && done && !(pressed)){
-            intake.setPos();
-
+        boolean running = true;
+        //I am not sure about the specific positions for the intake but i will change these variables eventually.
+        int INTAKE_UP = 0;
+        int INTAKE_DOWN = 0;
+        int INTAKE_HALF = 0;
+        while (running) {
+            if (pressed && (intake.getPos() < INTAKE_DOWN) && !(done)) {
+                intake.setPos(INTAKE_DOWN);
+                intaking = true;
+            } else if (intaking && (intake.getPos() >= INTAKE_DOWN)) {
+                done = true;
+            } else if (intaking && done && !(pressed)) {
+                intake.setPos(INTAKE_UP);
+                intaking = false;
+            }else if (!(intaking) && !(pressed)){
+                intake.setPos(INTAKE_HALF);
+            }
         }
     }
 }
