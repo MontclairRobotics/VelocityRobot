@@ -21,7 +21,7 @@ public class DriveTrain
 
     public void setTank(double left, double right)
     {
-        for(int i = 0; i<motors[0].length; i++)
+        for(int i = 0; i < motors[0].length; i++)
         {
             motors[0][i].setSpeed(left);
             motors[1][i].setSpeed(right);
