@@ -15,24 +15,40 @@ public class Intake {
     }
 
     public void controlIntake(boolean pressed) {
-        boolean intaking = false;
-        boolean done = false;
-        boolean running = true;
-        //I am not sure about the specific positions for the intake but i will change these variables eventually.
+        //I am not sure about the specific positions for the intake but i will change these variables later.
         int INTAKE_UP = 0;
         int INTAKE_DOWN = 0;
         int INTAKE_HALF = 0;
-        while (running) {
-            if (pressed && (intake.getPos() < INTAKE_DOWN) && !(done)) {
-                intake.setPos(INTAKE_DOWN);
-                intaking = true;
-            } else if (intaking && (intake.getPos() >= INTAKE_DOWN)) {
-                done = true;
-            } else if (intaking && done && !(pressed)) {
-                intake.setPos(INTAKE_UP);
-                intaking = false;
-            }else if (!(intaking) && !(pressed)){
-                intake.setPos(INTAKE_HALF);
+        int state = 1;
+        boolean intaking = true;
+        while (intaking) {
+            switch (state) {
+                case 1:
+                    if (intake.getPos() == INTAKE_DOWN){
+                        state = 2;
+                    }
+                    else if (pressed){
+                        intake.setPos(INTAKE_DOWN);
+                    }
+                    else{
+                        intake.setPos(INTAKE_HALF);
+                    }
+                    break;
+                case 2:
+                    if (intake.getPos() == INTAKE_UP){
+                        state = 3;
+                    }
+                    else if (!(pressed)){
+                        intake.setPos(INTAKE_UP);
+                    }
+                    else {
+                        intake.setPos(INTAKE_DOWN);
+                    }
+                    break;
+                case 3:
+                    intake.setPos(INTAKE_HALF);
+                    break;
+
             }
         }
     }
