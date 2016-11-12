@@ -1,20 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.teamcode.Core.Motor147;
+import org.firstinspires.ftc.teamcode.Core.SubSystem;
 
 /**
  * Created by Garrett on 11/9/16.
  */
 
-public class Intake {
-    private Motor147 intake;
-    HardwareMap hwMap;
+public class Intake implements SubSystem {
+    public static final int
+            //intake configs
+            INTAKE_DOWN_POS=-1500,
+            INTAKE_HALF_POS=-500,
+            INTAKE_UP_POS=0;
 
-    public Intake(Motor147 aux_a) {
-        intake = new Motor147("aux_a", hwMap);
+    boolean intaking=false;
+
+    private Motor147 intake;
+
+    public Intake(String intake) {
+        this.intake = new Motor147(intake);
     }
 
-    public void controlIntake(boolean pressed) {
+    public Motor147 getMotor()
+    {
+        return intake;
+    }
+
+    public void update()
+    {
+
+    }
+    public void setPositionButton(boolean pressed) {
         // I wanted to take the button in as a parameter but i was not sure how to do it, the booleam pressed represents weather the button is pressed or not
 
         //I am not sure about the specific positions for the intake but i will change these variables later.

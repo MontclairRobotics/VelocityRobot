@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
  * Created by Hymowitz on 11/3/2016.
  */
-public class Controller147Competition1 {
+public class Controller {
     public Gamepad drive=null,shoot=null;
 
     public void init(Gamepad a, Gamepad b)
@@ -33,10 +33,7 @@ public class Controller147Competition1 {
     {
         return drive.left_bumper;
     }
-    public boolean intake()
-    {
-        return shoot.y;
-    }
+    public boolean intake()    { return shoot.y; }
     public boolean shoot()
     {
         return shoot.a;
@@ -45,4 +42,16 @@ public class Controller147Competition1 {
     public boolean shooterDown(){return shoot.dpad_down;}
     public boolean intakeUp(){return shoot.dpad_right;}
     public boolean intakeDown(){return shoot.dpad_left;}
+    public int intakeOffset()
+    {
+        if(intakeUp()) return 1;
+        if(intakeDown())return -1;
+        return 0;
+    }
+    public int shooterOffset()
+    {
+        if(shooterUp())return 1;
+        if(shooterDown())return -1;
+        return 0;
+    }
 }
