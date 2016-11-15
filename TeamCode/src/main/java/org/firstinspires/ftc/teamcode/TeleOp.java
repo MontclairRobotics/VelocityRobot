@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.teamcode.Core.OpMode147;
+import org.firstinspires.ftc.teamcode.Core.Updater;
 
 import static org.firstinspires.ftc.teamcode.Core.Robot.robot;
 
@@ -16,5 +17,7 @@ public class TeleOp extends OpMode147 {
         robot.intake.getMotor().adjustOffset(robot.controller.intakeOffset()*robot.getMs()*10.0);
         robot.shooter.setPositionButton(robot.controller.shoot());
         robot.shooter.getMotor().adjustOffset(robot.controller.shooterOffset()*robot.getMs()*1.0);
+
+        Updater.update();
     }
 }
