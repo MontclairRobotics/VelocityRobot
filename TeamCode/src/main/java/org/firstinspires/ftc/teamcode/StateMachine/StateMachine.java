@@ -40,6 +40,6 @@ public class StateMachine implements State{
     }
 
     public boolean isDone() {
-        return state>=0||state<states.length;
+        return state<0||state>=states.length;
     }
 }

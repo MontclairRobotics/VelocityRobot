@@ -19,6 +19,7 @@ public class AutoOpMode extends OpMode147 {
     public static final double TOLERANCE=0.5*TICKS_PER_INCH;
     public static final double ROBOT_WIDTH=18;//center of wheel to center of wheel
 
+
     public AutoOpMode(State... states) {
         this.stateMachine = new StateMachine(states);
     }
@@ -40,13 +41,11 @@ public class AutoOpMode extends OpMode147 {
     }
 
 
-
-
-
     //================================AUTO STATES=======================================
     public static class Drive extends StateObj
     {
         private double target;
+
         public Drive(double d)
         {
             target=d*TICKS_PER_INCH;
@@ -64,6 +63,9 @@ public class AutoOpMode extends OpMode147 {
             return robot.driveTrain.getError()<TOLERANCE;
         }
     }
+
+
+
 
     public static class Turn extends StateObj
     {
@@ -85,6 +87,7 @@ public class AutoOpMode extends OpMode147 {
             return robot.driveTrain.getError()<TOLERANCE;
         }
     }
+
     public static class Shoot extends StateMachine {
 
         public Shoot() {
