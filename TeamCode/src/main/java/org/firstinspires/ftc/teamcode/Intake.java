@@ -14,6 +14,7 @@ public class Intake implements SubSystem {
             INTAKE_HALF_POS=-500,
             INTAKE_UP_POS=0;
 
+    private double intakePosition = 0;
 
     private boolean intaking=false;
 
@@ -29,16 +30,40 @@ public class Intake implements SubSystem {
     }
 
     public void setDown(){
-
+        intakePosition = INTAKE_DOWN_POS;
+        intaking = true;
     }
 
+    public void setHalf(){
+        intakePosition = INTAKE_HALF_POS;
+    }
 
+    public void setUp(){
+        intakePosition = INTAKE_UP_POS;
+    }
 
+    public void load(){
+        if(intaking){
+            setUp();
+        }
+        else{
+            setHalf();
+        }
+    }
     public void setPositionButton(boolean pressed) {
+        if(pressed){
+            setDown();
+        }
+        else{
+            load();
+        }
 
     }
     public void update()
     {
-
+        intake.setTargetPosition(intakePosition);
+        if(intake.getPos()>INTAKE_UP_POS-100){
+            intaking = false;
+        }
     }
 }
