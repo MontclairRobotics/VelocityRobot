@@ -18,7 +18,7 @@ public class AutoOpMode extends OpMode147 {
     public static final double TOLERANCE=0.5*TICKS_PER_INCH;
     public static final double ROBOT_WIDTH=18;//center of wheel to center of wheel
 
-    public Auto(StateMachine stateMachine) {
+    public AutoOpMode(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
     }
 
@@ -107,14 +107,3 @@ public class AutoOpMode extends OpMode147 {
         }
     }
 }
-
-
-
-    int
-            TARGET_DRIVE_0=25,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_TURN_1=-45,
-            TARGET_DRIVE_2=14,
-            TARGET_DRIVE_3=12;
-
-
-
