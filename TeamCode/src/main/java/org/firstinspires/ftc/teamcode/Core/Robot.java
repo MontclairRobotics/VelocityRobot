@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.Shooter;
 
 public class Robot{
     public static Robot robot;
-    public Controller controller;
-    public HardwareMap hardwareMap;
+    public static Controller controller;
+    public static HardwareMap hardwareMap;
     public ElapsedTime time;
     public Telemetry telemetry;
     public DriveTrain driveTrain;
@@ -32,10 +32,14 @@ public class Robot{
         controller=new Controller();
         controller.init(gamepad1,gamepad2);
         this.telemetry=telemetry;
+        telemetry.addData("SAY",5);
+        telemetry.update();
         time=new ElapsedTime();
         driveTrain=new DriveTrain(Config.LEFT_MOTORS,Config.RIGHT_MOTORS);
         intake=new Intake(Config.INTAKE);
         shooter=new Shooter(Config.SHOOTER);
+        telemetry.addData("SAY",7);
+        telemetry.update();
         subSystems=new SubSystem[3];
         subSystems[0]=driveTrain;
         subSystems[1]=intake;
@@ -44,8 +48,9 @@ public class Robot{
 
     public static final void init(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry)
     {
-        if(robot==null)
-            robot=new Robot(hardwareMap,gamepad1,gamepad2,telemetry);
+        if(robot==null) {
+            robot = new Robot(hardwareMap, gamepad1, gamepad2, telemetry);
+        }
     }
 
     public void update() {

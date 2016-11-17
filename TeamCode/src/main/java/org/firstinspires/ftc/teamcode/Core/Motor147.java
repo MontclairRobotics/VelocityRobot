@@ -4,10 +4,10 @@ package org.firstinspires.ftc.teamcode.Core;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-public class Motor147 {
+public class Motor147 implements Updatable{
     private DcMotor motor;
 
-    private boolean setPosMode=false;
+    private boolean setPosMode=true;
 
     private double setPosPower=1;
     private double target;
@@ -17,8 +17,10 @@ public class Motor147 {
 
     public Motor147(String name){
 
-        motor=(Robot.robot.hardwareMap.dcMotor.get(name));
+        motor=(Robot.hardwareMap.dcMotor.get(name));
         lastPos=motor.getCurrentPosition();
+        Updater.addUpdatable(this);
+        setMode(false);
     }
 
     public void setSpeed(double speed)

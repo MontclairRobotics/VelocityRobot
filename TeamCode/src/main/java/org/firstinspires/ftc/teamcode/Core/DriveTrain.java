@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import static org.firstinspires.ftc.teamcode.Core.Robot.robot;
+import static org.firstinspires.ftc.teamcode.Core.Robot.*;
 
 /**
  * Created by Hymowitz on 11/9/2016.
@@ -35,15 +35,15 @@ public class DriveTrain implements SubSystem
 
     public void setSpeedJoystick()
     {
-        power= robot.controller.getPower();
-        turn= robot.controller.getTurn()*TURN_SPD;
+        power= controller.getPower();
+        turn= controller.getTurn()*TURN_SPD;
 
-        if(robot.controller.highSpeed()) {
+        if(controller.highSpeed()) {
             power *= HIGH_POWER;
             turn *= HIGH_TURN_SPD_FACTOR;
-            turn += robot.controller.getSmallTurn() * SMALL_TURN_SPD;
+            turn += controller.getSmallTurn() * SMALL_TURN_SPD;
         }
-        else if(robot.controller.lowSpeed()) {
+        else if(controller.lowSpeed()) {
             power *= LOW_POWER;
         }
         else {
