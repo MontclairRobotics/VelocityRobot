@@ -31,8 +31,8 @@ public class OpMode147 extends OpMode {
     @Override
     public final void loop() {
         update();
-        Robot.robot.update();
-        Updater.update();
+        //Robot.robot.update();
+        //Updater.update();
     }
     public void update(){}
 

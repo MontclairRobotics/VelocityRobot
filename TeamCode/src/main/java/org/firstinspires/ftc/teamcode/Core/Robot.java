@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Config;
 import org.firstinspires.ftc.teamcode.Intake;
 import org.firstinspires.ftc.teamcode.Shooter;
 
@@ -35,7 +34,7 @@ public class Robot{
         telemetry.addData("SAY",5);
         telemetry.update();
         time=new ElapsedTime();
-        driveTrain=new DriveTrain(Config.LEFT_MOTORS,Config.RIGHT_MOTORS);
+        /*driveTrain=new DriveTrain(Config.LEFT_MOTORS,Config.RIGHT_MOTORS);
         intake=new Intake(Config.INTAKE);
         shooter=new Shooter(Config.SHOOTER);
         telemetry.addData("SAY",7);
@@ -43,7 +42,7 @@ public class Robot{
         subSystems=new SubSystem[3];
         subSystems[0]=driveTrain;
         subSystems[1]=intake;
-        subSystems[2]=shooter;
+        subSystems[2]=shooter;*/
     }
 
     public static final void init(HardwareMap hardwareMap, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry)
