@@ -84,8 +84,8 @@ public class Hardware147CompetitionAuto1
         double error=0;
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setTargetPosition(left+motorOffset[0][i]);
-            motors[1][i].setTargetPosition(-right+motorOffset[1][i]);
+            motors[0][i].setTargetPosition(-left-motorOffset[0][i]);
+            motors[1][i].setTargetPosition(right-motorOffset[1][i]);
             error += Math.abs(motors[0][i].getCurrentPosition() - (left+motorOffset[0][i]))
                     + Math.abs(motors[1][i].getCurrentPosition() - (-right+motorOffset[1][i]));
         }
