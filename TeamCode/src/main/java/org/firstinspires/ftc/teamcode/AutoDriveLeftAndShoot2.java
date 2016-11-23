@@ -33,8 +33,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -72,43 +70,27 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
         robot.intake.setTargetPosition(-500);
         switch (state) {
             case 0: //Move forward
-                diff = robot.setTgtPos(deg0);
-                checkStateCompletion(diff < TOLERANCE);
-                break;
+                drive(TARGET_DRIVE_0);
             case 1: //Turn 45 left
-                diff = robot.setTurnDegrees(TARGET_TURN_1*DEGREES_PER_INCH);
-                checkStateCompletion(diff < TOLERANCE);
-                break;
+                turn(TARGET_TURN_1);
             case 2: //Move forward
-                diff = robot.setTgtPos(deg2);
-                checkStateCompletion(diff < TOLERANCE);
-                break;
+                drive(TARGET_DRIVE_0);
             case 3: //Shoot
-                robot.shooter.setTargetPosition(1300);
-                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
-                break;
-            case 4: //brings intake down at half speed
-                robot.intake.setPower(0.25);
-                robot.intake.setTargetPosition(-1500);
-                robot.shooter.setTargetPosition(0);
-                checkStateCompletion(robot.intake.getCurrentPosition() <= -1400 && robot.intake.getCurrentPosition() >= -100);
-                break;
-            case 5:
-                robot.intake.setPower(0.5);
-                robot.intake.setTargetPosition(0);
-                checkStateCompletion(robot.intake.getCurrentPosition() >= -100);
-                break;
-            case 6: // brings it back down
-                robot.intake.setTargetPosition(-500);
-                checkStateCompletion(robot.intake.getCurrentPosition() <= -400);
-                break;
-            case 7:
-                robot.shooter.setTargetPosition(1300);
-                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1200);
-            case 8: //Push ball off
-                diff = robot.setTgtPos(deg3);
-                robot.shooter.setTargetPosition(0);
-                break;
+                shootUp();
+            case 4: //prep to reload
+                shootDown();
+            case 5: //brings intake down at half speed
+                intakeDownSlow();
+            case 6:
+                intakeUp();
+            case 7: // brings it back down
+                intakeHalf();
+            case 8://Shoot again
+                shootUp();
+            case 9://prep to reload
+                shootDown();
+            case 10: //Push ball off
+                drive(TARGET_DRIVE_3);
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);

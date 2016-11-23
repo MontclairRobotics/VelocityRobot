@@ -47,6 +47,58 @@ public class AutoMode extends OpMode {
 
     }
 
+    public void drive(double distance)
+    {
+        diff = robot.setTgtPos(distance*DEGREES_PER_INCH);
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void turn(double degrees)
+    {
+        diff = robot.setTurnDegrees(degrees*DEGREES_PER_INCH);
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void shootUp()
+    {
+        setShoot(TeleopCompetition.SHOOTER_UP_POS);
+    }
+    public void shootDown()
+    {
+        setShoot(TeleopCompetition.SHOOTER_DOWN_POS);
+    }
+    public void intakeDown()
+    {
+        robot.intake.setPower(1);
+        setIntake(TeleopCompetition.INTAKE_DOWN_POS);
+    }
+    public void intakeDownSlow()
+    {
+        robot.intake.setPower(0.25);
+        setIntake(TeleopCompetition.INTAKE_DOWN_POS);
+    }
+    public void intakeHalf()
+    {
+        robot.intake.setPower(0.5);
+        setIntake(TeleopCompetition.INTAKE_HALF_POS);
+    }
+    public void intakeUp()
+    {
+        robot.intake.setPower(0.5);
+        setIntake(TeleopCompetition.INTAKE_UP_POS);
+    }
+
+
+    public void setShoot(double tgt)
+    {
+        robot.shooter.setTargetPosition((int)(tgt+0.5));
+        checkStateCompletion((tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+    }
+    public void setIntake(double tgt)
+    {
+        robot.intake.setTargetPosition((int)(tgt+0.5));
+        checkStateCompletion((tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+    }
     public void checkStateCompletion(boolean didEnd) {
         if (didEnd) {
             state++;

@@ -61,7 +61,7 @@ public class TeleopCompetition extends OpMode{
 
     //========================================
     //configs:
-    double
+    public static final double
             //drive configs
             MAX_ACCEL=20.0/1000,
             TURN_ACCEL=10.0/1000,
@@ -71,7 +71,7 @@ public class TeleopCompetition extends OpMode{
             TURN_SPD=0.5,
             HIGH_TURN_SPD_FACTOR=2.0,
             SMALL_TURN_SPD=0.25;
-    int
+    public static final int
             //intake configs
             INTAKE_DOWN_POS=1100,
             INTAKE_HALF_POS=325,
@@ -79,6 +79,7 @@ public class TeleopCompetition extends OpMode{
             //shooter configs
             SHOOTER_DOWN_POS=20,
             SHOOTER_UP_POS=-850,
+            SHOOTER_AWAY_TOLERANCE=100,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
