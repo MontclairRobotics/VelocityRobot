@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by MHS Robotics on 11/23/2016.
+ * Created by Rapoport on 11/23/2016.
  */
 
 @Autonomous(name="Auto Mode", group="147")
