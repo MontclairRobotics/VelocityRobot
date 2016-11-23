@@ -116,17 +116,11 @@ public class AutoDriveTurnRightDrive extends OpMode{
         switch(state) {
             case 0:
                 diff=robot.setTgtPos(state0Deg);
-                if(diff<TOLERANCE) {
-                    state = 1;
-                    robot.resetMotorOffset();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 1:
                 diff=robot.setTurnDegrees(STATE_1_TURN*DEGREES_PER_INCH);
-                if(diff<TOLERANCE) {
-                    state = 2;
-                    robot.resetMotorOffset();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 2:
                 diff=robot.setTgtPos(startLeft+state2Deg,state2Deg);
@@ -136,6 +130,17 @@ public class AutoDriveTurnRightDrive extends OpMode{
         telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
+    }
+
+    public void checkStateCompletion(boolean didEnd) {
+        if (didEnd) {
+            prepareNextState();
+        }
+    }
+
+    public void prepareNextState() {
+        state++;
+        robot.resetMotorOffset();
     }
 
     /*

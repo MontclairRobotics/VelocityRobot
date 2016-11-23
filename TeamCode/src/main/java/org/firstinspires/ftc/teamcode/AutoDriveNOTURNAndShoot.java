@@ -119,15 +119,11 @@ public class AutoDriveNOTURNAndShoot extends OpMode{
         switch (state) {
             case 0: //Move forward
                 diff = robot.setTgtPos(deg0);
-                if (diff < TOLERANCE) {
-                    prepareNextState();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 1: //Shoot
                 robot.shooter.setTargetPosition(1300);
-                if(robot.shooter.getCurrentPosition() >= 1300 - 100) {
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
                 break;
             case 2: //Push ball off
                 diff = robot.setTgtPos(deg3);
@@ -138,6 +134,12 @@ public class AutoDriveNOTURNAndShoot extends OpMode{
         telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
+    }
+
+    public void checkStateCompletion(boolean didEnd) {
+        if (didEnd) {
+            prepareNextState();
+        }
     }
 
     public void prepareNextState() {

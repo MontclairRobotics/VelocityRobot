@@ -119,42 +119,30 @@ public class AutoDriveNOTURNAndShoot2 extends OpMode{
         switch (state) {
             case 0: //Move forward
                 diff = robot.setTgtPos(deg0);
-                if (diff < TOLERANCE) {
-                    prepareNextState();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 1: //Shoot
                 robot.shooter.setTargetPosition(1300);
-                if(robot.shooter.getCurrentPosition() >= 1300 - 100) {
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
                 break;
             case 2: //brings intake down at half speed
                 robot.intake.setPower(0.25);
                 robot.intake.setTargetPosition(-1500);
                 robot.shooter.setTargetPosition(0);
-                if(robot.intake.getCurrentPosition() <= -1400 && robot.intake.getCurrentPosition() >= -100){
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.intake.getCurrentPosition() <= -1400 && robot.intake.getCurrentPosition() >= -100);
                 break;
             case 3:
                 robot.intake.setPower(0.5);
                 robot.intake.setTargetPosition(0);
-                if(robot.intake.getCurrentPosition() >= -100){
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.intake.getCurrentPosition() >= -100);
                 break;
             case 4: // brings it back down
                 robot.intake.setTargetPosition(-500);
-                if(robot.intake.getCurrentPosition() <= -400){
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.intake.getCurrentPosition() <= -400);
                 break;
             case 5:
                 robot.shooter.setTargetPosition(1300);
-                if (robot.shooter.getCurrentPosition() >= 1300 - 100){
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
             case 6: //Push ball off
                 diff = robot.setTgtPos(deg3);
                 robot.shooter.setTargetPosition(0);
@@ -164,6 +152,12 @@ public class AutoDriveNOTURNAndShoot2 extends OpMode{
         telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
+    }
+
+    public void checkStateCompletion(boolean didEnd) {
+        if (didEnd) {
+            prepareNextState();
+        }
     }
 
     public void prepareNextState() {

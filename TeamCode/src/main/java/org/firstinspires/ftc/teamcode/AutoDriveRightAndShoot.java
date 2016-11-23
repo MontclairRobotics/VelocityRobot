@@ -122,27 +122,19 @@ public class AutoDriveRightAndShoot extends OpMode{
         switch (state) {
             case 0: //Move forward
                 diff = robot.setTgtPos(deg0);
-                if (diff < TOLERANCE) {
-                    prepareNextState();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 1: //Turn 45 left
                 diff = robot.setTurnDegrees(TARGET_TURN_1*DEGREES_PER_INCH);
-                if (diff < TOLERANCE) {
-                    prepareNextState();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 2: //Move forward
                 diff = robot.setTgtPos(deg2);
-                if (diff < TOLERANCE) {
-                    prepareNextState();
-                }
+                checkStateCompletion(diff < TOLERANCE);
                 break;
             case 3: //Shoot
                 robot.shooter.setTargetPosition(1300);
-                if(robot.shooter.getCurrentPosition() >= 1300 - 100) {
-                    prepareNextState();
-                }
+                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
                 break;
             case 4: //Push ball off
                 diff = robot.setTgtPos(deg3);
@@ -153,6 +145,12 @@ public class AutoDriveRightAndShoot extends OpMode{
         telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
+    }
+
+    public void checkStateCompletion(boolean didEnd) {
+        if (didEnd) {
+            prepareNextState();
+        }
     }
 
     public void prepareNextState() {
