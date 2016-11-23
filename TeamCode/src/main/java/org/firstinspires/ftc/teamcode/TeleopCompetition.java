@@ -77,7 +77,7 @@ public class TeleopCompetition extends OpMode{
             INTAKE_HALF_POS=325,
             INTAKE_UP_POS=0,
             //shooter configs
-            SHOOTER_DOWN_POS=20,
+            SHOOTER_DOWN_POS=0,
             SHOOTER_UP_POS=-850,
             SHOOTER_AWAY_TOLERANCE=100,
             INTAKE_AWAY_TOLERANCE=100;

@@ -15,8 +15,19 @@ public class AutoMode extends OpMode {
     Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
     ElapsedTime timer = new ElapsedTime();
 
-    double DEGREES_PER_INCH = 10000/85;
-    double TOLERANCE = 0.5*DEGREES_PER_INCH;
+    public static final double DEGREES_PER_INCH = 10000/85;
+    public static final double TOLERANCE = 0.5*DEGREES_PER_INCH;
+
+    public static final int
+            AUTO_DRIVE_0=36,
+
+            AUTO_DRIVE_TURN_SHOOT_0=25,
+            AUTO_DRIVE_TURN_SHOOT_1_TURN=45,
+            AUTO_DRIVE_TURN_SHOOT_2=14,
+            AUTO_DRIVE_TURN_SHOOT_3=12,
+
+            AUTO_DRIVE_SHOOT_0=30,
+            AUTO_DRIVE_SHOOT_1=9;
 
     int state = 0;
     double diff = 0;
