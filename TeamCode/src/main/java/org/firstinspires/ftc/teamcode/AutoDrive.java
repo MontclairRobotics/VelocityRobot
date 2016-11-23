@@ -52,51 +52,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto Drive", group="147")
-public class AutoDrive extends OpMode{
-
-    /* Declare OpMode members. */
-    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
-    ElapsedTime timer=new ElapsedTime();
-
-    double DEGREES_PER_INCH=10000/85;
+public class AutoDrive extends AutoMode {
     int
         TARGET_DRIVE_INCHES=36,//TODO: and 2 below
         TARGET_INTAKE_POS=0,
         TARGET_SHOOTER_POS=0;
 
     int tgtDegrees;
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
-    public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
-        updateTelemetry(telemetry);
-
-        tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
-        robot.resetMotorOffset();
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
-
-    }
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -116,12 +78,4 @@ public class AutoDrive extends OpMode{
         telemetry.addData("intake pos", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-    }
-
 }

@@ -52,101 +52,39 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto Drive Turn LEFT RED Drive", group="147")
-public class AutoDriveTurnLeftDrive extends OpMode{
-
-    /* Declare OpMode members. */
-    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
-    ElapsedTime timer=new ElapsedTime();
-    double DEGREES_PER_INCH=10000/85;
-
-    double TOLERANCE=DEGREES_PER_INCH;
+public class AutoDriveTurnLeftDrive extends AutoMode {
+    double
+            STATE_0_IN = 16, //13 out turn 90 right 18 forward
+            STATE_1_TURN = -90,
+            STATE_2_IN = 33;
 
     double
-        STATE_0_IN=16, //13 out turn 90 right 18 forward
-        STATE_1_TURN=-90,
-        STATE_2_IN=33;
+            state0Deg = STATE_0_IN * DEGREES_PER_INCH,
+            state2Deg = STATE_2_IN * DEGREES_PER_INCH;
 
-    double
-        state0Deg=STATE_0_IN*DEGREES_PER_INCH,
-        state2Deg=STATE_2_IN*DEGREES_PER_INCH;
-
-
-    int state = 0;
-    int startLeft,startRight;
-    double diff;
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
-    public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
-        updateTelemetry(telemetry);
-
-        robot.resetMotorOffset();
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
-
-    }
+    int startLeft, startRight;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
-
     @Override
     public void loop() {
-        switch(state) {
+        switch (state) {
             case 0:
-                diff=robot.setTgtPos(state0Deg);
+                diff = robot.setTgtPos(state0Deg);
                 checkStateCompletion(diff < TOLERANCE);
                 break;
             case 1:
-                diff=robot.setTurnDegrees(STATE_1_TURN*DEGREES_PER_INCH);
+                diff = robot.setTurnDegrees(STATE_1_TURN * DEGREES_PER_INCH);
                 checkStateCompletion(diff < TOLERANCE);
                 break;
             case 2:
-                diff=robot.setTgtPos(startLeft+state2Deg,state2Deg);
+                diff = robot.setTgtPos(startLeft + state2Deg, state2Deg);
                 break;
         }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
+        telemetry.addData("state", state);
+        telemetry.addData("diff", diff);
+        telemetry.addData("Say", "Auto enabled: watch out!");
         updateTelemetry(telemetry);
-    }
-
-    public void checkStateCompletion(boolean didEnd) {
-        if (didEnd) {
-            prepareNextState();
-        }
-    }
-
-    public void prepareNextState() {
-        state++;
-        robot.resetMotorOffset();
-    }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
     }
 }

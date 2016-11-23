@@ -52,16 +52,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto Drive RIGHT And Shoot", group="147")
-public class AutoDriveRightAndShoot extends OpMode{
-
-    /* Declare OpMode members. */
-    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
-    ElapsedTime timer=new ElapsedTime();
-
-    double DEGREES_PER_INCH=10000/85;
-
-    double TOLERANCE=0.5*DEGREES_PER_INCH;
-
+public class AutoDriveRightAndShoot extends AutoMode {
     int
             TARGET_DRIVE_0=25,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_TURN_1=45,
@@ -73,49 +64,9 @@ public class AutoDriveRightAndShoot extends OpMode{
             deg2 = TARGET_DRIVE_2*DEGREES_PER_INCH,
             deg3 = TARGET_DRIVE_3*DEGREES_PER_INCH;
 
-    //int tgtDegrees;
-
-    boolean shot=false;
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Setup complete: Auto Mode selected");    //
-        updateTelemetry(telemetry);
-
-        //tgtDegrees=(int)(TARGET_DRIVE_INCHES*DEGREES_PER_INCH+0.5);
-        robot.resetMotorOffset();
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
-    public void start() {
-
-    }
-
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
-
-    int state = 0;
-    double diff;
-
     @Override
     public void loop() {
         robot.intake.setTargetPosition(-500);
@@ -146,29 +97,4 @@ public class AutoDriveRightAndShoot extends OpMode{
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }
-
-    public void checkStateCompletion(boolean didEnd) {
-        if (didEnd) {
-            prepareNextState();
-        }
-    }
-
-    public void prepareNextState() {
-        state++;
-        robot.resetMotorOffset();
-    }
-
-//    public void resetState() {
-//        state = 0;
-//        robot.resetMotorOffset();
-//    }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop()
-        {
-    }
-
 }
