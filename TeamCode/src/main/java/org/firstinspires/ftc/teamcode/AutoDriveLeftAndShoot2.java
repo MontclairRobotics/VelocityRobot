@@ -69,27 +69,29 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
     public void loop() {
         robot.intake.setTargetPosition(-500);
         switch (state) {
-            case 0: //Move forward
-                drive(TARGET_DRIVE_0);
-            case 1: //Turn 45 left
-                turn(TARGET_TURN_1);
-            case 2: //Move forward
-                drive(TARGET_DRIVE_0);
-            case 3: //Shoot
-                shootUp();
-            case 4: //prep to reload
-                shootDown();
-            case 5: //brings intake down at half speed
-                intakeDownSlow();
-            case 6:
-                intakeUp();
-            case 7: // brings it back down
+            case 0: //Move intake out of way
                 intakeHalf();
-            case 8://Shoot again
+            case 1: //Move forward
+                drive(TARGET_DRIVE_0);
+            case 2: //Turn 45 left
+                turn(TARGET_TURN_1);
+            case 3: //Move forward
+                drive(TARGET_DRIVE_0);
+            case 4: //Shoot
                 shootUp();
-            case 9://prep to reload
+            case 5: //prep to reload
                 shootDown();
-            case 10: //Push ball off
+            case 6: //brings intake down at half speed
+                intakeDownSlow();
+            case 7:
+                intakeUp();
+            case 8: // brings it back down
+                intakeHalf();
+            case 9://Shoot again
+                shootUp();
+            case 10://prep to reload
+                shootDown();
+            case 11: //Push ball off
                 drive(TARGET_DRIVE_3);
         }
         telemetry.addData("state",state);

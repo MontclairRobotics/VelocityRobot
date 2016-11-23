@@ -74,11 +74,12 @@ public class TeleopCompetition extends OpMode{
     public static final int
             //intake configs
             INTAKE_DOWN_POS=1100,
-            INTAKE_HALF_POS=325,
-            INTAKE_UP_POS=0,
+            INTAKE_HALF_POS=400,//325,
+            INTAKE_UP_POS=-100,
             //shooter configs
-            SHOOTER_DOWN_POS=0,
+            SHOOTER_DOWN_POS=200,
             SHOOTER_UP_POS=-850,
+            //Tolerances
             SHOOTER_AWAY_TOLERANCE=100,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
@@ -150,7 +151,7 @@ public class TeleopCompetition extends OpMode{
         {
             intakePos=INTAKE_UP_POS;
             hardware.intake.setPower(0.5);
-            if(hardware.intake.getCurrentPosition()>=INTAKE_UP_POS-INTAKE_AWAY_TOLERANCE)
+            if(hardware.intake.getCurrentPosition()<=INTAKE_UP_POS-INTAKE_AWAY_TOLERANCE)//todo: Flip
             {
                 intaking=false;
             }

@@ -32,6 +32,7 @@ public class AutoMode extends OpMode {
     int state = 0;
     double diff = 0;
     boolean shot = false;
+    public double timeStateStarted=0;
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -58,6 +59,11 @@ public class AutoMode extends OpMode {
 
     }
 
+    public void start()
+    {
+        timer.reset();
+    }
+
     public void drive(double distance)
     {
         diff = robot.setTgtPos(distance*DEGREES_PER_INCH);
@@ -67,6 +73,7 @@ public class AutoMode extends OpMode {
     public void turn(double degrees)
     {
         diff = robot.setTurnDegrees(degrees*DEGREES_PER_INCH);
+        telemetry.addData("TURN DIFF",diff);
         checkStateCompletion(diff < TOLERANCE);
     }
 
@@ -87,33 +94,44 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(0.25);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
+        checkStateCompletion(timeInState()>3000);
     }
     public void intakeHalf()
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_HALF_POS);
+        checkStateCompletion(Math.abs(TeleopCompetition.INTAKE_HALF_POS-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
     }
     public void intakeUp()
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_UP_POS);
+        checkStateCompletion(robot.intake.getCurrentPosition()<=TeleopCompetition.INTAKE_UP_POS-TeleopCompetition.INTAKE_AWAY_TOLERANCE);//todo: flip
     }
 
 
     public void setShoot(double tgt)
     {
         robot.shooter.setTargetPosition((int)(tgt+0.5));
+        telemetry.addData("Shoot TGT",tgt);
+        telemetry.addData("Shoot ACT",robot.shooter.getCurrentPosition());
         checkStateCompletion(Math.abs(tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
     }
     public void setIntake(double tgt)
     {
         robot.intake.setTargetPosition((int)(tgt+0.5));
-        checkStateCompletion(Math.abs(tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+        telemetry.addData("Intake TGT",tgt);
+        telemetry.addData("Intake ACT",robot.shooter.getCurrentPosition());
     }
     public void checkStateCompletion(boolean didEnd) {
         if (didEnd) {
             state++;
             robot.resetMotorOffset();
+            timeStateStarted=timer.time();
         }
+    }
+    public double timeInState()
+    {
+        return timer.time()-timeStateStarted;
     }
 }
