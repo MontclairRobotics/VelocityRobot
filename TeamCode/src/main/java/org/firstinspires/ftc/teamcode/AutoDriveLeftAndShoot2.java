@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive LEFT And Shoot2", group="147")
+@Autonomous(name="Auto Drive LEFT And Shoot 2", group="147")
 public class AutoDriveLeftAndShoot2 extends OpMode{
 
     /* Declare OpMode members. */
@@ -167,7 +167,7 @@ public class AutoDriveLeftAndShoot2 extends OpMode{
                 break;
             case 7:
                 robot.shooter.setTargetPosition(1300);
-                if (robot.shooter.getCurrentPosition() >= 1300 - 100){
+                if(robot.shooter.getCurrentPosition() >= 1200) {
                     prepareNextState();
                 }
             case 8: //Push ball off
