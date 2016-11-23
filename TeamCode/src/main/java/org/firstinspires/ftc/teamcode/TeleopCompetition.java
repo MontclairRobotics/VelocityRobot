@@ -73,12 +73,12 @@ public class TeleopCompetition extends OpMode{
             SMALL_TURN_SPD=0.25;
     int
             //intake configs
-            INTAKE_DOWN_POS=-1500,
-            INTAKE_HALF_POS=-500,
+            INTAKE_DOWN_POS=1100,
+            INTAKE_HALF_POS=325,
             INTAKE_UP_POS=0,
             //shooter configs
-            SHOOTER_DOWN_POS=0,
-            SHOOTER_UP_POS=1300,
+            SHOOTER_DOWN_POS=20,
+            SHOOTER_UP_POS=-850,
             INTAKE_AWAY_TOLERANCE=100;
     //========================================
 
@@ -184,7 +184,7 @@ public class TeleopCompetition extends OpMode{
         {
             hardware.intakeOffset+=1*ms;
         }
-        if(ctrl.intakeUp())
+        if(ctrl.intakeDown())
         {
             hardware.intakeOffset-=1*ms;
         }
@@ -200,8 +200,10 @@ public class TeleopCompetition extends OpMode{
         telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
         telemetry.addData("turn", dp, turn);
-        telemetry.addData("intake", ip, intakePos);
-        telemetry.addData("shooter", ip, shooterPos);
+        //telemetry.addData("intake", ip, intakePos);
+        telemetry.addData("intakePosition", ip, hardware.intake.getCurrentPosition());
+        //telemetry.addData("shooter", ip, shooterPos);
+        telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
         telemetry.addData("ms per cycle", dp,ms);
         updateTelemetry(telemetry);
 

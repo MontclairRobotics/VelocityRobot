@@ -66,8 +66,8 @@ public class Hardware147Competition1
     {
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setPower(-left);
-            motors[1][i].setPower(right);
+            motors[0][i].setPower(left);
+            motors[1][i].setPower(-right);
         }
     }
 
