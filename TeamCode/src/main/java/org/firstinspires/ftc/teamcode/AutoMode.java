@@ -103,12 +103,12 @@ public class AutoMode extends OpMode {
     public void setShoot(double tgt)
     {
         robot.shooter.setTargetPosition((int)(tgt+0.5));
-        checkStateCompletion((tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+        checkStateCompletion(Math.abs(tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
     }
     public void setIntake(double tgt)
     {
         robot.intake.setTargetPosition((int)(tgt+0.5));
-        checkStateCompletion((tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+        checkStateCompletion(Math.abs(tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
     }
     public void checkStateCompletion(boolean didEnd) {
         if (didEnd) {
