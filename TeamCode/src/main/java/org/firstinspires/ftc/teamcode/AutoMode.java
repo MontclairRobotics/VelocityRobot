@@ -89,10 +89,11 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(1);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
+        checkStateCompletion(timeInState()>3000);
     }
     public void intakeDownSlow()
     {
-        robot.intake.setPower(0.25);
+        robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
         checkStateCompletion(timeInState()>3000);
     }
@@ -106,7 +107,7 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_UP_POS);
-        checkStateCompletion(robot.intake.getCurrentPosition()<=TeleopCompetition.INTAKE_UP_POS-TeleopCompetition.INTAKE_AWAY_TOLERANCE);//todo: flip
+        checkStateCompletion(robot.intake.getCurrentPosition()<=TeleopCompetition.INTAKE_UP_POS+TeleopCompetition.INTAKE_AWAY_TOLERANCE);//todo: flip
     }
 
 
