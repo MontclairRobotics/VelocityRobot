@@ -71,28 +71,40 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
         switch (state) {
             case 0: //Move intake out of way
                 intakeHalf();
+                break;
             case 1: //Move forward
                 drive(TARGET_DRIVE_0);
+                break;
             case 2: //Turn 45 left
                 turn(TARGET_TURN_1);
+                break;
             case 3: //Move forward
                 drive(TARGET_DRIVE_0);
+                break;
             case 4: //Shoot
                 shootUp();
+                break;
             case 5: //prep to reload
                 shootDown();
+                break;
             case 6: //brings intake down at half speed
                 intakeDownSlow();
+                break;
             case 7:
                 intakeUp();
+                break;
             case 8: // brings it back down
                 intakeHalf();
+                break;
             case 9://Shoot again
                 shootUp();
+                break;
             case 10://prep to reload
                 shootDown();
+                break;
             case 11: //Push ball off
                 drive(TARGET_DRIVE_3);
+                break;
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);
