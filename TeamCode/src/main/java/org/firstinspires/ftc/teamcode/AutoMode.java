@@ -100,15 +100,14 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_HALF_POS);
-        checkStateCompletion(Math.abs(TeleopCompetition.INTAKE_HALF_POS-robot.intake.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_HALF_POS));
     }
     public void intakeUp()
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_UP_POS);
-        checkStateCompletion(robot.intake.getCurrentPosition()<=TeleopCompetition.INTAKE_UP_POS+TeleopCompetition.INTAKE_AWAY_TOLERANCE);//todo: flip
+        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_UP_POS));//todo: flip
     }
-
 
     public void setShoot(double tgt)
     {
@@ -116,7 +115,7 @@ public class AutoMode extends OpMode {
             robot.shooter.setTargetPosition((int) (tgt + 0.5));
             telemetry.addData("Shoot TGT", tgt);
             telemetry.addData("Shoot ACT", robot.shooter.getCurrentPosition());
-            checkStateCompletion(Math.abs(tgt - robot.shooter.getCurrentPosition()) < TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+            checkStateCompletion(shooterIsAt(tgt));
         }
         else
         {
@@ -139,5 +138,17 @@ public class AutoMode extends OpMode {
     public double timeInState()
     {
         return timer.time()-timeStateStarted;
+    }
+
+    boolean intakeIsAt(double pos) {
+        return isCloseTo(pos, robot.intake.getCurrentPosition(), TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+    }
+
+    boolean shooterIsAt(double pos) {
+        return isCloseTo(pos, robot.shooter.getCurrentPosition(), TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+    }
+
+    boolean isCloseTo(double d1, double d2, double tolerance) {
+        return Math.abs(d1-d2) < tolerance;
     }
 }
