@@ -67,7 +67,7 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
      */
     @Override
     public void loop() {
-        robot.intake.setTargetPosition(-500);
+        //robot.intake.setTargetPosition(-500);
         switch (state) {
             case 0: //Move intake out of way
                 intakeHalf();
