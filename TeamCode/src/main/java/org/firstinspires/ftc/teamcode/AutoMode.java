@@ -101,7 +101,7 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(0.5);
         setIntake(TeleopCompetition.INTAKE_HALF_POS);
-        checkStateCompletion(Math.abs(TeleopCompetition.INTAKE_HALF_POS-robot.shooter.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+        checkStateCompletion(Math.abs(TeleopCompetition.INTAKE_HALF_POS-robot.intake.getCurrentPosition())<TeleopCompetition.INTAKE_AWAY_TOLERANCE);
     }
     public void intakeUp()
     {
