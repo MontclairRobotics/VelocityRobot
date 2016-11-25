@@ -33,8 +33,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -71,15 +69,13 @@ public class AutoDriveTurnLeftDrive extends AutoMode {
     public void loop() {
         switch (state) {
             case 0:
-                diff = robot.setTgtPos(state0Deg);
-                checkStateCompletion(diff < TOLERANCE);
+                drive(STATE_0_IN);
                 break;
             case 1:
-                diff = robot.setTurnDegrees(STATE_1_TURN * DEGREES_PER_INCH);
-                checkStateCompletion(diff < TOLERANCE);
+                turn(STATE_1_TURN);
                 break;
             case 2:
-                diff = robot.setTgtPos(startLeft + state2Deg, state2Deg);
+                drive(STATE_2_IN);
                 break;
         }
         telemetry.addData("state", state);

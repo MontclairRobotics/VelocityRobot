@@ -33,8 +33,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -72,24 +70,22 @@ public class AutoDriveLeftAndShoot extends AutoMode {
         robot.intake.setTargetPosition(-500);
         switch (state) {
             case 0: //Move forward
-                diff = robot.setTgtPos(deg0);
-                checkStateCompletion(diff < TOLERANCE);
+                drive(TARGET_DRIVE_0);
                 break;
             case 1: //Turn 45 left
-                diff = robot.setTurnDegrees(TARGET_TURN_1*DEGREES_PER_INCH);
-                checkStateCompletion(diff < TOLERANCE);
+                turn(TARGET_TURN_1);
                 break;
             case 2: //Move forward
-                diff = robot.setTgtPos(deg2);
-                checkStateCompletion(diff < TOLERANCE);
+                drive(TARGET_DRIVE_2);
                 break;
             case 3: //Shoot
-                robot.shooter.setTargetPosition(1300);
-                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
+                shootUp();
                 break;
             case 4: //Push ball off
-                diff = robot.setTgtPos(deg3);
-                robot.shooter.setTargetPosition(0);
+                drive(TARGET_DRIVE_3);
+                break;
+            case 5: //Lower shooter
+                shootDown();
                 break;
         }
         telemetry.addData("state",state);

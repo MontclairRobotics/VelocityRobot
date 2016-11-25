@@ -99,7 +99,7 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
             case 9://Shoot again
                 shootUp();
                 break;
-            case 10://prep to reload
+            case 10://reload shooter
                 shootDown();
                 break;
             case 11: //Push ball off

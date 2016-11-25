@@ -33,8 +33,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -69,34 +67,27 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
         robot.intake.setTargetPosition(-500);
         switch (state) {
             case 0: //Move forward
-                diff = robot.setTgtPos(deg0);
-                checkStateCompletion(diff < TOLERANCE);
+                drive(TARGET_DRIVE_0);
                 break;
             case 1: //Shoot
-                robot.shooter.setTargetPosition(1300);
-                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
+                shootUp();
                 break;
             case 2: //brings intake down at half speed
-                robot.intake.setPower(0.25);
-                robot.intake.setTargetPosition(-1500);
-                robot.shooter.setTargetPosition(0);
-                checkStateCompletion(robot.intake.getCurrentPosition() <= -1400 && robot.intake.getCurrentPosition() >= -100);
+                intakeDownSlow();
                 break;
             case 3:
-                robot.intake.setPower(0.5);
-                robot.intake.setTargetPosition(0);
-                checkStateCompletion(robot.intake.getCurrentPosition() >= -100);
+                intakeUp();
                 break;
             case 4: // brings it back down
-                robot.intake.setTargetPosition(-500);
-                checkStateCompletion(robot.intake.getCurrentPosition() <= -400);
+                intakeHalf();
                 break;
             case 5:
-                robot.shooter.setTargetPosition(1300);
-                checkStateCompletion(robot.shooter.getCurrentPosition() >= 1300 - 100);
+                shootUp();
             case 6: //Push ball off
-                diff = robot.setTgtPos(deg3);
-                robot.shooter.setTargetPosition(0);
+                drive(TARGET_DRIVE_3);
+                break;
+            case 7:
+                shootDown();
                 break;
         }
         telemetry.addData("state",state);
