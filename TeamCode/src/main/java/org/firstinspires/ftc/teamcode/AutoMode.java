@@ -112,10 +112,16 @@ public class AutoMode extends OpMode {
 
     public void setShoot(double tgt)
     {
-        robot.shooter.setTargetPosition((int)(tgt+0.5));
-        telemetry.addData("Shoot TGT",tgt);
-        telemetry.addData("Shoot ACT",robot.shooter.getCurrentPosition());
-        checkStateCompletion(Math.abs(tgt-robot.shooter.getCurrentPosition())<TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+        if(robot.intake.getCurrentPosition()<=TeleopCompetition.INTAKE_HALF_POS+TeleopCompetition.INTAKE_AWAY_TOLERANCE) {
+            robot.shooter.setTargetPosition((int) (tgt + 0.5));
+            telemetry.addData("Shoot TGT", tgt);
+            telemetry.addData("Shoot ACT", robot.shooter.getCurrentPosition());
+            checkStateCompletion(Math.abs(tgt - robot.shooter.getCurrentPosition()) < TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+        }
+        else
+        {
+            robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
+        }
     }
     public void setIntake(double tgt)
     {
