@@ -88,13 +88,14 @@ public class AutoMode extends OpMode {
     {
         robot.intake.setPower(1);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
-        checkStateCompletion(timeInState()>3000);
+        checkStateCompletion(timeInState()>3);
     }
     public void intakeDownSlow()
     {
-        robot.intake.setPower(0.5);
+        robot.intake.setPower(0.75);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
-        checkStateCompletion(timeInState()>3000);
+        checkStateCompletion(timeInState()>3);
+        telemetry.addData("TIME IN STATE",timeInState());
     }
     public void intakeHalf()
     {
@@ -104,7 +105,7 @@ public class AutoMode extends OpMode {
     }
     public void intakeUp()
     {
-        robot.intake.setPower(0.5);
+        robot.intake.setPower(0.3);
         setIntake(TeleopCompetition.INTAKE_UP_POS);
         checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_UP_POS));//todo: flip
     }
@@ -135,6 +136,12 @@ public class AutoMode extends OpMode {
             timeStateStarted=timer.time();
         }
     }
+
+    public void delay(double sec)
+    {
+        checkStateCompletion(sec<timeInState());
+    }
+
     public double timeInState()
     {
         return timer.time()-timeStateStarted;

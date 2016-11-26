@@ -81,28 +81,34 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
             case 3: //Move forward
                 drive(TARGET_DRIVE_0);
                 break;
-            case 4: //Shoot
+            case 4:
+                delay(4);
+                break;
+            case 5: //Shoot
                 shootUp();
                 break;
-            case 5: //prep to reload
+            case 6: //prep to reload
                 shootDown();
                 break;
-            case 6: //brings intake down at half speed
+            case 7: //brings intake down at half speed
                 intakeDownSlow();
                 break;
-            case 7:
+            case 8:
                 intakeUp();
                 break;
-            case 8: // brings it back down
+            case 9: // brings it back down
                 intakeHalf();
                 break;
-            case 9://Shoot again
+            case 10:
+                delay(4);
+                break;
+            case 11://Shoot again
                 shootUp();
                 break;
-            case 10://reload shooter
+            case 12://reload shooter
                 shootDown();
                 break;
-            case 11: //Push ball off
+            case 13: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
         }
