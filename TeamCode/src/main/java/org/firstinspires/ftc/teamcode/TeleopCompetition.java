@@ -151,7 +151,7 @@ public class TeleopCompetition extends OpMode{
         else if (intaking)
         {
             intakePos=INTAKE_UP_POS;
-            hardware.intake.setPower(0.5);
+            hardware.intake.setPower(0.35);
             if(hardware.intake.getCurrentPosition()<=INTAKE_UP_POS+INTAKE_AWAY_TOLERANCE)//todo: Flip
             {
                 intaking=false;
@@ -160,7 +160,7 @@ public class TeleopCompetition extends OpMode{
         else
         {
             intakePos=INTAKE_HALF_POS;
-            hardware.intake.setPower(0.5);
+            hardware.intake.setPower(0.35);
         }
 
         //==========Shooter==========

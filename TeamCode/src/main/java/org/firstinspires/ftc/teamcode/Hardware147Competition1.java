@@ -56,7 +56,7 @@ public class Hardware147Competition1
                 motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
         }
-        intake.setPower(0.5);
+        intake.setPower(0.35);
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);

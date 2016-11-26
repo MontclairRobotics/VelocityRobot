@@ -53,7 +53,7 @@ public class Hardware147CompetitionAuto1
                 motors[i][j].setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
         }
-        intake.setPower(0.5);
+        intake.setPower(0.35);
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
