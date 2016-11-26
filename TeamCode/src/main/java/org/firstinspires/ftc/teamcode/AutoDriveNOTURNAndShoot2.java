@@ -69,25 +69,29 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
             case 0: //Move forward
                 drive(TARGET_DRIVE_0);
                 break;
-            case 1: //Shoot
-                shootUp();
+            case 1:
+                delay(4);
                 break;
-            case 2: //brings intake down at half speed
-                intakeDownSlow();
+            case 2://Shoot
+                shootUp();
                 break;
             case 3:
-                intakeUp();
-                break;
-            case 4: // brings it back down
-                intakeHalf();
+                shootDown();
+            case 4: //brings intake down at half speed
+                intakeDownSlow();
                 break;
             case 5:
-                shootUp();
-            case 6: //Push ball off
-                drive(TARGET_DRIVE_3);
+                intakeUp();
+                break;
+            case 6: // brings it back down
+                intakeHalf();
                 break;
             case 7:
+                shootUp();
+            case 8:
                 shootDown();
+            case 9: //Push ball off
+                drive(TARGET_DRIVE_3);
                 break;
         }
         telemetry.addData("state",state);
