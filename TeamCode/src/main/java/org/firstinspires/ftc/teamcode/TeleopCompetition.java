@@ -77,7 +77,7 @@ public class TeleopCompetition extends OpMode{
             INTAKE_HALF_POS=400,//325,
             INTAKE_UP_POS=-100,
             //shooter configs
-            SHOOTER_DOWN_POS=200,
+            SHOOTER_DOWN_POS=100,//200,
             SHOOTER_UP_POS=-850,
             //Tolerances
             SHOOTER_AWAY_TOLERANCE=100,
@@ -166,9 +166,9 @@ public class TeleopCompetition extends OpMode{
         shooterPos=SHOOTER_DOWN_POS;
         if(ctrl.shoot())
         {
-            if(intakePos>INTAKE_HALF_POS)//TODO: flip if the intake positions are negative
+            if(hardware.intake.getCurrentPosition()>INTAKE_HALF_POS+INTAKE_AWAY_TOLERANCE)//TODO: flip if the intake positions are negative
                 intakePos=INTAKE_HALF_POS;
-            if(hardware.intake.getCurrentPosition()>INTAKE_HALF_POS+INTAKE_AWAY_TOLERANCE)//todo:flip
+            else
                 shooterPos=SHOOTER_UP_POS;
         }
 

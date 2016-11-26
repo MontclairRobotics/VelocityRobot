@@ -67,7 +67,7 @@ public class AutoDriveLeftAndShoot extends AutoMode {
      */
     @Override
     public void loop() {
-        robot.intake.setTargetPosition(-500);
+        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
         switch (state) {
             case 0: //Move forward
                 drive(TARGET_DRIVE_0);
