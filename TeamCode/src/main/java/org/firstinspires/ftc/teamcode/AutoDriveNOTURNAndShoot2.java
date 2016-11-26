@@ -66,31 +66,40 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
     public void loop() {
         //robot.intake.setTargetPosition(-500);
         switch (state) {
-            case 0: //Move forward
-                drive(TARGET_DRIVE_0);
-                break;
-            case 1:
-                delay(4);
-                break;
-            case 2://Shoot
-                shootUp();
-                break;
-            case 3:
-                shootDown();
-            case 4: //brings intake down at half speed
+            case 0:
                 intakeDownSlow();
                 break;
+            case 1:
+                intakeThird();
+                break;
+            case 2: //Move forward
+                drive(TARGET_DRIVE_0);
+                break;
+            case 3:
+                delay(4);
+                break;
+            case 4://Shoot
+                shootUp();
+                break;
             case 5:
+                shootDown();
+                break;
+            case 6:
                 intakeUp();
                 break;
-            case 6: // brings it back down
+            case 7: // brings it back down
                 intakeHalf();
                 break;
-            case 7:
-                shootUp();
             case 8:
+                delay(4);
+                break;
+            case 9:
+                shootUp();
+                break;
+            case 10:
                 shootDown();
-            case 9: //Push ball off
+                break;
+            case 11: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
         }

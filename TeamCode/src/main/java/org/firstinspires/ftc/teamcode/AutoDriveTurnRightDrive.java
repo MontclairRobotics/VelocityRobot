@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive Turn RIGHT BLUE Drive", group="147")
+@Autonomous(name="Auto Drive Turn RIGHT Ramp Drive", group="147")
 public class AutoDriveTurnRightDrive extends AutoMode {
     double
         STATE_0_IN=16, //13 out turn 90 right 18 forward
@@ -72,7 +72,7 @@ public class AutoDriveTurnRightDrive extends AutoMode {
                 drive(STATE_0_IN);
                 break;
             case 1:
-                drive(STATE_1_TURN);
+                turn(STATE_1_TURN);
                 break;
             case 2:
                 drive(STATE_0_IN);

@@ -78,13 +78,16 @@ public class AutoDriveLeftAndShoot extends AutoMode {
             case 2: //Move forward
                 drive(TARGET_DRIVE_2);
                 break;
-            case 3: //Shoot
+            case 3:
+                delay(4);
+                break;
+            case 4: //Shoot
                 shootUp();
                 break;
-            case 4: //Push ball off
+            case 5: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
-            case 5: //Lower shooter
+            case 6: //Lower shooter
                 shootDown();
                 break;
         }

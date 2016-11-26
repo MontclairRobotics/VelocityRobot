@@ -75,6 +75,7 @@ public class TeleopCompetition extends OpMode{
     public static final int
             //intake configs
             INTAKE_DOWN_POS=1100,
+            INTAKE_THIRD_POS=600,
             INTAKE_HALF_POS=400,//325,
             INTAKE_UP_POS=-100,
             //shooter configs

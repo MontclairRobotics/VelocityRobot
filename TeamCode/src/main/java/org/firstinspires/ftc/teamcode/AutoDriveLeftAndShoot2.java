@@ -73,7 +73,7 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
                 intakeDownSlow();
                 break;
             case 1:
-                intakeHalf();
+                intakeThird();
                 break;
             case 2: //Move forward
                 drive(TARGET_DRIVE_0);
