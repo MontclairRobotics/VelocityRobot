@@ -57,6 +57,7 @@ public class Hardware147CompetitionAuto1
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public double setTurnDegrees(double degrees)

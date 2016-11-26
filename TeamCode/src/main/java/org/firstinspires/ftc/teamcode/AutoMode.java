@@ -124,6 +124,7 @@ public class AutoMode extends OpMode {
     {
         if(robot.intake.getCurrentPosition()>TeleopCompetition.INTAKE_HALF_POS-TeleopCompetition.INTAKE_AWAY_TOLERANCE)//todo: flip
         {
+            robot.shooter.setPower(1);
             robot.shooter.setTargetPosition((int) (tgt + 0.5));
             telemetry.addData("Shoot TGT", tgt);
             telemetry.addData("Shoot ACT", robot.shooter.getCurrentPosition());
@@ -144,6 +145,7 @@ public class AutoMode extends OpMode {
         if (didEnd) {
             state++;
             robot.resetMotorOffset();
+            robot.shooter.setPower(0);
             timeStateStarted=timer.time();
         }
     }

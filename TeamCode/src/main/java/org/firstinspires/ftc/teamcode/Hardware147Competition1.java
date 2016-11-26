@@ -60,6 +60,7 @@ public class Hardware147Competition1
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public void setDriveTank(double left,double right)

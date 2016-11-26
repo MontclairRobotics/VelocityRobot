@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -77,7 +78,7 @@ public class TeleopCompetition extends OpMode{
             INTAKE_HALF_POS=400,//325,
             INTAKE_UP_POS=-100,
             //shooter configs
-            SHOOTER_DOWN_POS=100,//200,
+            SHOOTER_DOWN_POS=200,//200,
             SHOOTER_UP_POS=-950,
             //Tolerances
             SHOOTER_AWAY_TOLERANCE=50,
@@ -197,16 +198,22 @@ public class TeleopCompetition extends OpMode{
 
 
         hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
-        hardware.shooter.setTargetPosition(shooterPos+(int)hardware.shooterOffset);
+        if(Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
+                (shooterPos+(int)hardware.shooterOffset)) > SHOOTER_AWAY_TOLERANCE) {
+            hardware.shooter.setPower(1.0);
+            hardware.shooter.setTargetPosition(shooterPos+(int)hardware.shooterOffset);
+        } else {
+            hardware.shooter.setPower(0);
+        }
 
-        telemetry.addData("say","teleop mode enabled");
-        telemetry.addData("power", dp , power);
-        telemetry.addData("turn", dp, turn);
+        //telemetry.addData("say","teleop mode enabled");
+        //telemetry.addData("power", dp , power);
+        //telemetry.addData("turn", dp, turn);
         //telemetry.addData("intake", ip, intakePos);
-        telemetry.addData("intakePosition", ip, hardware.intake.getCurrentPosition());
+        //telemetry.addData("intakePosition", ip, hardware.intake.getCurrentPosition());
         //telemetry.addData("shooter", ip, shooterPos);
-        telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
-        telemetry.addData("ms per cycle", dp,ms);
+        //telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
+        //telemetry.addData("ms per cycle", dp,ms);
         updateTelemetry(telemetry);
 
         time.reset();
