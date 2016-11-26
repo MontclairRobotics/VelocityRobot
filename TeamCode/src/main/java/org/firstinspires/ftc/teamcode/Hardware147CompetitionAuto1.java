@@ -140,5 +140,6 @@ public class Hardware147CompetitionAuto1
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
 }
 
