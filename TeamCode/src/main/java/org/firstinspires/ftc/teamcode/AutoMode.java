@@ -48,6 +48,7 @@ public class AutoMode extends OpMode {
         updateTelemetry(telemetry);
 
         robot.resetMotorOffset();
+        robot.setPower(0.5);
     }
 
     /*
@@ -99,7 +100,7 @@ public class AutoMode extends OpMode {
     }
     public void intakeHalf()
     {
-        robot.intake.setPower(0.5);
+        robot.intake.setPower(0.25);
         setIntake(TeleopCompetition.INTAKE_HALF_POS);
         checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_HALF_POS));
     }

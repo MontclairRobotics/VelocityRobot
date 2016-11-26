@@ -100,6 +100,17 @@ public class Hardware147CompetitionAuto1
         }
     }
 
+    public void setPower(double pwr)
+    {
+        for(int i=0;i<motors.length;i++)
+        {
+            for(int j=0;j<motors[0].length;j++)
+            {
+                motors[i][j].setPower(pwr);
+            }
+        }
+    }
+
     public int getLeftSide() {
         return motors[0][0].getCurrentPosition();
     }
