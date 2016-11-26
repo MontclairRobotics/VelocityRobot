@@ -54,6 +54,7 @@ public class Hardware147Competition1
             {
                 motors[i][j].setPower(0);
                 motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motors[i][j].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
         intake.setPower(0.35);

@@ -81,6 +81,7 @@ public class AutoMode extends OpMode {
 
     public void turn(double degrees)
     {
+        robot.setPower(0.8);
         diff = robot.setTurnDegrees(degrees*DEGREES_PER_INCH);
         telemetry.addData("TURN DIFF",diff);
         checkStateCompletion(diff < TOLERANCE);
@@ -151,6 +152,7 @@ public class AutoMode extends OpMode {
         if (didEnd) {
             state++;
             robot.resetMotorOffset();
+            robot.setPower(0);
             robot.shooter.setPower(0);
             timeStateStarted=timer.time();
         }
