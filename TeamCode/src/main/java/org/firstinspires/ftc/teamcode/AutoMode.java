@@ -25,8 +25,9 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_TURN_SHOOT_2=-3,
             AUTO_DRIVE_TURN_SHOOT_3=33,
 
-            AUTO_DRIVE_SHOOT_0=20,
-            AUTO_DRIVE_SHOOT_1=31;
+            AUTO_DRIVE_SHOOT_0=18,
+            AUTO_DRIVE_SHOOT_1=33,
+            AUTO_DRIVE_SHOOT_2=-12;
 
     int state = 0;
     double diff = 0;
@@ -103,7 +104,7 @@ public class AutoMode extends OpMode {
     }
     public void intakeDownSlow()
     {
-        robot.intake.setPower(0.5);
+        robot.intake.setPower(0.35);
         setIntake(TeleopCompetition.INTAKE_DOWN_POS);
         checkStateCompletion(timeInState()>3);
         telemetry.addData("TIME IN STATE",timeInState());

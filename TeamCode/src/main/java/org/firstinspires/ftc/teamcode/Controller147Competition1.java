@@ -25,6 +25,7 @@ public class Controller147Competition1 {
     {
         return drive.left_stick_x;
     }
+    public boolean invertDrive() { return drive.x;}
     public boolean lowSpeed()
     {
         return drive.right_bumper;
@@ -36,6 +37,9 @@ public class Controller147Competition1 {
     public boolean intake()
     {
         return shoot.y;
+    }
+    public boolean intakeFull() {
+        return shoot.x;
     }
     public boolean shoot()
     {

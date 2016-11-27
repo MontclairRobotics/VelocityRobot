@@ -87,6 +87,8 @@ public class TeleopCompetition extends OpMode{
     //========================================
 
     boolean intaking=false;
+    boolean invertPressed = false;
+    boolean inverted = false;
 
     String dp="%.2f";
     String ip="%d";
@@ -138,6 +140,9 @@ public class TeleopCompetition extends OpMode{
         else {
             power *= HALF_POWER;
         }
+        if(inverted) {
+            power *= -1;
+        }
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
         lastPower=power;
@@ -161,6 +166,11 @@ public class TeleopCompetition extends OpMode{
         else
         {
             intakePos=INTAKE_HALF_POS;
+            hardware.intake.setPower(0.35);
+        }
+
+        if(ctrl.intakeFull()) {
+            intakePos=INTAKE_UP_POS;
             hardware.intake.setPower(0.35);
         }
 
@@ -196,6 +206,11 @@ public class TeleopCompetition extends OpMode{
         {
             hardware.intakeOffset=0;
         }
+
+        if(!invertPressed && ctrl.invertDrive()) {
+            inverted = !inverted;
+        }
+        invertPressed = ctrl.invertDrive();
 
 
         hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);

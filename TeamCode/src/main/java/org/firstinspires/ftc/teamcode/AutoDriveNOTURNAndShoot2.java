@@ -53,7 +53,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class AutoDriveNOTURNAndShoot2 extends AutoMode {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1;
+            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
+            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -101,6 +102,11 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
             case 12: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
+            case 13:
+                turn(180);
+                break;
+            case 14:
+                drive(TARGET_DRIVE_4);
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);

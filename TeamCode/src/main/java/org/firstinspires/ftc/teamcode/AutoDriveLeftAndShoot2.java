@@ -54,8 +54,8 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_TURN_1=-AUTO_DRIVE_TURN_SHOOT_1_TURN,
-            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2,
-            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3;
+            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2-1,
+            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3+1;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
