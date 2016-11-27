@@ -95,7 +95,10 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
             case 10:
                 shootDown();
                 break;
-            case 11: //Push ball off
+            case 11:
+                intakeUp();
+                break;
+            case 12: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
         }

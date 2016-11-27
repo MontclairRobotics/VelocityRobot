@@ -102,7 +102,10 @@ public class AutoDriveRightAndShoot2 extends AutoMode {
             case 12://reload shooter
                 shootDown();
                 break;
-            case 13: //Push ball off
+            case 13:
+                intakeUp();
+                break;
+            case 14: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
         }
