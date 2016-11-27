@@ -20,13 +20,13 @@ public class AutoMode extends OpMode {
     public static final int
             AUTO_DRIVE_0=36,
 
-            AUTO_DRIVE_TURN_SHOOT_0=25,
+            AUTO_DRIVE_TURN_SHOOT_0=27,
             AUTO_DRIVE_TURN_SHOOT_1_TURN=45,
-            AUTO_DRIVE_TURN_SHOOT_2=14,
-            AUTO_DRIVE_TURN_SHOOT_3=12,
+            AUTO_DRIVE_TURN_SHOOT_2=-3,
+            AUTO_DRIVE_TURN_SHOOT_3=33,
 
-            AUTO_DRIVE_SHOOT_0=30,
-            AUTO_DRIVE_SHOOT_1=9;
+            AUTO_DRIVE_SHOOT_0=20,
+            AUTO_DRIVE_SHOOT_1=31;
 
     int state = 0;
     double diff = 0;

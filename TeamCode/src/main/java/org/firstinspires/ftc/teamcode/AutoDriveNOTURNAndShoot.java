@@ -52,12 +52,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name="Auto Drive NO TURN And Shoot", group="147")
 public class AutoDriveNOTURNAndShoot extends AutoMode {
     int
-            TARGET_DRIVE_0=30,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_DRIVE_3=9;
-
-    double
-            deg0 = TARGET_DRIVE_0*DEGREES_PER_INCH,
-            deg3 = TARGET_DRIVE_3*DEGREES_PER_INCH;
+            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP

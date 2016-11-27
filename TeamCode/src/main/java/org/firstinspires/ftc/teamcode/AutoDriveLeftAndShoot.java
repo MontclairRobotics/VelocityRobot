@@ -52,15 +52,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name="Auto Drive LEFT And Shoot", group="147")
 public class AutoDriveLeftAndShoot extends AutoMode {
     int
-            TARGET_DRIVE_0=25,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_TURN_1=-45,
-            TARGET_DRIVE_2=14,
-            TARGET_DRIVE_3=12;
+            TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_TURN_1=-AUTO_DRIVE_TURN_SHOOT_1_TURN,
+            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2,
+            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3;
 
-    double
-            deg0 = TARGET_DRIVE_0*DEGREES_PER_INCH,
-            deg2 = TARGET_DRIVE_2*DEGREES_PER_INCH,
-            deg3 = TARGET_DRIVE_3*DEGREES_PER_INCH;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
