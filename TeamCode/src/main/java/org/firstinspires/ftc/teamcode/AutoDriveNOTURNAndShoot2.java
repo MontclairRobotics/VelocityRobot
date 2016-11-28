@@ -107,6 +107,7 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
                 break;
             case 14:
                 drive(TARGET_DRIVE_4);
+                break;
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);

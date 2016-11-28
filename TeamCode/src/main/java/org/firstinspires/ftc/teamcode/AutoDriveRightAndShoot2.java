@@ -93,6 +93,7 @@ public class AutoDriveRightAndShoot2 extends AutoMode {
                 break;
             case 9:
                 intakeHalf();
+                break;
             case 10:
                 delay(4);
                 break;
