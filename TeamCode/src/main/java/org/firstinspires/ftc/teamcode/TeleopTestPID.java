@@ -77,7 +77,7 @@ public class TeleopTestPID extends OpMode{
     String dp="%.2f";
 
     boolean distMode;
-    PID turnPID=new PID(),distPID=new PID();
+    PID turnPID=new PID(0,0,0),distPID=new PID(0,0,0);
     double CHG=0.25;
     double sec;
     double sensorA,sensorB,angle,distance;
