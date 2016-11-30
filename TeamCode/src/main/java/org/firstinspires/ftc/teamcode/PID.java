@@ -36,6 +36,11 @@ public class PID {
     {
         error = target - val;
         totalError += error*sec;
+        if(sec>1)
+        {
+            totalError=error;
+            lastError=error;
+        }
         if (i != 0) {
             double iGain = totalError * i;
             if (iGain < minOut) {
@@ -48,8 +53,30 @@ public class PID {
         lastError = error;
         return out;
     }
-    public double getOut()
+    public double get()
     {
         return out;
+    }
+
+    public void setP(double p){
+        this.p=p;
+    }
+    public double getP()
+    {
+        return p;
+    }
+    public void setI(double i){
+        this.i=i;
+    }
+    public double getI()
+    {
+        return i;
+    }
+    public void setD(double d){
+        this.d=d;
+    }
+    public double getD()
+    {
+        return d;
     }
 }
