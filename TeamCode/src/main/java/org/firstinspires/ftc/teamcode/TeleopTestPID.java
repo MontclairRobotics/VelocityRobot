@@ -182,6 +182,9 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("sensorA",dp,sensorA);
         telemetry.addData("sensorB",dp,sensorB);
         telemetry.addData("frontSensor",dp,sensors.getDistFront());
+        telemetry.addData("lightSensor",dp,sensors.lightGround.getLightDetected());
+        telemetry.addData("lightSensorRaw",dp,sensors.lightGround.getRawLightDetected());
+        telemetry.addData("lightSensorMax",dp,sensors.lightGround.getRawLightDetectedMax());
         telemetry.addData("sec per cycle",sec);
         updateTelemetry(telemetry);
 
