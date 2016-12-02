@@ -79,8 +79,7 @@ public class TeleopTestPID extends OpMode{
     boolean distMode;
     PID turnPID=new PID(0,0,0),distPID=new PID(0,0,0);
     double CHG=0.25;
-    double sec;
-    double sensorA,sensorB,angle,distance;
+    double angle,dist,sec;
 
     @Override
     public void init() {
@@ -139,10 +138,9 @@ public class TeleopTestPID extends OpMode{
         }
 
 
-        sensorA=sensors.getDistA();
-        sensorB=sensors.getDistB();
-        angle=Math.atan2(sensorB-sensorA,sensors.DISTANCE_BETWEEN_SENSORS);
-        distance=sensorB*Math.cos(angle)-sensors.DISTANCE_FROM_A_TO_CENTER*Math.sin(angle);
+        angle=sensors.getAng();
+        dist=sensors.getDist();
+
         if(ctrl.activateTurnPID())
         {
             turnPID.setTarget(0);
@@ -153,7 +151,7 @@ public class TeleopTestPID extends OpMode{
         else if(ctrl.activateDistPID())
         {
             distPID.setTarget(sensors.DISTANCE_FROM_WALL);
-            distPID.update(distance,sec);
+            distPID.update(dist,sec);
             turnPID.setTarget(distPID.get()*(power>0?1:-1));
             turnPID.update(angle,sec);
             power=(int)(power*2)*0.3;
@@ -178,9 +176,9 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("turnPIDS",""+turnPID.getP()+","+turnPID.getI()+","+turnPID.getD());
         telemetry.addData("distPIDS",""+distPID.getP()+","+distPID.getI()+","+distPID.getD());
         telemetry.addData("angle",dp,Math.toDegrees(angle));
-        telemetry.addData("distance",dp,distance);
-        telemetry.addData("sensorA",dp,sensorA);
-        telemetry.addData("sensorB",dp,sensorB);
+        telemetry.addData("distance",dp,dist);
+        telemetry.addData("sensorA",dp,sensors.getDistA());
+        telemetry.addData("sensorB",dp,sensors.getDistB());
         telemetry.addData("frontSensor",dp,sensors.getDistFront());
         telemetry.addData("lightSensor",dp,sensors.lightGround.getLightDetected());
         telemetry.addData("lightSensorRaw",dp,sensors.lightGround.getRawLightDetected());

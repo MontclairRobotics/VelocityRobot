@@ -21,22 +21,26 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Sensors147
-{
+public class Sensors147 {
     public static double
-            DISTANCE_BETWEEN_SENSORS=16,
-            DISTANCE_FROM_A_TO_CENTER=6,
-            DISTANCE_FROM_WALL=10;
+            DISTANCE_BETWEEN_SENSORS = 16,
+            DISTANCE_FROM_B_TO_CENTER = 6,
+            DISTANCE_FROM_WALL = 10,
+            A_OFFSET=2,
+            B_OFFSET=2;
+
+    int SMOOTH_TIME=10;
+    double ang,dist;
+    SmoothData avgAngle,avgDist;
 
 
-
-    public UltrasonicSensor distFront,distA,distB;
+    public UltrasonicSensor distFront, distASensor, distBSensor;
 
     public LightSensor lightGround;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap = null;
+    private ElapsedTime period = new ElapsedTime();
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -44,20 +48,43 @@ public class Sensors147
         hwMap = ahwMap;
 
         distFront = hwMap.ultrasonicSensor.get("distFront");
-        distA     = hwMap.ultrasonicSensor.get("distA");
-        distB     = hwMap.ultrasonicSensor.get("distB");
+        distASensor = hwMap.ultrasonicSensor.get("distA");
+        distBSensor = hwMap.ultrasonicSensor.get("distB");
 
         lightGround = hwMap.lightSensor.get("lightGround");
         lightGround.enableLed(true);
     }
 
+    public double getAng() {
+        double distA = getDistA();
+        double distB = getDistB();
+        if (isOK(distA) && isOK(distB)) {
+            distA-=A_OFFSET;
+            distB-=B_OFFSET;
+            ang=Math.atan2(distA-distB,DISTANCE_BETWEEN_SENSORS);
+            dist=distB-DISTANCE_FROM_B_TO_CENTER*Math.sin(ang);
+        }
+        avgAngle.add(ang);
+        avgDist.add(dist);
+        return avgAngle.get();
+    }
+    public double getDist()
+    {
+        return avgDist.get();
+    }
+
+    public boolean isOK(double dist)
+    {
+        return dist>0&&dist<20;
+    }
+
     public double getDistA()
     {
-        return distA.getUltrasonicLevel();
+        return distASensor.getUltrasonicLevel();
     }
     public double getDistB()
     {
-        return distB.getUltrasonicLevel();
+        return distBSensor.getUltrasonicLevel();
     }
     public double getDistFront()
     {
