@@ -24,26 +24,32 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Sensors147
 {
     public static double
-            DISTANCE_BETWEEN_SENSORS=16,
-            DISTANCE_FROM_A_TO_CENTER=6,
+            DISTANCE_BETWEEN_SENSORS=11,
+            DISTANCE_FROM_B_TO_CENTER=4,
             DISTANCE_FROM_WALL=10;
 
+    public static final int HISTORY_LEN=10;
+    private double[]
+            distAHistory=new double[HISTORY_LEN],
+            distBHistory=new double[HISTORY_LEN];
+    private int distAI,distBI;
+    private double distAAvg,distBAvg;
 
 
-    public UltrasonicSensor distFront,distA,distB;
+    public UltrasonicSensor distA,distB;
 
     public LightSensor lightGround;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+    private boolean fullA,fullB;
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        distFront = hwMap.ultrasonicSensor.get("distFront");
         distA     = hwMap.ultrasonicSensor.get("distA");
         distB     = hwMap.ultrasonicSensor.get("distB");
 
@@ -53,15 +59,51 @@ public class Sensors147
 
     public double getDistA()
     {
-        return distA.getUltrasonicLevel();
+        double val=distA.getUltrasonicLevel();///2.54-1.5;
+        /*if(fullA) {
+            if(val>2&&Math.abs(distAAvg/HISTORY_LEN-val)<20) {
+                distAAvg += val - distAHistory[distAI];
+                distAI = (distAI + 1) % HISTORY_LEN;
+                distAHistory[distAI] = val;
+                return val;
+            }
+            return distAAvg / HISTORY_LEN;
+        }
+        else
+        {
+            distAHistory[distAI]=val;
+            distAAvg+=val;
+            distAI++;
+            if(distAI>=HISTORY_LEN) {
+                fullA = true;
+                distAI=0;
+            }*/
+            return val;
+        //}
     }
     public double getDistB()
     {
-        return distB.getUltrasonicLevel();
-    }
-    public double getDistFront()
-    {
-        return distFront.getUltrasonicLevel();
+        double val=distB.getUltrasonicLevel();///2.54-1.5;
+        /*if(fullB) {
+            if(val>2&&Math.abs(distBAvg/HISTORY_LEN-val)<20) {
+                distBAvg += val - distBHistory[distBI];
+                distBI = (distBI + 1) % HISTORY_LEN;
+                distBHistory[distBI] = val;
+                return val;
+            }
+            return distBAvg/HISTORY_LEN;
+        }
+        else
+        {
+            distBHistory[distBI]=val;
+            distBAvg+=val;
+            distBI++;
+            if(distBI>=HISTORY_LEN) {
+                fullB = true;
+                distBI=0;
+            }*/
+            return val;
+        //}
     }
 
     /***

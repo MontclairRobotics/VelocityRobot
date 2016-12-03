@@ -112,11 +112,11 @@ public class TeleopTestPID extends OpMode{
 
         power *= HALF_POWER;
 
-        if(ctrl.activateDistPID())
+        if(ctrl.editDistPID())
         {
             distMode=true;
         }
-        if(ctrl.activateTurnPID()) {
+        if(ctrl.editTurnPID()) {
             distMode = false;
         }
         if(distMode)
@@ -142,7 +142,7 @@ public class TeleopTestPID extends OpMode{
         sensorA=sensors.getDistA();
         sensorB=sensors.getDistB();
         angle=Math.atan2(sensorB-sensorA,sensors.DISTANCE_BETWEEN_SENSORS);
-        distance=sensorB*Math.cos(angle)-sensors.DISTANCE_FROM_A_TO_CENTER*Math.sin(angle);
+        distance=sensorB*Math.cos(angle)-sensors.DISTANCE_FROM_B_TO_CENTER*Math.sin(angle);
         if(ctrl.activateTurnPID())
         {
             turnPID.setTarget(0);
@@ -152,11 +152,11 @@ public class TeleopTestPID extends OpMode{
         }
         else if(ctrl.activateDistPID())
         {
+            power=(power<0?-0.3:0.3);
             distPID.setTarget(sensors.DISTANCE_FROM_WALL);
             distPID.update(distance,sec);
             turnPID.setTarget(distPID.get()*(power>0?1:-1));
             turnPID.update(angle,sec);
-            power=(int)(power*2)*0.3;
             turn=turnPID.get();
         }
 
@@ -181,7 +181,6 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("distance",dp,distance);
         telemetry.addData("sensorA",dp,sensorA);
         telemetry.addData("sensorB",dp,sensorB);
-        telemetry.addData("frontSensor",dp,sensors.getDistFront());
         telemetry.addData("lightSensor",dp,sensors.lightGround.getLightDetected());
         telemetry.addData("lightSensorRaw",dp,sensors.lightGround.getRawLightDetected());
         telemetry.addData("lightSensorMax",dp,sensors.lightGround.getRawLightDetectedMax());

@@ -44,7 +44,7 @@ public class ControllerPID {
     }
     public boolean pDown()
     {
-        return drive.dpad_up;
+        return drive.dpad_down;
     }
     public boolean iUp()
     {
