@@ -25,11 +25,11 @@ public class Sensors147 {
     public static double
             DISTANCE_BETWEEN_SENSORS = 11,
             DISTANCE_FROM_B_TO_CENTER = 4,
-            DISTANCE_FROM_WALL = 10,
+            DISTANCE_FROM_WALL = 20,
             A_OFFSET=1.5,
             B_OFFSET=2.5;
 
-    int SMOOTH_TIME=500;
+    int SMOOTH_TIME=100;
     double ang,dist;
     SmoothData avgAngle=new SmoothData(SMOOTH_TIME),avgDist=new SmoothData(SMOOTH_TIME);
 
@@ -61,7 +61,7 @@ public class Sensors147 {
             distA-=A_OFFSET;
             distB-=B_OFFSET;
             ang=Math.atan2(distA-distB,DISTANCE_BETWEEN_SENSORS);
-            dist=distB-DISTANCE_FROM_B_TO_CENTER*Math.sin(ang);
+            dist=distB*Math.cos(ang)-DISTANCE_FROM_B_TO_CENTER*Math.sin(ang);
         }
         avgAngle.add(ang);
         avgDist.add(dist);

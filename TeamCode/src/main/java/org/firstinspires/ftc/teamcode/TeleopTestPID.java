@@ -77,9 +77,11 @@ public class TeleopTestPID extends OpMode{
     String dp="%.2f";
 
     boolean distMode;
-    PID turnPID=new PID(-0.08,0,-0.0008),distPID=new PID(0,0,0);
-    double CHG=0.001;
+    PID turnPID=new PID(-0.09,0,-0.0009),distPID=new PID(0.1,0,0.0001);
+    double CHG=0.1;
     double angle,dist,sec;
+
+    double lastPower,lastTurn;
 
     @Override
     public void init() {
@@ -153,7 +155,7 @@ public class TeleopTestPID extends OpMode{
             power=(power<0?-0.3:.3);
             distPID.setTarget(sensors.DISTANCE_FROM_WALL);
             distPID.update(dist,sec);
-            turnPID.setTarget(distPID.get()*(power>0?1:-1));
+            turnPID.setTarget(constrainTurn(distPID.get())*(power>0?1:-1));
             turnPID.update(angle,sec);
             turn=turnPID.get();
         }
@@ -161,10 +163,10 @@ public class TeleopTestPID extends OpMode{
 
 
 
-        /*power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
+        power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
         lastPower=power;
-        lastTurn=turn;*/
+        lastTurn=turn;
         hardware.setDriveTank(power+turn,power-turn);
 
 
@@ -200,5 +202,9 @@ public class TeleopTestPID extends OpMode{
         if(val<min)return min;
         if(val>max)return max;
         return val;
+    }
+    public double constrainTurn(double val)
+    {
+        return constrain(val,-Math.toRadians(10),Math.toRadians(10));
     }
 }
