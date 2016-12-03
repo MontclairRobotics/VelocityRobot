@@ -44,22 +44,22 @@ public class ControllerPID {
     }
     public boolean pDown()
     {
-        return drive.dpad_up;
+        return drive.dpad_down;
     }
     public boolean iUp()
     {
-        return drive.left_bumper;
+        return drive.right_bumper;
     }
     public boolean iDown()
     {
-        return drive.right_bumper;
+        return drive.left_bumper;
     }
     public boolean dUp()
     {
-        return drive.dpad_left;
+        return drive.dpad_right;
     }
     public boolean dDown()
     {
-        return drive.dpad_right;
+        return drive.dpad_left;
     }
 }

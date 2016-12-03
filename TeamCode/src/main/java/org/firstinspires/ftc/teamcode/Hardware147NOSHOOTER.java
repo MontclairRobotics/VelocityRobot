@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.LightSensor;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -21,69 +20,57 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Sensors147 {
-    public static double
-            DISTANCE_BETWEEN_SENSORS = 11,
-            DISTANCE_FROM_B_TO_CENTER = 4,
-            DISTANCE_FROM_WALL = 10,
-            A_OFFSET=1.5,
-            B_OFFSET=2.5;
+public class Hardware147NOSHOOTER
+{
+    /* Public OpMode members. */
+    public DcMotor[][] motors=new DcMotor[2][2];
 
-    int SMOOTH_TIME=500;
-    double ang,dist;
-    SmoothData avgAngle=new SmoothData(SMOOTH_TIME),avgDist=new SmoothData(SMOOTH_TIME);
+    public double shooterOffset=0;
+    public double intakeOffset=0;
 
-
-    public UltrasonicSensor distASensor, distBSensor;
-
-    public LightSensor lightGround;
+    //public DcMotor  intake,shooter;
 
     /* local OpMode members. */
-    HardwareMap hwMap = null;
-    private ElapsedTime period = new ElapsedTime();
+    HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        distASensor = hwMap.ultrasonicSensor.get("distA");
-        distBSensor = hwMap.ultrasonicSensor.get("distB");
+        // Define and Initialize Motors
+        motors[0][0]   = hwMap.dcMotor.get("left_a");
+        motors[0][1]   = hwMap.dcMotor.get("left_b");
+        motors[1][0]  = hwMap.dcMotor.get("right_a");
+        motors[1][1]  = hwMap.dcMotor.get("right_b");
+        //intake = hwMap.dcMotor.get("aux_a");
+        //shooter = hwMap.dcMotor.get("aux_b");
 
-        lightGround = hwMap.lightSensor.get("lightGround");
-        lightGround.enableLed(true);
-    }
-
-    public double getAng() {
-        double distA = getDistA();
-        double distB = getDistB();
-        if (isOK(distA) && isOK(distB)) {
-            distA-=A_OFFSET;
-            distB-=B_OFFSET;
-            ang=Math.atan2(distA-distB,DISTANCE_BETWEEN_SENSORS);
-            dist=distB-DISTANCE_FROM_B_TO_CENTER*Math.sin(ang);
+        // Set all motors to zero power
+        for(int i=0;i<motors.length;i++)
+        {
+            for(int j=0;j<motors[0].length;j++)
+            {
+                motors[i][j].setPower(0);
+                motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motors[i][j].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
         }
-        avgAngle.add(ang);
-        avgDist.add(dist);
-        return avgAngle.get();
-    }
-    public double getDist()
-    {
-        return avgDist.get();
+        /*intake.setPower(0.35);
+        intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setPower(1);
+        shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);*/
     }
 
-    public boolean isOK(double dist)
+    public void setDriveTank(double left,double right)
     {
-        return dist>1&&dist<60;
-    }
-
-    public double getDistA()
-    {
-        return distASensor.getUltrasonicLevel();
-    }
-    public double getDistB()
-    {
-        return distBSensor.getUltrasonicLevel();
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setPower(left);
+            motors[1][i].setPower(-right);
+        }
     }
 
     /***

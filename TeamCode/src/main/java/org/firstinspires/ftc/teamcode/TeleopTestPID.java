@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleopTestPID extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
+    Hardware147NOSHOOTER hardware = new Hardware147NOSHOOTER(); // use the class created to define a Pushbot's hardware
     ControllerPID ctrl = new ControllerPID();
     ElapsedTime time=new ElapsedTime();
 
@@ -77,8 +77,8 @@ public class TeleopTestPID extends OpMode{
     String dp="%.2f";
 
     boolean distMode;
-    PID turnPID=new PID(0,0,0),distPID=new PID(0,0,0);
-    double CHG=0.25;
+    PID turnPID=new PID(-0.08,0,-0.0008),distPID=new PID(0,0,0);
+    double CHG=0.001;
     double angle,dist,sec;
 
     @Override
@@ -150,11 +150,11 @@ public class TeleopTestPID extends OpMode{
         }
         else if(ctrl.activateDistPID())
         {
+            power=(power<0?-0.3:.3);
             distPID.setTarget(sensors.DISTANCE_FROM_WALL);
             distPID.update(dist,sec);
             turnPID.setTarget(distPID.get()*(power>0?1:-1));
             turnPID.update(angle,sec);
-            power=(int)(power*2)*0.3;
             turn=turnPID.get();
         }
 
@@ -179,7 +179,6 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("distance",dp,dist);
         telemetry.addData("sensorA",dp,sensors.getDistA());
         telemetry.addData("sensorB",dp,sensors.getDistB());
-        telemetry.addData("frontSensor",dp,sensors.getDistFront());
         telemetry.addData("lightSensor",dp,sensors.lightGround.getLightDetected());
         telemetry.addData("lightSensorRaw",dp,sensors.lightGround.getRawLightDetected());
         telemetry.addData("lightSensorMax",dp,sensors.lightGround.getRawLightDetectedMax());
