@@ -54,12 +54,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Teleop Test PID", group="147")
 public class TeleopTestPID extends OpMode{
 
+    public static double DISTANCE_FROM_WALL=20;
+
     /* Declare OpMode members. */
-    Hardware147NOSHOOTER hardware = new Hardware147NOSHOOTER(); // use the class created to define a Pushbot's hardware
+    Hardware147CompetitionSensors hardware = new Hardware147CompetitionSensors(); // use the class created to define a Pushbot's hardware
     ControllerPID ctrl = new ControllerPID();
     ElapsedTime time=new ElapsedTime();
-
-    Sensors147 sensors=new Sensors147();
 
     //========================================
     //configs:
@@ -87,7 +87,6 @@ public class TeleopTestPID extends OpMode{
     public void init() {
         hardware.init(hardwareMap);
         ctrl.init(gamepad1,gamepad2);
-        sensors.init(hardwareMap);
 
         telemetry.addData("Say", "Don't forget to press START+(A or B)");    //
         updateTelemetry(telemetry);
@@ -140,8 +139,8 @@ public class TeleopTestPID extends OpMode{
         }
 
 
-        angle=sensors.getAng();
-        dist=sensors.getDist();
+        angle=hardware.ultrasonics.getAngle();
+        dist=hardware.ultrasonics.getDist();
 
         if(ctrl.activateTurnPID())
         {
@@ -153,7 +152,7 @@ public class TeleopTestPID extends OpMode{
         else if(ctrl.activateDistPID())
         {
             power=(power<0?-0.3:.3);
-            distPID.setTarget(sensors.DISTANCE_FROM_WALL);
+            distPID.setTarget(DISTANCE_FROM_WALL);
             distPID.update(dist,sec);
             turnPID.setTarget(constrainTurn(distPID.get())*(power>0?1:-1));
             turnPID.update(angle,sec);
@@ -179,11 +178,11 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("distPIDS",""+distPID.getP()+","+distPID.getI()+","+distPID.getD());
         telemetry.addData("angle",dp,Math.toDegrees(angle));
         telemetry.addData("distance",dp,dist);
-        telemetry.addData("sensorA",dp,sensors.getDistA());
-        telemetry.addData("sensorB",dp,sensors.getDistB());
-        telemetry.addData("lightSensor",dp,sensors.lightGround.getLightDetected());
-        telemetry.addData("lightSensorRaw",dp,sensors.lightGround.getRawLightDetected());
-        telemetry.addData("lightSensorMax",dp,sensors.lightGround.getRawLightDetectedMax());
+        telemetry.addData("sensorA",dp,hardware.ultrasonics.getDistA());
+        telemetry.addData("sensorB",dp,hardware.ultrasonics.getDistB());
+        telemetry.addData("lightSensor",dp,hardware.lightGround.getLightDetected());
+        telemetry.addData("lightSensorRaw",dp,hardware.lightGround.getRawLightDetected());
+        telemetry.addData("lightSensorMax",dp,hardware.lightGround.getRawLightDetectedMax());
         telemetry.addData("sec per cycle",sec);
         updateTelemetry(telemetry);
 

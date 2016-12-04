@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -20,7 +21,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147NOSHOOTER
+public class Hardware147CompetitionSensors
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
@@ -28,7 +29,11 @@ public class Hardware147NOSHOOTER
     public double shooterOffset=0;
     public double intakeOffset=0;
 
-    //public DcMotor  intake,shooter;
+    public DcMotor  intake,shooter;
+
+
+    public Ultrasonic147 ultrasonics;
+    public LightSensor lightGround;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -44,8 +49,8 @@ public class Hardware147NOSHOOTER
         motors[0][1]   = hwMap.dcMotor.get("left_b");
         motors[1][0]  = hwMap.dcMotor.get("right_a");
         motors[1][1]  = hwMap.dcMotor.get("right_b");
-        //intake = hwMap.dcMotor.get("aux_a");
-        //shooter = hwMap.dcMotor.get("aux_b");
+        intake = hwMap.dcMotor.get("aux_a");
+        shooter = hwMap.dcMotor.get("aux_b");
 
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
@@ -57,11 +62,17 @@ public class Hardware147NOSHOOTER
                 motors[i][j].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
-        /*intake.setPower(0.35);
+        intake.setPower(0.35);
         intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);*/
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        //sensors
+        ultrasonics = new Ultrasonic147(ahwMap,"distA","distB");
+
+        lightGround = hwMap.lightSensor.get("lightGround");
+        lightGround.enableLed(true);
     }
 
     public void setDriveTank(double left,double right)
