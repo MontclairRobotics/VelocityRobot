@@ -14,17 +14,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left  drive motor:        "left_drive" rick harrison bald overlord rick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlordrick harrison bald overlord
+ * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
  * Motor channel:  Manipulator drive motor:  "left_arm"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147CompetitionAuto1
+public class Hardware147Competition
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
-    public int[][] motorOffset = new int[2][2];
+
+    public double shooterOffset=0;
+    public double intakeOffset=0;
+
     public DcMotor  intake,shooter;
 
     /* local OpMode members. */
@@ -49,8 +52,9 @@ public class Hardware147CompetitionAuto1
         {
             for(int j=0;j<motors[0].length;j++)
             {
-                motors[i][j].setPower(0.8);
-                motors[i][j].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motors[i][j].setPower(0);
+                motors[i][j].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motors[i][j].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
         intake.setPower(0.35);
@@ -60,66 +64,14 @@ public class Hardware147CompetitionAuto1
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-    public double setTurnDegrees(double degrees)
+    public void setDriveTank(double left,double right)
     {
-        double chg=(degrees/360)*18*Math.PI;
-        return setTgtPos(chg,-chg);
-    }
-
-    public double setTgtPos(double tgt)
-    {
-        return setTgtPos((int)(tgt+0.5));
-    }
-
-    public double setTgtPos(int tgt)
-    {
-        return setTgtPos(tgt,tgt);
-    }
-
-    public double setTgtPos(double left,double right)
-    {
-        return setTgtPos((int)(left+0.5),(int)(right+0.5));
-    }
-    public double setTgtPos(int left,int right)
-    {
-        double error=0;
         for(int i=0;i<motors[0].length;i++)
         {
-            motors[0][i].setTargetPosition(left+motorOffset[0][i]);
-            motors[1][i].setTargetPosition(-right+motorOffset[1][i]);
-            error += Math.abs(motors[0][i].getCurrentPosition() - (left+motorOffset[0][i]))
-                    + Math.abs(motors[1][i].getCurrentPosition() - (-right+motorOffset[1][i]));
-        }
-        return error/4;
-    }
-
-    public void resetMotorOffset() {
-        for(int i = 0; i < motors.length; i++) {
-            for(int j = 0; j < motors[i].length; j++) {
-                motorOffset[i][j] = motors[i][j].getCurrentPosition();
-            }
+            motors[0][i].setPower(left);
+            motors[1][i].setPower(-right);
         }
     }
-
-    public void setPower(double pwr)
-    {
-        for(int i=0;i<motors.length;i++)
-        {
-            for(int j=0;j<motors[0].length;j++)
-            {
-                motors[i][j].setPower(pwr);
-            }
-        }
-    }
-
-    public int getLeftSide() {
-        return motors[0][0].getCurrentPosition();
-    }
-
-    public int getRightSide() {
-        return motors[1][0].getCurrentPosition();
-    }
-
 
     /***
      *
@@ -141,6 +93,5 @@ public class Hardware147CompetitionAuto1
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-
 }
 

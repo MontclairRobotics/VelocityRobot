@@ -30,11 +30,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.TeleopCompetition;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -51,31 +51,48 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive", group="147")
-public class AutoDrive extends AutoMode {
+@Autonomous(name="Auto Drive NO TURN And Shoot", group="147")
+public class AutoDriveNOTURNAndShoot extends AutoMode {
     int
-        TARGET_DRIVE_INCHES=36,//TODO: and 2 below
-        TARGET_INTAKE_POS=0,
-        TARGET_SHOOTER_POS=0;
-
-    int tgtDegrees;
+            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
+            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
-        double drivePos=robot.setTgtPos(tgtDegrees);
-        robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        /*if(drivePos>=TARGET_DRIVE_POS-90)
-        {
-            robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
-            telemetry.addData("shoot","I am shooting; watch out!");
-        }*/
-
+        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
+        switch (state) {
+            case 0: //Move forward
+                drive(TARGET_DRIVE_0);
+                break;
+            case 1:
+                delay(4);
+                break;
+            case 2: //Shoot
+                shootUp();
+                break;
+            case 3:
+                intakeUp();
+                break;
+            case 4: //Push ball off
+                drive(TARGET_DRIVE_3);
+                break;
+            case 5:
+                turn(180);
+                break;
+            case 6:
+                drive(TARGET_DRIVE_4);
+                break;
+            case 7:
+                shootDown();
+                break;
+        }
+        telemetry.addData("state",state);
+        telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining", drivePos);
-        telemetry.addData("intake pos", robot.intake.getCurrentPosition());
         updateTelemetry(telemetry);
     }
 }

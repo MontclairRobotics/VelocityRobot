@@ -30,7 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -49,25 +49,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive Turn RIGHT Ramp Drive", group="147")
-public class AutoDriveTurnRightDrive extends AutoMode {
+@Autonomous(name="Auto Drive Turn LEFT Ramp Drive", group="147")
+public class AutoDriveTurnLeftDrive extends AutoMode {
     double
-        STATE_0_IN=16, //13 out turn 90 right 18 forward
-        STATE_1_TURN=90,
-        STATE_2_IN=33;
+            STATE_0_IN = 16, //13 out turn 90 right 18 forward
+            STATE_1_TURN = -90,
+            STATE_2_IN = 33;
 
     double
-        state0Deg=STATE_0_IN*DEGREES_PER_INCH,
-        state2Deg=STATE_2_IN*DEGREES_PER_INCH;
+            state0Deg = STATE_0_IN * DEGREES_PER_INCH,
+            state2Deg = STATE_2_IN * DEGREES_PER_INCH;
 
-    int startLeft,startRight;
+    int startLeft, startRight;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
-        switch(state) {
+        switch (state) {
             case 0:
                 drive(STATE_0_IN);
                 break;
@@ -75,12 +75,12 @@ public class AutoDriveTurnRightDrive extends AutoMode {
                 turn(STATE_1_TURN);
                 break;
             case 2:
-                drive(STATE_0_IN);
+                drive(STATE_2_IN);
                 break;
         }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
+        telemetry.addData("state", state);
+        telemetry.addData("diff", diff);
+        telemetry.addData("Say", "Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }
 }

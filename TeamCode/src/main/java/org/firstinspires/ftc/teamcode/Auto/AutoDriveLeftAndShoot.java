@@ -30,9 +30,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.TeleopCompetition;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -49,12 +51,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive NO TURN And Shoot", group="147")
-public class AutoDriveNOTURNAndShoot extends AutoMode {
+@Autonomous(name="Auto Drive LEFT And Shoot", group="147")
+public class AutoDriveLeftAndShoot extends AutoMode {
     int
-            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
-            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
+            TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_TURN_1=-AUTO_DRIVE_TURN_SHOOT_1_TURN,
+            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2-1,
+            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3+1;
+
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -66,25 +70,25 @@ public class AutoDriveNOTURNAndShoot extends AutoMode {
             case 0: //Move forward
                 drive(TARGET_DRIVE_0);
                 break;
-            case 1:
-                delay(4);
+            case 1: //Turn 45 left
+                turn(TARGET_TURN_1);
                 break;
-            case 2: //Shoot
-                shootUp();
+            case 2: //Move forward
+                drive(TARGET_DRIVE_2);
                 break;
             case 3:
-                intakeUp();
+                delay(4);
                 break;
-            case 4: //Push ball off
-                drive(TARGET_DRIVE_3);
+            case 4: //Shoot
+                shootUp();
                 break;
             case 5:
-                turn(180);
+                intakeUp();
                 break;
-            case 6:
-                drive(TARGET_DRIVE_4);
+            case 6: //Push ball off
+                drive(TARGET_DRIVE_3);
                 break;
-            case 7:
+            case 7: //Lower shooter
                 shootDown();
                 break;
         }

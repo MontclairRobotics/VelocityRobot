@@ -30,7 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -49,12 +49,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive NO TURN And Shoot 2", group="147")
-public class AutoDriveNOTURNAndShoot2 extends AutoMode {
+@Autonomous(name="Auto Drive RIGHT And Shoot 2", group="147")
+public class AutoDriveRightAndShoot2 extends AutoMode {
     int
-            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
-            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
+            TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_TURN_1=AUTO_DRIVE_TURN_SHOOT_1_TURN,
+            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2,
+            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3;
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -63,7 +64,7 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
     public void loop() {
         //robot.intake.setTargetPosition(-500);
         switch (state) {
-            case 0:
+            case 0: //brings intake down at half speed
                 intakeDownSlow();
                 break;
             case 1:
@@ -72,41 +73,41 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
             case 2: //Move forward
                 drive(TARGET_DRIVE_0);
                 break;
-            case 3:
-                delay(4);
+            case 3: //Turn 45 left
+                turn(TARGET_TURN_1);
                 break;
-            case 4://Shoot
-                shootUp();
+            case 4: //Move forward
+                drive(TARGET_DRIVE_2);
                 break;
             case 5:
-                shootDown();
-                break;
-            case 6:
-                intakeUp();
-                break;
-            case 7: // brings it back down
-                intakeHalf();
-                break;
-            case 8:
                 delay(4);
                 break;
-            case 9:
+            case 6: //Shoot
                 shootUp();
                 break;
-            case 10:
+            case 7: //prep to reload
                 shootDown();
                 break;
-            case 11:
+            case 8:
                 intakeUp();
                 break;
-            case 12: //Push ball off
-                drive(TARGET_DRIVE_3);
+            case 9:
+                intakeHalf();
+            case 10:
+                delay(4);
+                break;
+            case 11://Shoot again
+                shootUp();
+                break;
+            case 12://reload shooter
+                shootDown();
                 break;
             case 13:
-                turn(180);
+                intakeUp();
                 break;
-            case 14:
-                drive(TARGET_DRIVE_4);
+            case 14: //Push ball off
+                drive(TARGET_DRIVE_3);
+                break;
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);

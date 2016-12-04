@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 /**
  * Created by Hymowitz on 11/3/2016.
  */
-public class Controller147Competition1 {
+public class Controller147Competition {
     public Gamepad drive=null,shoot=null;
 
     public void init(Gamepad a, Gamepad b)
