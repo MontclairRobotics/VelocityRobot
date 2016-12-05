@@ -16,6 +16,8 @@ public class Ultrasonic147 extends Thread {
     public static long MS_BETWEEN_READINGS=100;
     public static int SMOOTH_TIME=10;
 
+    private Object edit=new Object();
+
     private UltrasonicSensor distASensor,distBSensor;
     private SmoothData distA,distB;
     double ang,dist;
@@ -46,39 +48,54 @@ public class Ultrasonic147 extends Thread {
             return;
         }
     }
-    private synchronized void updateSensor(UltrasonicSensor sensor,SmoothData data)
+    private void updateSensor(UltrasonicSensor sensor,SmoothData data)
     {
         double val=sensor.getUltrasonicLevel();
         if(val>1&&val<60)
         {
-            data.add(val);
+            synchronized (data) {
+                data.add(val);
+            }
         }
     }
-    private synchronized void updateCalc()
+    private void updateCalc()
     {
         double a=getDistA();
         double b=getDistB();
-        ang=Math.atan2(a-b,DISTANCE_BETWEEN_SENSORS);
-        dist=b*Math.cos(ang)-DISTANCE_FROM_B_TO_CENTER*Math.sin(ang);
+        synchronized (edit) {
+            ang = Math.atan2(a - b, DISTANCE_BETWEEN_SENSORS);
+            dist = b * Math.cos(ang) - DISTANCE_FROM_B_TO_CENTER * Math.sin(ang);
+        }
     }
 
-    public synchronized double getDistA()
+    public double getDistA()
     {
-        return distB.get();
+        synchronized (distA)
+        {
+            return distA.get();
+        }
     }
-    public synchronized double getDistB()
+    public double getDistB()
     {
-        return distB.get()-B_OFFSET;
+        synchronized (distB)
+        {
+            return distB.get()-B_OFFSET;
+        }
     }
 
 
-    public synchronized double getAngle()
+    public double getAngle()
     {
-        return ang;
+        synchronized (edit) {
+            return ang;
+        }
     }
-    public synchronized double getDist()
+    public double getDist()
     {
-        return dist;
+        synchronized (edit)
+        {
+            return dist;
+        }
     }
 
 }
