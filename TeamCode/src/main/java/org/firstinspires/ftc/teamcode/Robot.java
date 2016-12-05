@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class Robot extends OpMode {
     /* Declare OpMode members. */
-    Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
-    Controller147Competition1 ctrl = new Controller147Competition1();
+    Hardware147 hardware = new Hardware147(); // use the class created to define a Pushbot's hardware
+    Controller147 ctrl = new Controller147();
     ElapsedTime time = new ElapsedTime();
 
     //========================================
@@ -42,15 +42,6 @@ public abstract class Robot extends OpMode {
     public static String dp = "%.2f", ip = "%d";
 
     double secTotal = 0, secInLoop = 0;
-    double
-            //drive variables
-            lastPower = 0,
-            lastTurn = 0;
-    int
-            //intake variables
-            intakePos = 0,
-    //shooter variables
-    shooterPos = 0;
 
     @Override
     public final void init() {
@@ -71,7 +62,7 @@ public abstract class Robot extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public final void loop() {
         secInLoop = time.seconds() - secTotal;
         secTotal = time.seconds();
         update();
@@ -81,9 +72,21 @@ public abstract class Robot extends OpMode {
     public abstract void update();
 
     @Override
-    public void stop() {
+    public final void stop() {
         hardware.disable();
         telemetry.addData("say", "Disabled");
         updateTelemetry(telemetry);
+    }
+
+    public double constrainChange(double val,double lastVal,double chg)
+    {
+        return constrain(val,lastVal-chg,lastVal+chg);
+    }
+
+    public double constrain(double val,double min,double max)
+    {
+        if(val<min)return min;
+        if(val>max)return max;
+        return val;
     }
 }

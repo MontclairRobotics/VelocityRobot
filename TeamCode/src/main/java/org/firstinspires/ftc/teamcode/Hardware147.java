@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Hardware147Competition
+public class Hardware147
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
@@ -71,27 +71,6 @@ public class Hardware147Competition
             motors[0][i].setPower(left);
             motors[1][i].setPower(-right);
         }
-    }
-
-    /***
-     *
-     * waitForTick implements a periodic delay. However, this acts like a metronome with a regular
-     * periodic tick.  This is used to compensate for varying processing times for each cycle.
-     * The function looks at the elapsed cycle time, and sleeps for the remaining time interval.
-     *
-     * @param periodMs  Length of wait cycle in mSec.
-     * @throws InterruptedException
-     */
-    public void waitForTick(long periodMs) throws InterruptedException {
-
-        long  remaining = periodMs - (long)period.milliseconds();
-
-        // sleep for the remaining portion of the regular cycle period.
-        if (remaining > 0)
-            Thread.sleep(remaining);
-
-        // Reset the cycle clock for the next pass.
-        period.reset();
     }
 }
 

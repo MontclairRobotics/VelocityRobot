@@ -32,10 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -53,49 +50,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="Teleop Competition", group="147")
-public class TeleopCompetition extends OpMode{
-
-    /* Declare OpMode members. */
-    Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
-    Controller147Competition1 ctrl = new Controller147Competition1();
-    ElapsedTime time=new ElapsedTime();
-
-    //========================================
-    //configs:
-    public static final double
-            //drive configs
-            MAX_ACCEL=20.0/1000,
-            TURN_ACCEL=10.0/1000,
-            HIGH_POWER=1.0,
-            HALF_POWER=0.4,
-            LOW_POWER=0.2,
-            TURN_SPD=0.5,
-            HIGH_TURN_SPD_FACTOR=2.0,
-            SMALL_TURN_SPD=0.25;
-    public static final int
-            //intake configs
-            INTAKE_DOWN_POS=1100,
-            INTAKE_THIRD_POS=600,
-            INTAKE_HALF_POS=400,//325,
-            INTAKE_UP_POS=-100,
-            //shooter configs
-            SHOOTER_DOWN_POS=200,//200,
-            SHOOTER_UP_POS=-950,
-            //Tolerances
-            SHOOTER_AWAY_TOLERANCE=50,
-            INTAKE_AWAY_TOLERANCE=100;
-    //========================================
+public class TeleopCompetition extends Robot{
 
     boolean intaking=false;
     boolean invertPressed = false;
     boolean inverted = false;
 
-    String dp="%.2f";
-    String ip="%d";
     double
             //drive variables
-            lastPower=0,
-            lastTurn=0;
+            lastPower = 0,
+            lastTurn = 0;
     int
             //intake variables
             intakePos=0,
@@ -103,29 +67,9 @@ public class TeleopCompetition extends OpMode{
             shooterPos=0;
 
     @Override
-    public void init() {
-        hardware.init(hardwareMap);
-        ctrl.init(gamepad1,gamepad2);
-
-        telemetry.addData("Say", "Don't forget to press START+(A or B)");    //
-        updateTelemetry(telemetry);
-    }
-
-    @Override
-    public void init_loop() {
-    }
-
-    @Override
-    public void start() {
-    }
-
-    @Override
-    public void loop() {
+    public void update() {
         //==========DRIVE==========
         double power,turn;
-        double ms;
-
-        ms=time.milliseconds();
         power=ctrl.getPower();
         turn=ctrl.getTurn()*TURN_SPD;
 
@@ -143,8 +87,8 @@ public class TeleopCompetition extends OpMode{
         if(inverted) {
             power *= -1;
         }
-        power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
-        turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
+        power=constrainChange(power,lastPower,MAX_ACCEL*secInLoop);
+        turn=constrainChange(turn,lastTurn,TURN_ACCEL*secInLoop);
         lastPower=power;
         lastTurn=turn;
         hardware.setDriveTank(power+turn,power-turn);
@@ -187,20 +131,20 @@ public class TeleopCompetition extends OpMode{
         //===Manual Reset===
         if(ctrl.shooterUp())
         {
-            hardware.shooterOffset+=1*ms;
+            hardware.shooterOffset+=1000*secInLoop;
         }
         if(ctrl.shooterDown())
         {
-            hardware.shooterOffset-=1*ms;
+            hardware.shooterOffset-=1000*secInLoop;
         }
 
         if(ctrl.intakeUp())
         {
-            hardware.intakeOffset+=1*ms;
+            hardware.intakeOffset+=1*1000*secInLoop;
         }
         if(ctrl.intakeDown())
         {
-            hardware.intakeOffset-=1*ms;
+            hardware.intakeOffset-=1*1000*secInLoop;
         }
         if(ctrl.shoot.back)
         {
@@ -224,31 +168,5 @@ public class TeleopCompetition extends OpMode{
             telemetry.addData("shooter", "zero power");
             hardware.shooter.setPower(0);
         }
-
-        //telemetry.addData("say","teleop mode enabled");
-        //telemetry.addData("power", dp , power);
-        //telemetry.addData("turn", dp, turn);
-        //telemetry.addData("intake", ip, intakePos);
-        //telemetry.addData("intakePosition", ip, hardware.intake.getCurrentPosition());
-        //telemetry.addData("shooter", ip, shooterPos);
-        //telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
-        //telemetry.addData("ms per cycle", dp,ms);
-        updateTelemetry(telemetry);
-
-        time.reset();
-    }
-
-    @Override
-    public void stop() {
-        telemetry.addData("say","Disabled");
-        updateTelemetry(telemetry);
-    }
-
-
-    public double constrain(double val,double min,double max)
-    {
-        if(val<min)return min;
-        if(val>max)return max;
-        return val;
     }
 }
