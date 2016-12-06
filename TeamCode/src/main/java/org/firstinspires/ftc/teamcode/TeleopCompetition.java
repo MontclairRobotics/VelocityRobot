@@ -212,14 +212,14 @@ public class TeleopCompetition extends OpMode{
         invertPressed = ctrl.invertDrive();
 
 
-        if(ctrl.drive.a)
+        /*if(ctrl.drive.a)
         {
             hardware.buttonPusher.setPower(0.3);
         }
         else if(ctrl.drive.b)
         {
             hardware.buttonPusher.setPower(-0.3);
-        }
+        }*/
 
         hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
         if(Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
@@ -241,7 +241,7 @@ public class TeleopCompetition extends OpMode{
         //telemetry.addData("shooter", ip, shooterPos);
         //telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
         //telemetry.addData("ms per cycle", dp,ms);
-        telemetry.addData("buttonPusherPos",hardware.buttonPusher.getCurrentPosition());
+        //telemetry.addData("buttonPusherPos",hardware.buttonPusher.getCurrentPosition());
         updateTelemetry(telemetry);
 
         time.reset();
