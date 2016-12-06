@@ -28,6 +28,7 @@ public class Ultrasonic147 extends Thread {
         distBSensor=ahwMap.ultrasonicSensor.get(b);
         distA=new SmoothData(SMOOTH_TIME);
         distB=new SmoothData(SMOOTH_TIME);
+        this.start();
     }
     public void run()
     {

@@ -28,7 +28,7 @@ public class Hardware147Competition1
     public double shooterOffset=0;
     public double intakeOffset=0;
 
-    public DcMotor  intake,shooter;
+    public DcMotor  intake,shooter,buttonPusher;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -46,6 +46,7 @@ public class Hardware147Competition1
         motors[1][1]  = hwMap.dcMotor.get("right_b");
         intake = hwMap.dcMotor.get("aux_a");
         shooter = hwMap.dcMotor.get("aux_b");
+        buttonPusher=hwMap.dcMotor.get("button_pusher");
 
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
@@ -62,6 +63,8 @@ public class Hardware147Competition1
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        buttonPusher.setPower(0);
+        buttonPusher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void setDriveTank(double left,double right)
