@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleopCompetition extends OpMode{
 
     /* Declare OpMode members. */
-    Hardware147Competition1 hardware = new Hardware147Competition1(); // use the class created to define a Pushbot's hardware
+    Hardware147CompetitionSensors hardware = new Hardware147CompetitionSensors(); // use the class created to define a Pushbot's hardware
     Controller147Competition1 ctrl = new Controller147Competition1();
     ElapsedTime time=new ElapsedTime();
 
@@ -192,15 +192,15 @@ public class TeleopCompetition extends OpMode{
         {
             hardware.shooterOffset-=1*ms;
         }
-
-        if(ctrl.intakeUp())
+//TODO
+        /*if(ctrl.intakeUp())
         {
             hardware.intakeOffset+=1*ms;
         }
         if(ctrl.intakeDown())
         {
             hardware.intakeOffset-=1*ms;
-        }
+        }*/
         if(ctrl.shoot.back)
         {
             hardware.intakeOffset=0;
@@ -212,14 +212,16 @@ public class TeleopCompetition extends OpMode{
         invertPressed = ctrl.invertDrive();
 
 
-        /*if(ctrl.drive.a)
+        if(ctrl.pusherLeft())
         {
-            hardware.buttonPusher.setPower(0.3);
+            hardware.setBeaconPusher(-0.5);
         }
-        else if(ctrl.drive.b)
+        else if(ctrl.pusherRight())
         {
-            hardware.buttonPusher.setPower(-0.3);
-        }*/
+            hardware.setBeaconPusher(0.5);
+        } else {
+            hardware.setBeaconPusher(0);
+        }
 
         hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
         if(Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-

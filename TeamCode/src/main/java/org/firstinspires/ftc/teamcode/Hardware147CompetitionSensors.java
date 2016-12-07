@@ -29,7 +29,7 @@ public class Hardware147CompetitionSensors
     public double shooterOffset=0;
     public double intakeOffset=0;
 
-    public DcMotor  intake,shooter;
+    public DcMotor  intake,shooter,beaconPusher;
 
 
     public Ultrasonic147 ultrasonics;
@@ -53,6 +53,7 @@ public class Hardware147CompetitionSensors
         motors[1][1]  = hwMap.dcMotor.get("right_b");
         intake = hwMap.dcMotor.get("aux_a");
         shooter = hwMap.dcMotor.get("aux_b");
+        beaconPusher = hwMap.dcMotor.get("aux_c");
 
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
@@ -86,6 +87,22 @@ public class Hardware147CompetitionSensors
             motors[0][i].setPower(left);
             motors[1][i].setPower(-right);
         }
+    }
+
+    public void beaconPusherLeft() {
+        beaconPusher.setTargetPosition(-720);
+    }
+
+    public void beaconPusherRight() {
+        beaconPusher.setTargetPosition(720);
+    }
+
+    public void beaconPusherReset() {
+        beaconPusher.setTargetPosition(0);
+    }
+
+    public void setBeaconPusher(double power) {
+        beaconPusher.setPower(power);
     }
 
     /***
