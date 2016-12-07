@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.sensors.Ultrasonic147;
+import org.firstinspires.ftc.teamcode.Sensors.Ultrasonic147;
 
 /**
  * This is NOT an opmode.
@@ -26,6 +26,7 @@ public class Hardware147
 {
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
+    public double[][] motorOffset=new double[2][2];
 
     public double shooterOffset=0;
     public double intakeOffset=0;
@@ -88,6 +89,56 @@ public class Hardware147
         }
     }
 
+    public double setTurnDegrees(double degrees)
+    {
+        double chg=(degrees/360)*18*Math.PI;
+        return setTgtPos(chg,-chg);
+    }
+    public double setTgtPos(double tgt)
+    {
+        return setTgtPos(tgt,tgt);
+    }
+    public double setTgtPos(double left,double right)
+    {
+        double leftError=getLeftSide()-(left+motorOffset[0][0]),
+                rightError=getRightSide()-(-right+motorOffset[1][0]);
+        double leftPower=Math.sqrt(2*Robot.MAX_ENCODER_ACCEL*leftError),
+                rightPower=Math.sqrt(2*Robot.MAX_ENCODER_ACCEL*rightError);
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setPower(leftPower);
+            motors[1][i].setPower(rightPower);
+        }
+        return (leftError+rightError)/2;
+    }
+
+    public void resetMotorOffset() {
+        for(int i = 0; i < motors.length; i++) {
+            for(int j = 0; j < motors[i].length; j++) {
+                motorOffset[i][j] = motors[i][j].getCurrentPosition();
+            }
+        }
+    }
+
+    public void setPower(double pwr)
+    {
+        for(int i=0;i<motors.length;i++)
+        {
+            for(int j=0;j<motors[0].length;j++)
+            {
+                motors[i][j].setPower(pwr);
+            }
+        }
+    }
+
+    public int getLeftSide() {
+        return motors[0][0].getCurrentPosition();
+    }
+
+    public int getRightSide() {
+        return motors[1][0].getCurrentPosition();
+    }
+
     public void disable()
     {
         ultrasonics.interrupt();
@@ -100,4 +151,3 @@ public class Hardware147
         shooter.setPower(0);
     }
 }
-

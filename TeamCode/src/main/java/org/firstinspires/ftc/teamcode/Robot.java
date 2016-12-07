@@ -40,6 +40,7 @@ public abstract class Robot extends OpMode {
     //Auto Configs
     public static final double DEGREES_PER_INCH = 10000/85;
     public static final double TOLERANCE = 0.5*DEGREES_PER_INCH;
+    public static final double MAX_ENCODER_ACCEL=12*DEGREES_PER_INCH;//TODO TODO TODO
     //========================================
 
     public static String dp = "%.2f", ip = "%d";
@@ -65,7 +66,7 @@ public abstract class Robot extends OpMode {
         time.reset();
         user_start();
     }
-    public abstract void user_start();
+    public void user_start(){}
 
     @Override
     public final void loop() {
