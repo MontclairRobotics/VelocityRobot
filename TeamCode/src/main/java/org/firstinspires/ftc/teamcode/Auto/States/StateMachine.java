@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto.States;
+package org.firstinspires.ftc.teamcode.Auto.States;
 
 /**
  * Created by MHS Robotics

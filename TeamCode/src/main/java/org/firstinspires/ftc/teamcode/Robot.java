@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class Robot extends OpMode {
     /* Declare OpMode members. */
-    Hardware147 hardware = new Hardware147(); // use the class created to define a Pushbot's hardware
-    Controller147 ctrl = new Controller147();
-    ElapsedTime time = new ElapsedTime();
+    public static Hardware147 hardware = new Hardware147(); // use the class created to define a Pushbot's hardware
+    public static Controller147 ctrl = new Controller147();
+    private ElapsedTime time = new ElapsedTime();
 
     //========================================
     //configs:
@@ -43,9 +43,16 @@ public abstract class Robot extends OpMode {
     public static final double MAX_ENCODER_ACCEL=12*DEGREES_PER_INCH;//TODO TODO TODO
     //========================================
 
+
+    public double
+            //intake variables
+            intakePos=0,
+            //shooter variables
+            shooterPos=0;
+
     public static String dp = "%.2f", ip = "%d";
 
-    double secTotal = 0, secInLoop = 0;
+    public double secTotal = 0, secInLoop = 0;
 
     @Override
     public final void init() {
@@ -73,6 +80,17 @@ public abstract class Robot extends OpMode {
         secInLoop = time.seconds() - secTotal;
         secTotal = time.seconds();
         update();
+        hardware.intake.setTargetPosition((int)(intakePos+hardware.intakeOffset+0.5));
+        if(Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
+                (shooterPos+(int)hardware.shooterOffset)) > SHOOTER_AWAY_TOLERANCE) {
+            hardware.shooter.setPower(1.0);
+            hardware.shooter.setTargetPosition((int)(shooterPos+hardware.shooterOffset+0.5));
+            telemetry.addData("shooter", "from target: " + Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
+                    (shooterPos+(int)hardware.shooterOffset)));
+        } else {
+            telemetry.addData("shooter", "zero power");
+            hardware.shooter.setPower(0);
+        }
         updateTelemetry(telemetry);
     }
 
@@ -95,5 +113,76 @@ public abstract class Robot extends OpMode {
         if(val<min)return min;
         if(val>max)return max;
         return val;
+    }
+
+    public void shootUp()
+    {
+        setShoot(TeleopCompetition.SHOOTER_UP_POS);
+    }
+    public void shootDown()
+    {
+        setShoot(TeleopCompetition.SHOOTER_DOWN_POS);
+    }
+    public void intakeDown()
+    {
+        hardware.intake.setPower(1);
+        setIntake(INTAKE_DOWN_POS);
+    }
+    public void intakeDownSlow()
+    {
+        hardware.intake.setPower(0.35);
+        setIntake(INTAKE_DOWN_POS);
+    }
+    public void intakeHalf()
+    {
+        hardware.intake.setPower(0.25);
+        setIntake(INTAKE_HALF_POS);
+    }
+    public void intakeThird()
+    {
+        hardware.intake.setPower(0.25);
+        setIntake(INTAKE_THIRD_POS);
+    }
+    public void intakeUp()
+    {
+        hardware.intake.setPower(0.3);
+        setIntake(INTAKE_UP_POS);
+    }
+
+    public void setShoot(double tgt)
+    {
+        if(hardware.intake.getCurrentPosition()>INTAKE_HALF_POS-INTAKE_AWAY_TOLERANCE)//todo: flip
+        {
+            hardware.shooter.setPower(1);
+            shooterPos=tgt;
+        }
+        else
+        {
+            intakePos=INTAKE_HALF_POS;
+        }
+    }
+    public void setIntake(double tgt)
+    {
+        intakePos=tgt;
+    }
+
+    public boolean intakeIsAtTgt()
+    {
+        return intakeIsAt(intakePos);
+    }
+    public boolean intakeIsAt(double pos) {
+        return isCloseTo(pos, hardware.intake.getCurrentPosition(), INTAKE_AWAY_TOLERANCE);
+    }
+
+    public boolean shooterIsAtTgt()
+    {
+        return shooterIsAt(shooterPos);
+    }
+    public boolean shooterIsAt(double pos) {
+        return isCloseTo(pos, hardware.shooter.getCurrentPosition(), SHOOTER_AWAY_TOLERANCE);
+    }
+
+    public boolean isCloseTo(double d1, double d2, double tolerance) {
+        return Math.abs(d1-d2) < tolerance;
     }
 }

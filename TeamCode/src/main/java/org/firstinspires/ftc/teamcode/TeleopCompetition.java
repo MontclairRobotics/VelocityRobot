@@ -60,11 +60,6 @@ public class TeleopCompetition extends Robot{
             //drive variables
             lastPower = 0,
             lastTurn = 0;
-    int
-            //intake variables
-            intakePos=0,
-            //shooter variables
-            shooterPos=0;
 
     @Override
     public void update() {
@@ -157,16 +152,6 @@ public class TeleopCompetition extends Robot{
         invertPressed = ctrl.invertDrive();
 
 
-        hardware.intake.setTargetPosition(intakePos+(int)hardware.intakeOffset);
-        if(Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
-                (shooterPos+(int)hardware.shooterOffset)) > SHOOTER_AWAY_TOLERANCE) {
-            hardware.shooter.setPower(1.0);
-            hardware.shooter.setTargetPosition(shooterPos+(int)hardware.shooterOffset);
-            telemetry.addData("shooter", "from target: " + Math.abs((hardware.shooter.getCurrentPosition()+(int)hardware.shooterOffset)-
-                    (shooterPos+(int)hardware.shooterOffset)));
-        } else {
-            telemetry.addData("shooter", "zero power");
-            hardware.shooter.setPower(0);
-        }
+
     }
 }

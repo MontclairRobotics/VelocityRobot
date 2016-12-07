@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.Auto;
 
+import org.firstinspires.ftc.teamcode.Auto.States.State;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
+import org.firstinspires.ftc.teamcode.Auto.States.StateObj;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.TeleopCompetition;
-import org.firstinspires.ftc.teamcode.auto.States.State;
-import org.firstinspires.ftc.teamcode.auto.States.StateMachine;
 
 /**
  * Created by MHS Robotics on 12/6/2016.
@@ -48,119 +48,95 @@ public class AutoCompetition extends Robot {
         machine.update();
     }
 
-    public void drive(double distance)
-    {
-        diff = robot.setTgtPos(distance*DEGREES_PER_INCH);
-        if(diff > 5*DEGREES_PER_INCH) {
-            robot.setPower(0.8);
-        } else if(diff > 3*DEGREES_PER_INCH) {
-            robot.setPower(0.45);
-        } else if(diff > 1*DEGREES_PER_INCH) {
-            robot.setPower(0.2);
-        } else {
-            robot.setPower(0.1);
-        }
-        checkStateCompletion(diff < TOLERANCE);
-    }
+    /*
+    ================================================================
 
-    public void turn(double degrees)
-    {
-        robot.setPower(0.8);
-        diff = robot.setTurnDegrees(degrees*DEGREES_PER_INCH);
-        telemetry.addData("TURN DIFF",diff);
-        checkStateCompletion(diff < TOLERANCE);
-    }
+                               AUTO STATES
 
-    public void shootUp()
-    {
-        setShoot(TeleopCompetition.SHOOTER_UP_POS);
-    }
-    public void shootDown()
-    {
-        setShoot(TeleopCompetition.SHOOTER_DOWN_POS);
-    }
-    public void intakeDown()
-    {
-        robot.intake.setPower(1);
-        setIntake(TeleopCompetition.INTAKE_DOWN_POS);
-        checkStateCompletion(timeInState()>3);
-    }
-    public void intakeDownSlow()
-    {
-        robot.intake.setPower(0.35);
-        setIntake(TeleopCompetition.INTAKE_DOWN_POS);
-        checkStateCompletion(timeInState()>3);
-        telemetry.addData("TIME IN STATE",timeInState());
-    }
-    public void intakeHalf()
-    {
-        robot.intake.setPower(0.25);
-        setIntake(TeleopCompetition.INTAKE_HALF_POS);
-        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_HALF_POS));
-    }
-    public void intakeThird()
-    {
-        robot.intake.setPower(0.25);
-        setIntake(TeleopCompetition.INTAKE_THIRD_POS);
-        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_THIRD_POS));
-    }
-    public void intakeUp()
-    {
-        robot.intake.setPower(0.3);
-        setIntake(TeleopCompetition.INTAKE_UP_POS);
-        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_UP_POS));//todo: flip
-    }
+    ================================================================
+     */
 
-    public void setShoot(double tgt)
-    {
-        if(robot.intake.getCurrentPosition()>TeleopCompetition.INTAKE_HALF_POS-TeleopCompetition.INTAKE_AWAY_TOLERANCE)//todo: flip
+    public abstract class AutoState extends StateObj {
+        private double secStart;
+        public void start()
         {
-            robot.shooter.setPower(1);
-            robot.shooter.setTargetPosition((int) (tgt + 0.5));
-            telemetry.addData("Shoot TGT", tgt);
-            telemetry.addData("Shoot ACT", robot.shooter.getCurrentPosition());
-            checkStateCompletion(shooterIsAt(tgt));
+            hardware.resetMotorOffset();
+            hardware.setPower(0);
+            hardware.shooter.setPower(0);
+            secStart=secTotal;
         }
-        else
+        public double secInState()
         {
-            robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
-        }
-    }
-    public void setIntake(double tgt)
-    {
-        robot.intake.setTargetPosition((int)(tgt+0.5));
-        telemetry.addData("Intake TGT",tgt);
-        telemetry.addData("Intake ACT",robot.shooter.getCurrentPosition());
-    }
-    public void checkStateCompletion(boolean didEnd) {
-        if (didEnd) {
-            state++;
-            robot.resetMotorOffset();
-            robot.setPower(0);
-            robot.shooter.setPower(0);
-            timeStateStarted=timer.time();
+            return secTotal-secStart;
         }
     }
 
-    public void delay(double sec)
+    public class Drive extends AutoState
     {
-        checkStateCompletion(sec<timeInState());
+        private double dist,diff;
+        public Drive(double d)
+        {
+            dist=d;
+        }
+        public void update()
+        {
+            diff=hardware.setTgtPos(dist);
+        }
+        public boolean isDone(){return diff<TOLERANCE;}
     }
 
-    public double timeInState()
+    public class Turn extends AutoState
     {
-        return timer.time()-timeStateStarted;
+        private double dist,diff;
+        public Turn(double d) { dist=d; }
+        public void update() {
+            diff = hardware.setTurnDegrees(dist);
+        }
+        public boolean isDone(){return diff<TOLERANCE;}
     }
 
-    boolean intakeIsAt(double pos) {
-        return isCloseTo(pos, robot.intake.getCurrentPosition(), TeleopCompetition.INTAKE_AWAY_TOLERANCE);
+    public class ShootUp extends AutoState
+    {
+        public void update(){shootUp();}
+        public boolean isDone(){return shooterIsAtTgt();}
     }
-
-    boolean shooterIsAt(double pos) {
-        return isCloseTo(pos, robot.shooter.getCurrentPosition(), TeleopCompetition.SHOOTER_AWAY_TOLERANCE);
+    public class ShootDown extends AutoState
+    {
+        public void update(){shootDown();}
+        public boolean isDone(){return shooterIsAtTgt();}
     }
-
-    boolean isCloseTo(double d1, double d2, double tolerance) {
-        return Math.abs(d1-d2) < tolerance;
+    public class IntakeDown extends AutoState
+    {
+        public void update(){intakeDown();}
+        public boolean isDone(){return secInState()>3;}
+    }
+    public class IntakeDownSlow extends AutoState
+    {
+        public void update(){intakeDownSlow();}
+        public boolean isDone(){return secInState()>3;}
+    }
+    public class IntakeHalf extends AutoState
+    {
+        public void update(){intakeHalf();}
+        public boolean isDone(){return secInState()>3;}
+    }
+    public class IntakeThird extends AutoState
+    {
+        public void update(){intakeThird();}
+        public boolean isDone(){return secInState()>3;}
+    }
+    public class IntakeUp extends AutoState
+    {
+        public void update(){intakeUp();}
+        public boolean isDone(){return secInState()>3;}
+    }
+    public class Delay extends AutoState
+    {
+        private double tgt;
+        public Delay(double t)
+        {
+            tgt=t;
+        }
+        public boolean isDone(){return secInState()>tgt;}
     }
 }

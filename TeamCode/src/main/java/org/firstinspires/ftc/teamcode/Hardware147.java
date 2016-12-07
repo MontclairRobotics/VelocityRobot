@@ -92,18 +92,22 @@ public class Hardware147
     public double setTurnDegrees(double degrees)
     {
         double chg=(degrees/360)*18*Math.PI;
-        return setTgtPos(chg,-chg);
+        return setTgtPos(chg,-chg,0.8);
     }
     public double setTgtPos(double tgt)
     {
-        return setTgtPos(tgt,tgt);
+        return setTgtPos(tgt,tgt,1);
     }
-    public double setTgtPos(double left,double right)
+    public double setTgtPos(double left,double right){return setTgtPos(left,right,1);}
+
+    public double setTgtPos(double left,double right,double maxPower)
     {
         double leftError=getLeftSide()-(left+motorOffset[0][0]),
                 rightError=getRightSide()-(-right+motorOffset[1][0]);
         double leftPower=Math.sqrt(2*Robot.MAX_ENCODER_ACCEL*leftError),
                 rightPower=Math.sqrt(2*Robot.MAX_ENCODER_ACCEL*rightError);
+        if(leftPower>maxPower)leftPower=maxPower;
+        if(rightPower>maxPower)rightPower=maxPower;
         for(int i=0;i<motors[0].length;i++)
         {
             motors[0][i].setPower(leftPower);
