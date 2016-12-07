@@ -7,20 +7,19 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class PID {
+    private final double P_GAIN = 5.0, I_GAIN = 3.0, D_GAIN = 3.0;
     private double p,i,d;
     private double minOut=-1,maxOut=1;
     private double target,totalError,error,lastError,out;
 
-    public PID()
-    {
-    }
+    public PID() {}
+
     public PID(double p,double i,double d)
     {
         setPID(p,i,d);
     }
 
-    public PID setPID(double p,double i,double d)
-    {
+    public PID setPID(double p,double i,double d) {
         this.p=p;
         this.i=i;
         this.d=d;
