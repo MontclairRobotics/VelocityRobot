@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
@@ -35,7 +36,7 @@ public class Hardware147CompetitionSensors
     public Ultrasonic147 ultrasonics;
     public LightSensor lightGround;
 
-   // public ColorSensor colorBeacon;
+   public ColorSensor colorBeacon;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -77,7 +78,7 @@ public class Hardware147CompetitionSensors
         lightGround = hwMap.lightSensor.get("lightGround");
         lightGround.enableLed(true);
 
-        //colorBeacon = hwMap.colorSensor.get("colorBeacon");
+        colorBeacon = hwMap.colorSensor.get("colorBeacon");
     }
 
     public void setDriveTank(double left,double right)

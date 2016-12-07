@@ -183,13 +183,13 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("lightSensor",dp,hardware.lightGround.getLightDetected());
         telemetry.addData("lightSensorRaw",dp,hardware.lightGround.getRawLightDetected());
         telemetry.addData("lightSensorMax",dp,hardware.lightGround.getRawLightDetectedMax());
-        /*
+
         telemetry.addData("colorSensorAlpha",dp,hardware.colorBeacon.alpha());
         telemetry.addData("colorSensorArgb",dp,hardware.colorBeacon.argb());
         telemetry.addData("colorSensorBlue",dp,hardware.colorBeacon.blue());
         telemetry.addData("colorSensorGreen",dp,hardware.colorBeacon.green());
         telemetry.addData("colorSensorRed",dp,hardware.colorBeacon.red());
-        */
+        
 
         telemetry.addData("sec per cycle",sec);
         updateTelemetry(telemetry);
