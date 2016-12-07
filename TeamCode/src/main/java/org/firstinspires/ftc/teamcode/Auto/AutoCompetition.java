@@ -1,23 +1,16 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.TeleopCompetition;
+import org.firstinspires.ftc.teamcode.auto.States.State;
+import org.firstinspires.ftc.teamcode.auto.States.StateMachine;
 
 /**
- * Created by Rapoport on 11/23/2016.
+ * Created by MHS Robotics on 12/6/2016.
  */
 
-//@Autonomous(name="Auto Mode", group="147")
-public class AutoMode extends OpMode {
+public class AutoCompetition extends Robot {
 
-    /* Declare OpMode members. */
-    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
-    ElapsedTime timer = new ElapsedTime();
-
-    public static final double DEGREES_PER_INCH = 10000/85;
-    public static final double TOLERANCE = 0.5*DEGREES_PER_INCH;
 
     public static final int
             AUTO_DRIVE_0=36,
@@ -31,40 +24,28 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_SHOOT_1=33,
             AUTO_DRIVE_SHOOT_2=-12;
 
-    int state = 0;
-    double diff = 0;
-    boolean shot = false;
-    public double timeStateStarted=0;
-
+    StateMachine machine;
     /*
      * Code to run ONCE when the driver hits PLAY
      */
-    @Override
-    public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Setup complete: Auto Mode selected");
-        updateTelemetry(telemetry);
-
-        robot.resetMotorOffset();
-        robot.setPower(0.5);
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-
-    }
-
-    public void start()
+    public AutoCompetition(StateMachine m)
     {
-        timer.reset();
+        machine=m;
+    }
+    public AutoCompetition(State... m) {
+        this(new StateMachine(m));
+    }
+
+    @Override
+    public void user_start()
+    {
+        machine.start();
+    }
+    @Override
+    public void update()
+    {
+        machine.update();
     }
 
     public void drive(double distance)

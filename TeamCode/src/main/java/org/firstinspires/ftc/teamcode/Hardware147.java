@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.sensors.Ultrasonic147;
 
 /**
  * This is NOT an opmode.
@@ -29,6 +31,11 @@ public class Hardware147
     public double intakeOffset=0;
 
     public DcMotor  intake,shooter;
+
+    public Ultrasonic147 ultrasonics;
+    public LightSensor lightGround;
+
+    // public ColorSensor colorBeacon;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -62,6 +69,14 @@ public class Hardware147
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        //sensors
+        ultrasonics = new Ultrasonic147(ahwMap,"distA","distB");
+
+        lightGround = hwMap.lightSensor.get("lightGround");
+        lightGround.enableLed(true);
+
+        //colorBeacon = hwMap.colorSensor.get("colorBeacon");
     }
 
     public void setDriveTank(double left,double right)
@@ -71,6 +86,18 @@ public class Hardware147
             motors[0][i].setPower(left);
             motors[1][i].setPower(-right);
         }
+    }
+
+    public void disable()
+    {
+        ultrasonics.interrupt();
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setPower(0);
+            motors[1][i].setPower(0);
+        }
+        intake.setPower(0);
+        shooter.setPower(0);
     }
 }
 

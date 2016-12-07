@@ -31,12 +31,15 @@ public abstract class Robot extends OpMode {
             INTAKE_THIRD_POS = 600,
             INTAKE_HALF_POS = 400,//325,
             INTAKE_UP_POS = -100,
-    //shooter configs
-    SHOOTER_DOWN_POS = 200,//200,
+            //shooter configs
+            SHOOTER_DOWN_POS = 200,//200,
             SHOOTER_UP_POS = -950,
-    //Tolerances
-    SHOOTER_AWAY_TOLERANCE = 50,
+            //Tolerances
+            SHOOTER_AWAY_TOLERANCE = 50,
             INTAKE_AWAY_TOLERANCE = 100;
+    //Auto Configs
+    public static final double DEGREES_PER_INCH = 10000/85;
+    public static final double TOLERANCE = 0.5*DEGREES_PER_INCH;
     //========================================
 
     public static String dp = "%.2f", ip = "%d";
@@ -47,6 +50,7 @@ public abstract class Robot extends OpMode {
     public final void init() {
         hardware.init(hardwareMap);
         ctrl.init(gamepad1, gamepad2);
+        hardware.resetMotorOffset();
 
         telemetry.addData("Say", "Don't forget to press START+(A or B)");    //
         updateTelemetry(telemetry);
@@ -59,7 +63,9 @@ public abstract class Robot extends OpMode {
     @Override
     public final void start() {
         time.reset();
+        user_start();
     }
+    public abstract void user_start();
 
     @Override
     public final void loop() {
