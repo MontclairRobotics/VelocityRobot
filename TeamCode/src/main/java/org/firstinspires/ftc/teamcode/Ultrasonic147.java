@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 public class Ultrasonic147 extends Thread {
     public static double
             DISTANCE_BETWEEN_SENSORS = 11,
-            DISTANCE_FROM_B_TO_CENTER = 4,
+            B_TO_CENTER_OF_SIDE = 4,
+            B_TO_MIDLINE=6,
             B_OFFSET=2;
 
     public static long MS_BETWEEN_READINGS=50;
@@ -64,8 +65,8 @@ public class Ultrasonic147 extends Thread {
         double a=getDistA();
         double b=getDistB();
         synchronized (edit) {
-            ang = Math.atan2(a - b, DISTANCE_BETWEEN_SENSORS);
-            dist = b * Math.cos(ang) - DISTANCE_FROM_B_TO_CENTER * Math.sin(ang);
+            ang = Math.atan2(a - b+B_OFFSET, DISTANCE_BETWEEN_SENSORS);
+            dist = (b-B_TO_MIDLINE) * Math.cos(ang) - B_TO_CENTER_OF_SIDE * Math.sin(ang);
         }
     }
 
@@ -80,7 +81,7 @@ public class Ultrasonic147 extends Thread {
     {
         synchronized (distB)
         {
-            return distB.get()-B_OFFSET;
+            return distB.get();
         }
     }
 
