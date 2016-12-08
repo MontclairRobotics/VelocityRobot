@@ -82,8 +82,8 @@ public class TeleopCompetition extends Robot{
         if(inverted) {
             power *= -1;
         }
-        power=constrainChange(power,lastPower,MAX_ACCEL*secInLoop);
-        turn=constrainChange(turn,lastTurn,TURN_ACCEL*secInLoop);
+        power=constrainChange(power,lastPower,MAX_ACCEL*getSecInLoop());
+        turn=constrainChange(turn,lastTurn,TURN_ACCEL*getSecInLoop());
         lastPower=power;
         lastTurn=turn;
         hardware.setDriveTank(power+turn,power-turn);
@@ -126,20 +126,20 @@ public class TeleopCompetition extends Robot{
         //===Manual Reset===
         if(ctrl.shooterUp())
         {
-            hardware.shooterOffset+=1000*secInLoop;
+            hardware.shooterOffset+=1000*getSecInLoop();
         }
         if(ctrl.shooterDown())
         {
-            hardware.shooterOffset-=1000*secInLoop;
+            hardware.shooterOffset-=1000*getSecInLoop();
         }
 
         if(ctrl.intakeUp())
         {
-            hardware.intakeOffset+=1*1000*secInLoop;
+            hardware.intakeOffset+=1*1000*getSecInLoop();
         }
         if(ctrl.intakeDown())
         {
-            hardware.intakeOffset-=1*1000*secInLoop;
+            hardware.intakeOffset-=1*1000*getSecInLoop();
         }
         if(ctrl.shoot.back)
         {

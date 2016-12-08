@@ -34,6 +34,8 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Auto.AutoCompetition;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
 import org.firstinspires.ftc.teamcode.TeleopCompetition;
 
 /**
@@ -52,48 +54,15 @@ import org.firstinspires.ftc.teamcode.TeleopCompetition;
  */
 
 @Autonomous(name="Auto Drive RIGHT And Shoot", group="147")
-public class AutoDriveRightAndShoot extends AutoMode {
+public class AutoDriveRightAndShoot extends AutoCompetition {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_TURN_1=AUTO_DRIVE_TURN_SHOOT_1_TURN,
             TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2,
             TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3;
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
-    public void loop() {
-        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
-        switch (state) {
-            case 0: //Move forward
-                drive(TARGET_DRIVE_0);
-                break;
-            case 1: //Turn 45 right
-                turn(TARGET_TURN_1);
-                break;
-            case 2: //Move forward
-                drive(TARGET_DRIVE_2);
-                break;
-            case 3:
-                delay(4);
-                break;
-            case 4: //Shoot
-                shootUp();
-                break;
-            case 5:
-                intakeUp();
-                break;
-            case 6: //Push ball off
-                drive(TARGET_DRIVE_3);
-                break;
-            case 7: //Lower shooter
-                shootDown();
-                break;
-        }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
-        updateTelemetry(telemetry);
+    public StateMachine getMachine() {
+        return new StateMachine(new TurnShoot1(TARGET_DRIVE_0,TARGET_TURN_1,TARGET_DRIVE_2,TARGET_DRIVE_3));
     }
 }

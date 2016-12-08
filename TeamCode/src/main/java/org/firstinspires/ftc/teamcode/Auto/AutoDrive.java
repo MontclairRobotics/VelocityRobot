@@ -34,6 +34,11 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Auto.AutoCompetition;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
+
+import java.lang.annotation.Target;
+
 /**
  * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
@@ -50,30 +55,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name="Auto Drive", group="147")
-public class AutoDrive extends AutoMode {
+public class AutoDrive extends AutoCompetition {
     int
-        TARGET_DRIVE_INCHES=36,//TODO: and 2 below
-        TARGET_INTAKE_POS=0,
-        TARGET_SHOOTER_POS=0;
+        TARGET_DRIVE_INCHES=36;//TODO: and 2 below
 
-    int tgtDegrees;
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        double drivePos=robot.setTgtPos(tgtDegrees);
-        robot.intake.setTargetPosition(TARGET_INTAKE_POS);
-        /*if(drivePos>=TARGET_DRIVE_POS-90)
-        {
-            robot.shooter.setTargetPosition(TARGET_SHOOTER_POS);
-            telemetry.addData("shoot","I am shooting; watch out!");
-        }*/
-
-        telemetry.addData("Say","Auto enabled: watch out!");
-        telemetry.addData("drive remaining", drivePos);
-        telemetry.addData("intake pos", robot.intake.getCurrentPosition());
-        updateTelemetry(telemetry);
+    public StateMachine getMachine()
+    {
+        return new StateMachine(new Drive(TARGET_DRIVE_INCHES));
     }
 }

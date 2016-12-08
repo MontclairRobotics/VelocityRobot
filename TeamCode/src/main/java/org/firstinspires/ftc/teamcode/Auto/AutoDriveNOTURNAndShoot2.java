@@ -34,6 +34,9 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Auto.AutoCompetition;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
+
 /**
  * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
@@ -50,67 +53,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name="Auto Drive NO TURN And Shoot 2", group="147")
-public class AutoDriveNOTURNAndShoot2 extends AutoMode {
+public class AutoDriveNOTURNAndShoot2 extends AutoCompetition {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
             TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        //robot.intake.setTargetPosition(-500);
-        switch (state) {
-            case 0:
-                intakeDownSlow();
-                break;
-            case 1:
-                intakeThird();
-                break;
-            case 2: //Move forward
-                drive(TARGET_DRIVE_0);
-                break;
-            case 3:
-                delay(4);
-                break;
-            case 4://Shoot
-                shootUp();
-                break;
-            case 5:
-                shootDown();
-                break;
-            case 6:
-                intakeUp();
-                break;
-            case 7: // brings it back down
-                intakeHalf();
-                break;
-            case 8:
-                delay(4);
-                break;
-            case 9:
-                shootUp();
-                break;
-            case 10:
-                shootDown();
-                break;
-            case 11:
-                intakeUp();
-                break;
-            case 12: //Push ball off
-                drive(TARGET_DRIVE_3);
-                break;
-            case 13:
-                turn(180);
-                break;
-            case 14:
-                drive(TARGET_DRIVE_4);
-        }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
-        updateTelemetry(telemetry);
+    public StateMachine getMachine()
+    {
+        return new StateMachine(new NoTurnShoot2(AUTO_DRIVE_SHOOT_0,AUTO_DRIVE_SHOOT_1,180,AUTO_DRIVE_SHOOT_2));
     }
 }

@@ -30,11 +30,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.TeleopCompetition;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -52,47 +52,14 @@ import org.firstinspires.ftc.teamcode.TeleopCompetition;
  */
 
 @Autonomous(name="Auto Drive NO TURN And Shoot", group="147")
-public class AutoDriveNOTURNAndShoot extends AutoMode {
+public class AutoDriveNOTURNAndShoot extends AutoCompetition {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
             TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
-        switch (state) {
-            case 0: //Move forward
-                drive(TARGET_DRIVE_0);
-                break;
-            case 1:
-                delay(4);
-                break;
-            case 2: //Shoot
-                shootUp();
-                break;
-            case 3:
-                intakeUp();
-                break;
-            case 4: //Push ball off
-                drive(TARGET_DRIVE_3);
-                break;
-            case 5:
-                turn(180);
-                break;
-            case 6:
-                drive(TARGET_DRIVE_4);
-                break;
-            case 7:
-                shootDown();
-                break;
-        }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
-        updateTelemetry(telemetry);
+    public StateMachine getMachine()
+    {
+        return new StateMachine(new NoTurnShoot1(AUTO_DRIVE_SHOOT_0,AUTO_DRIVE_SHOOT_1,180,AUTO_DRIVE_SHOOT_2));
     }
 }

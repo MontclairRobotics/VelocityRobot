@@ -24,18 +24,27 @@ public abstract class AutoCompetition extends Robot {
             AUTO_DRIVE_SHOOT_1=33,
             AUTO_DRIVE_SHOOT_2=-12;
 
-    StateMachine machine;
+    StateMachine machine=new StateMachine();
     /*
      * Code to run ONCE when the driver hits PLAY
      */
 
-    public AutoCompetition(StateMachine m)
+    public AutoCompetition(){}
+    public void setMachine(State... m)
     {
-        machine=m;
+        setMachine(new StateMachine(m));
     }
-    public AutoCompetition(State... m) {
-        this(new StateMachine(m));
+    public void setMachine(StateMachine m)
+    {
+        this.machine=m;
     }
+
+    public final void user_init()
+    {
+        setMachine(getMachine());
+    }
+
+    public abstract StateMachine getMachine();
 
     @Override
     public void user_start()
@@ -54,24 +63,56 @@ public abstract class AutoCompetition extends Robot {
 
     ================================================================
      */
-    public static class TurnShoot1 extends StateMachine
+
+    public class NoTurnShoot1 extends StateMachine
     {
-        TurnShoot1(double drive0,double turn1,double drive2,double drive3) {
+        public NoTurnShoot1(double drive0,double drive3,double turn4,double drive5)
+        {
+            super(
+                    new Drive(drive0),
+                    new Shoot(),
+                    new IntakeUp(),
+                    new Drive(drive3),
+                    new Turn(turn4),
+                    new Drive(drive5));
+        }
+    }
+    public class NoTurnShoot2 extends StateMachine
+    {
+        public NoTurnShoot2(double drive0,double drive3,double turn4,double drive5)
+        {
+            super(
+                    new LoadBallInIntake(),
+                    new Drive(drive0),
+                    new Shoot(),
+                    new LoadBallInShooter(),
+                    new Shoot(),
+                    new IntakeUp(),
+                    new Drive(drive3),
+                    new Turn(turn4),
+                    new Drive(drive5));
+        }
+    }
+    public class TurnShoot1 extends StateMachine
+    {
+        public TurnShoot1(double drive0,double turn1,double drive2,double drive3) {
             super(
                     new DriveTurnDrive(drive0,turn1,drive2),
                     new Shoot(),
+                    new IntakeUp(),
                     new Drive(drive3));
         }
     }
-    public static class TurnShoot2 extends StateMachine
+    public class TurnShoot2 extends StateMachine
     {
-        TurnShoot2(double drive0,double turn1,double drive2,double drive3) {
+        public TurnShoot2(double drive0,double turn1,double drive2,double drive3) {
             super(
                     new LoadBallInIntake(),
                     new DriveTurnDrive(drive0,turn1,drive2),
                     new Shoot(),
                     new LoadBallInShooter(),
                     new Shoot(),
+                    new IntakeUp(),
                     new Drive(drive3));
         }
     }
@@ -84,27 +125,27 @@ public abstract class AutoCompetition extends Robot {
 
     ================================================================
      */
-    public static class DriveTurnDrive extends StateMachine
+    public class DriveTurnDrive extends StateMachine
     {
-        DriveTurnDrive(double drive0,double turn1,double drive2) {
+        public DriveTurnDrive(double drive0,double turn1,double drive2) {
             super(
                     new Drive(drive0),
                     new Turn(turn1),
                     new Drive(drive2));
         }
     }
-    public static class LoadBallInIntake extends StateMachine
+    public class LoadBallInIntake extends StateMachine
     {
-        LoadBallInIntake()
+        public LoadBallInIntake()
         {
             super(
                     new IntakeDownSlow(),
                     new IntakeThird());
         }
     }
-    public static class LoadBallInShooter extends StateMachine
+    public class LoadBallInShooter extends StateMachine
     {
-        LoadBallInShooter()
+        public LoadBallInShooter()
         {
             super(
                     new IntakeUp(),
@@ -112,7 +153,7 @@ public abstract class AutoCompetition extends Robot {
             );
         }
     }
-    public static class Shoot extends StateMachine
+    public class Shoot extends StateMachine
     {
         public Shoot()
         {
@@ -128,7 +169,7 @@ public abstract class AutoCompetition extends Robot {
     ================================================================
      */
 
-    public static class Drive extends AutoState
+    public class Drive extends AutoState
     {
         private double dist,diff;
         public Drive(double d)
@@ -142,7 +183,7 @@ public abstract class AutoCompetition extends Robot {
         public boolean isDone(){return diff<TOLERANCE;}
     }
 
-    public static class Turn extends AutoState
+    public class Turn extends AutoState
     {
         private double dist,diff;
         public Turn(double d) { dist=d; }
@@ -152,42 +193,42 @@ public abstract class AutoCompetition extends Robot {
         public boolean isDone(){return diff<TOLERANCE;}
     }
 
-    public static class ShootUp extends AutoState
+    public class ShootUp extends AutoState
     {
         public void update(){shootUp();}
         public boolean isDone(){return shooterIsAtTgt();}
     }
-    public static class ShootDown extends AutoState
+    public class ShootDown extends AutoState
     {
         public void update(){shootDown();}
         public boolean isDone(){return shooterIsAtTgt();}
     }
-    public static class IntakeDown extends AutoState
+    public class IntakeDown extends AutoState
     {
         public void update(){intakeDown();}
         public boolean isDone(){return secInState()>3;}
     }
-    public static class IntakeDownSlow extends AutoState
+    public class IntakeDownSlow extends AutoState
     {
         public void update(){intakeDownSlow();}
         public boolean isDone(){return secInState()>3;}
     }
-    public static class IntakeHalf extends AutoState
+    public class IntakeHalf extends AutoState
     {
         public void update(){intakeHalf();}
         public boolean isDone(){return secInState()>3;}
     }
-    public static class IntakeThird extends AutoState
+    public class IntakeThird extends AutoState
     {
         public void update(){intakeThird();}
         public boolean isDone(){return secInState()>3;}
     }
-    public static class IntakeUp extends AutoState
+    public class IntakeUp extends AutoState
     {
         public void update(){intakeUp();}
         public boolean isDone(){return secInState()>3;}
     }
-    public static class Delay extends AutoState
+    public class Delay extends AutoState
     {
         private double tgt;
         public Delay(double t)
@@ -197,14 +238,17 @@ public abstract class AutoCompetition extends Robot {
         public boolean isDone(){return secInState()>tgt;}
     }
 
-    public static abstract class AutoState extends StateObj {
+    public abstract class AutoState extends StateObj {
         private double secStart;
         public void start()
+        {
+            secStart=getSecTotal();
+        }
+        public void stop()
         {
             hardware.resetMotorOffset();
             hardware.setPower(0);
             hardware.shooter.setPower(0);
-            secStart=getSecTotal();
         }
         public double secInState()
         {

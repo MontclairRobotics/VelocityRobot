@@ -34,6 +34,9 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Auto.AutoCompetition;
+import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
+
 /**
  * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
@@ -50,37 +53,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name="Auto Drive Turn RIGHT Ramp Drive", group="147")
-public class AutoDriveTurnRightDrive extends AutoMode {
+public class AutoDriveTurnRightDrive extends AutoCompetition {
     double
         STATE_0_IN=16, //13 out turn 90 right 18 forward
         STATE_1_TURN=90,
         STATE_2_IN=33;
 
-    double
-        state0Deg=STATE_0_IN*DEGREES_PER_INCH,
-        state2Deg=STATE_2_IN*DEGREES_PER_INCH;
-
-    int startLeft,startRight;
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop() {
-        switch(state) {
-            case 0:
-                drive(STATE_0_IN);
-                break;
-            case 1:
-                turn(STATE_1_TURN);
-                break;
-            case 2:
-                drive(STATE_0_IN);
-                break;
-        }
-        telemetry.addData("state",state);
-        telemetry.addData("diff",diff);
-        telemetry.addData("Say","Auto enabled: watch out!");
-        updateTelemetry(telemetry);
+    public StateMachine getMachine()
+    {
+        return new StateMachine(new DriveTurnDrive(STATE_0_IN,STATE_1_TURN,STATE_2_IN));
     }
 }

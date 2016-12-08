@@ -59,14 +59,14 @@ public abstract class Robot extends OpMode {
         hardware.init(hardwareMap);
         ctrl.init(gamepad1, gamepad2);
         hardware.resetMotorOffset();
-
+        user_init();
         telemetry.addData("Say", "Don't forget to press START+(A or B)");    //
         updateTelemetry(telemetry);
     }
+    public void user_init() { }
 
     @Override
-    public final void init_loop() {
-    }
+    public final void init_loop() { }
 
     @Override
     public final void start() {

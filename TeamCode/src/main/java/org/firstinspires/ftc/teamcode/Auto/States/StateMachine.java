@@ -9,13 +9,24 @@ public class StateMachine implements State{
     private int i;
     private State[] states;
 
-    public StateMachine(State... s) {
-        states = s;
+    public StateMachine() {
+    }
+
+    public StateMachine(State... s)
+    {
+        init(s);
+    }
+
+    public void init(State... s)
+    {
+        this.states=s;
+        i=-1;
     }
 
     public void start() {
         i=0;
-        states[i].start();
+        if(states.length>0)
+            states[0].start();
     }
     public void stop() {
         i=-1;
