@@ -77,9 +77,9 @@ public class TeleopTestPID extends OpMode{
     String dp="%.2f";
 
     boolean distMode;
-    PID turnPID=new PID(-0.3,0,-0.0003),distPID=new PID(0.1,0,0.01);
+    PID turnPID=new PID(0.3,0,0.0003),distPID=new PID(0.1,0,0.1);
     double CHG=0.01;
-    double angle,dist,sec;
+    double angle,dist,sec,tgtTurn;
 
     double lastPower,lastTurn;
 
@@ -154,25 +154,25 @@ public class TeleopTestPID extends OpMode{
             power=(power<0?-0.3:.3);
             distPID.setTarget(DISTANCE_FROM_WALL);
             distPID.update(dist,sec);
-            turnPID.setTarget(constrainTurn(distPID.get())*(power>0?1:-1));
+            tgtTurn=distPID.get();
+            turnPID.setTarget(constrainTurn(tgtTurn)*(power>0?1:-1));
             turnPID.update(angle,sec);
             turn=turnPID.get();
         }
 
 
 
-
+/*
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
         lastPower=power;
-        lastTurn=turn;
+        lastTurn=turn;*/
         hardware.setDriveTank(power+turn,power-turn);
-
-
-
+        
 
         //telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
+        telemetry.addData("tgtTurn",dp, tgtTurn);
         telemetry.addData("turn", dp, turn);
         telemetry.addData("turnPIDS",""+turnPID.getP()+","+turnPID.getI()+","+turnPID.getD());
         telemetry.addData("distPIDS",""+distPID.getP()+","+distPID.getI()+","+distPID.getD());
