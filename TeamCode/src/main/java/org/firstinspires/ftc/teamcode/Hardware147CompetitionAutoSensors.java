@@ -38,6 +38,9 @@ public class Hardware147CompetitionAutoSensors
 
     public LightSensor lightBeaconA,lightBeaconB;
 
+    float lastPosition = 0.0f;
+    float speed = 0.0f;
+
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
@@ -59,6 +62,7 @@ public class Hardware147CompetitionAutoSensors
             {
                 motors[i][j].setPower(0.8);
                 motors[i][j].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motors[i][j].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
         intake.setPower(0.35);
@@ -130,6 +134,25 @@ public class Hardware147CompetitionAutoSensors
         }
     }
 
+    public void runWithPower() {
+        for(DcMotor[] motorSide : motors) {
+            for(DcMotor motor : motorSide) {
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor.setPower(0);
+
+            }
+        }
+    }
+
+    public void runWithPosition() {
+        for(DcMotor[] motorSide : motors) {
+            for(DcMotor motor : motorSide) {
+                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motor.setPower(0.8);
+            }
+        }
+    }
+
     public int getLeftSide() {
         return motors[0][0].getCurrentPosition();
     }
@@ -138,6 +161,9 @@ public class Hardware147CompetitionAutoSensors
         return motors[1][0].getCurrentPosition();
     }
 
+    public float getSpeed() {
+        return speed;
+    }
 
     /***
      *
@@ -158,6 +184,18 @@ public class Hardware147CompetitionAutoSensors
 
         // Reset the cycle clock for the next pass.
         period.reset();
+    }
+
+    public void loop() {
+        float currentPosition = 0.0f;
+        for(DcMotor[] motorSide : motors) {
+            for(DcMotor motor : motorSide) {
+                currentPosition += motor.getCurrentPosition();
+            }
+        }
+        currentPosition /= 4;
+        speed = currentPosition-lastPosition;
+        lastPosition = currentPosition;
     }
 
 }

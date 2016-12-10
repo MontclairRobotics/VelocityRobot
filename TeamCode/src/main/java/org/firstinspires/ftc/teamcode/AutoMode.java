@@ -62,7 +62,7 @@ public class AutoMode extends OpMode {
      */
     @Override
     public void loop() {
-
+        robot.loop();
     }
 
     public void start()
@@ -83,6 +83,12 @@ public class AutoMode extends OpMode {
             robot.setPower(0.1);
         }
         checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void driveToWall() {
+        robot.runWithPower();
+        robot.setPower(0.1);
+        checkStateCompletion(robot.getSpeed() < 10);
     }
 
     public void turn(double degrees)
@@ -158,6 +164,7 @@ public class AutoMode extends OpMode {
         if (didEnd) {
             state++;
             robot.resetMotorOffset();
+            robot.runWithPosition();
             robot.setPower(0);
             robot.shooter.setPower(0);
             timeStateStarted=timer.time();

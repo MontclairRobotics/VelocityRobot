@@ -118,7 +118,7 @@ public class AutoDriveLeftAndShoot2Beacons extends AutoMode {
                 break;
             case 18:
                 getBeaconColor();
-                state++;
+                checkStateCompletion(true);
             case 19:
                 drive(getBeaconDriveDist());
                 break;

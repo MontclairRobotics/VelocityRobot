@@ -69,24 +69,27 @@ public class Beacons extends AutoMode {
                 drive(10);
                 break;
             case 1:
-                turn(90);
+                turn(45);
                 break;
             case 2:
-                turnToWall();
+                drive(10);
                 break;
             case 3:
-                driveToBeacon();
+                driveToWall();
                 break;
             case 4:
-                getBeaconColor();
-                state++;
+                driveToBeacon();
+                break;
             case 5:
+                getBeaconColor();
+                checkStateCompletion(true);
+            case 6:
                 drive(getBeaconDriveDist());
                 break;
-            case 6:
+            case 7:
                 pressBeacon();
                 break;
-            case 7:
+            case 8:
                 unpressBeacon();
                 break;
         }
