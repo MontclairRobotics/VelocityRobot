@@ -12,7 +12,7 @@ public class Ultrasonic147 extends Thread {
             DISTANCE_BETWEEN_SENSORS = 11*2.54,
             B_TO_CENTER_OF_SIDE = 4*2.54,
             B_TO_MIDLINE=6*2.54,
-            B_OFFSET=2;
+            B_OFFSET=0;
 
     public static long MS_BETWEEN_READINGS=50;
     public static int SMOOTH_TIME=2;

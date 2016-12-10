@@ -114,7 +114,7 @@ public class AutoDriveLeftAndShoot2Beacons extends AutoMode {
                 turnToWall();
                 break;
             case 17:
-                driveToBeacon();
+                driveToBeacon(false);
                 break;
             case 18:
                 getBeaconColor();

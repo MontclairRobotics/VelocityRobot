@@ -204,9 +204,8 @@ public class TeleopTestPID extends OpMode{
         telemetry.addData("lightSensorMax",dp,hardware.lightGround.getRawLightDetectedMax());
 
 
-        telemetry.addData("beacon",dp,hardware.lightBeacon.getLightDetected());
-        telemetry.addData("beaconRaw",dp,hardware.lightBeacon.getRawLightDetected());
-        telemetry.addData("beaconMax",dp,hardware.lightBeacon.getRawLightDetectedMax());
+        telemetry.addData("lightA", dp, hardware.lightA.getRawLightDetected());
+        telemetry.addData("lightB", dp, hardware.lightB.getRawLightDetected());
         
 
         telemetry.addData("sec per cycle",sec);

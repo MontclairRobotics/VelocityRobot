@@ -36,7 +36,7 @@ public class Hardware147CompetitionAutoSensors
     public Ultrasonic147 ultrasonics;
     public LightSensor lightGround;
 
-    public LightSensor lightBeaconA,lightBeaconB;
+    public LightSensor lightA,lightB;
 
     float lastPosition = 0.0f;
     float speed = 0.0f;
@@ -78,8 +78,8 @@ public class Hardware147CompetitionAutoSensors
         lightGround = hwMap.lightSensor.get("lightGround");
         lightGround.enableLed(true);
 
-        lightBeaconA = hwMap.lightSensor.get("lightBeaconA");
-        lightBeaconB = hwMap.lightSensor.get("lightBeaconB");
+        lightA = hwMap.lightSensor.get("lightA");
+        lightB = hwMap.lightSensor.get("lightB");
     }
 
     public double setTurnDegrees(double degrees)
@@ -135,21 +135,31 @@ public class Hardware147CompetitionAutoSensors
     }
 
     public void runWithPower() {
+        if(motors[0][0].getMode() == DcMotor.RunMode.RUN_USING_ENCODER) return;
         for(DcMotor[] motorSide : motors) {
             for(DcMotor motor : motorSide) {
                 motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motor.setPower(0);
-
             }
         }
     }
 
     public void runWithPosition() {
+        if(motors[0][0].getMode() == DcMotor.RunMode.RUN_TO_POSITION) return;
         for(DcMotor[] motorSide : motors) {
             for(DcMotor motor : motorSide) {
                 motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor.setPower(0.8);
             }
+        }
+    }
+
+    public void setDriveTank(double left,double right)
+    {
+        for(int i=0;i<motors[0].length;i++)
+        {
+            motors[0][i].setPower(left);
+            motors[1][i].setPower(-right);
         }
     }
 

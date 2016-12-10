@@ -57,44 +57,53 @@ public class Beacons extends AutoMode {
             TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2-1,
             TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3+1;
 
+    @Override
+    public void init() {
+        super.init();
+        state = 8;
+    }
+
     /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
+         * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+         */
     @Override
     public void loop() {
         //robot.intake.setTargetPosition(-500);
         switch (state) {
-
-            case 0://Drive To Wall
+            case 0:
                 drive(10);
                 break;
             case 1:
-                turn(45);
+                driveToWall(3);
                 break;
             case 2:
-                drive(10);
+                drive(-4);
                 break;
             case 3:
-                driveToWall();
+                turn(-90);
                 break;
             case 4:
-                driveToBeacon();
+                turnToWall();
                 break;
             case 5:
+                driveToBeacon(false);
+                break;
+            case 6:
                 getBeaconColor();
                 checkStateCompletion(true);
-            case 6:
+            case 7:
                 drive(getBeaconDriveDist());
                 break;
-            case 7:
+            case 8:
                 pressBeacon();
                 break;
-            case 8:
+            case 9:
                 unpressBeacon();
                 break;
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);
+        telemetry.addData("color", beaconColor == BEACON.RED ? "red" : "blue");
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }

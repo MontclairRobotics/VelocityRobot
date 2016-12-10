@@ -90,10 +90,10 @@ public class AutoMode extends OpMode {
         checkStateCompletion(diff < TOLERANCE);
     }
 
-    public void driveToWall() {
+    public void driveToWall(double time) {
         robot.runWithPower();
-        robot.setPower(0.1);
-        checkStateCompletion(robot.getSpeed() < 10);
+        robot.setDriveTank(0.1,0.1);
+        checkStateCompletion(timeInState()>=time);
     }
 
     public void turn(double degrees)
@@ -204,10 +204,15 @@ public class AutoMode extends OpMode {
         checkStateCompletion(diff < TOLERANCE);
     }*/
 
-    public void driveToBeacon()
+    public void driveToBeacon(boolean forwards)
     {
-        robot.setPower(0.2);
-        checkStateCompletion(getGroundSensor()>1.2);
+        robot.runWithPower();
+        if (forwards) {
+            robot.setPower(0.2);
+        } else {
+            robot.setPower(-0.2);
+        }
+        checkStateCompletion(getGroundSensor()>0.21);
     }
 
     public void turnToWall() {
@@ -217,8 +222,8 @@ public class AutoMode extends OpMode {
     }
 
     public void pressBeacon() {
-        robot.beaconPusher.setTargetPosition(500);
-        checkStateCompletion(isCloseTo(500, robot.beaconPusher.getCurrentPosition(), TOLERANCE));
+        robot.beaconPusher.setTargetPosition(1250);
+        checkStateCompletion(isCloseTo(1250, robot.beaconPusher.getCurrentPosition(), TOLERANCE) || timeInState() > 2);
     }
 
     public void unpressBeacon() {
@@ -262,11 +267,11 @@ public class AutoMode extends OpMode {
     }
     public double getBeaconA()
     {
-        return robot.lightBeaconA.getRawLightDetected();
+        return robot.lightA.getRawLightDetected();
     }
     public double getBeaconB()
     {
-        return robot.lightBeaconB.getRawLightDetected();
+        return robot.lightB.getRawLightDetected();
     }
 
 }
