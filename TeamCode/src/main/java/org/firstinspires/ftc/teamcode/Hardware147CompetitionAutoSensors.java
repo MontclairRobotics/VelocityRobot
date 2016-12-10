@@ -70,6 +70,9 @@ public class Hardware147CompetitionAutoSensors
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        beaconPusher.setPower(0.15);
+        beaconPusher.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        beaconPusher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
         //sensors
@@ -156,10 +159,14 @@ public class Hardware147CompetitionAutoSensors
 
     public void setDriveTank(double left,double right)
     {
+        int leftOffset = left > 0 ? 1000 : -1000;
+        int rightOffset = right > 0 ? -1000 : 1000;
         for(int i=0;i<motors[0].length;i++)
         {
+            motors[0][i].setTargetPosition(motors[0][i].getCurrentPosition() + leftOffset);
             motors[0][i].setPower(left);
-            motors[1][i].setPower(-right);
+            motors[1][i].setTargetPosition(motors[1][i].getCurrentPosition() + rightOffset);
+            motors[1][i].setPower(right);
         }
     }
 

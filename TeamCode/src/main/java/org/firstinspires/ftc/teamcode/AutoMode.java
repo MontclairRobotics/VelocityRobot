@@ -24,20 +24,27 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_TURN_SHOOT_1_TURN=40,
             AUTO_DRIVE_TURN_SHOOT_2=-3,
             AUTO_DRIVE_TURN_SHOOT_3=33,
+            //BEACON_SPLIT=4,
 
-            BEACON_1=4,
-            BEACON_SPLIT=4,
-
-            AUTO_DRIVE_SHOOT_0=18,
+            AUTO_DRIVE_SHOOT_0=4,
             AUTO_DRIVE_SHOOT_1=33,
             AUTO_DRIVE_SHOOT_2=-12;
+
+    public static final double
+            BEACON_LEFT=9.5,
+            BEACON_RIGHT=2.5;
 
     int state = 0;
     double diff = 0;
     boolean shot = false;
 
-    BEACON beaconColor;
+    boolean beaconColor;
     public double timeStateStarted=0;
+
+    public double lastLoopTime = 0.0;
+    public double timeInLoop = 0.0;
+
+    PID turnPID=new PID(0.3,0,0.0003);
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -63,11 +70,14 @@ public class AutoMode extends OpMode {
     @Override
     public void loop() {
         robot.loop();
+        timeInLoop = timer.seconds() - lastLoopTime;
+        lastLoopTime = timer.seconds();
     }
 
     public void start()
     {
         timer.reset();
+        robot.resetMotorOffset();
     }
 
     public void stop()
@@ -91,14 +101,13 @@ public class AutoMode extends OpMode {
     }
 
     public void driveToWall(double time) {
-        robot.runWithPower();
         robot.setDriveTank(0.1,0.1);
         checkStateCompletion(timeInState()>=time);
     }
 
     public void turn(double degrees)
     {
-        robot.setPower(0.8);
+        robot.setPower(0.4);
         diff = robot.setTurnDegrees(degrees*DEGREES_PER_INCH);
         telemetry.addData("TURN DIFF",diff);
         checkStateCompletion(diff < TOLERANCE);
@@ -204,21 +213,40 @@ public class AutoMode extends OpMode {
         checkStateCompletion(diff < TOLERANCE);
     }*/
 
-    public void driveToBeacon(boolean forwards)
+    public void driveToBeacon() {
+        driveToBeacon(false);
+    }
+
+    public void driveToBeaconBackwards() {
+        driveToBeacon(true);
+    }
+
+    private void driveToBeacon(boolean reverse)
     {
-        robot.runWithPower();
-        if (forwards) {
-            robot.setPower(0.2);
+        if(reverse) {
+            robot.setDriveTank(-0.4, -0.4);
         } else {
-            robot.setPower(-0.2);
+            robot.setDriveTank(0.4, 0.4);
         }
-        checkStateCompletion(getGroundSensor()>0.21);
+        checkStateCompletion(getGroundSensor()>1.21);
+    }
+
+    public void driveSlowToBeacon(boolean reverse) {
+        if(reverse) {
+            robot.setDriveTank(-0.2, -0.2);
+        } else {
+            robot.setDriveTank(0.2, 0.2);
+        }
+        checkStateCompletion(getGroundSensor()>1.21);
     }
 
     public void turnToWall() {
         robot.setPower(0.3);
-        robot.setTurnDegrees(getAngleFromWall());
-        checkStateCompletion(diff < TOLERANCE);
+        turnPID.setTarget(0);
+        turnPID.update(robot.ultrasonics.getAngle(), lastLoopTime);
+        double power = turnPID.get();
+        robot.setDriveTank(power, -power);
+        //checkStateCompletion(Math.abs(robot.ultrasonics.getAngle()) < 5);
     }
 
     public void pressBeacon() {
@@ -231,26 +259,27 @@ public class AutoMode extends OpMode {
         checkStateCompletion(isCloseTo(0, robot.beaconPusher.getCurrentPosition(), TOLERANCE));
     }
 
-    public enum BEACON {
-        RED,
-        BLUE
+    public static class BEACON {
+        public static final boolean RED = true;
+        public static final boolean BLUE = false;
     }
 
     public void getBeaconColor() {
-        if(getBeaconA() > getBeaconB()) {
+        /*if(getBeaconA() > getBeaconB()) {
             beaconColor= BEACON.BLUE;
         } else {
             beaconColor= BEACON.RED;
-        }
+        }*/
+        beaconColor = getBeaconA()>getBeaconB();
     }
 
-    public double getBeaconDriveDist()
+    public double getBeaconDriveDist(boolean target)
     {
-        if(beaconColor==BEACON.RED)
+        if(beaconColor==target)
         {
-            return BEACON_1+BEACON_SPLIT;
+            return BEACON_LEFT;
         }
-        return BEACON_1;
+        return BEACON_RIGHT;
     }
 
     public double getDistanceFromWall()

@@ -14,7 +14,7 @@ public class Ultrasonic147 extends Thread {
             B_TO_MIDLINE=6*2.54,
             B_OFFSET=0;
 
-    public static long MS_BETWEEN_READINGS=50;
+    public static long MS_BETWEEN_READINGS=100;
     public static int SMOOTH_TIME=2;
 
     private Object edit=new Object();

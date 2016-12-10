@@ -49,87 +49,114 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Beacons", group="147")
-public class Beacons extends AutoMode {
+@Autonomous(name="Auto Drive Shoot RED BEACON", group="147")
+public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
     int
-            TARGET_DRIVE_0=AUTO_DRIVE_TURN_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_TURN_1=-AUTO_DRIVE_TURN_SHOOT_1_TURN,
-            TARGET_DRIVE_2=AUTO_DRIVE_TURN_SHOOT_2-1,
-            TARGET_DRIVE_3=AUTO_DRIVE_TURN_SHOOT_3+1;
-
-    @Override
-    public void init() {
-        super.init();
-        state = 13;
-    }
+            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
+            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
+            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
 
     /*
-         * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-         */
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     */
+
+    int state2 = 0;
+
     @Override
     public void loop() {
-        //robot.intake.setTargetPosition(-500);
+        if(state > 4) {
+            robot.intake.setTargetPosition(TeleopCompetition.INTAKE_UP_POS);
+        }
         switch (state) {
             case 0:
-                drive(10);
+                intakeHalf();
                 break;
-            case 1:
-                driveToWall(3);
+            case 1: //Shoot
+                shootUp();
                 break;
             case 2:
-                drive(-4);
+                shootDown();
                 break;
             case 3:
-                turn(-82);
-                break;
+                state++;
             case 4:
-                driveToBeaconBackwards();
+                drive(18);
                 break;
             case 5:
-                getBeaconColor();
-                delay(0.5);
-                robot.setTgtPos(0);
+                turn(-40);
                 break;
             case 6:
-                drive(getBeaconDriveDist(BEACON.RED));
+                drive(64.5);
                 break;
             case 7:
-                pressBeacon();
+                turn(-40);
                 break;
             case 8:
-                unpressBeacon();
+                drive(4);
                 break;
             case 9:
-                turn(5);
+                driveToWall(3);
                 break;
             case 10:
-                driveToBeacon();
+                drive(-4.25);
                 break;
             case 11:
+                turn(-80);
+                break;
+            case 12:
+                driveToBeaconBackwards();
+                break;
+            case 13:
+                state++;
+            case 14:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
-                break;
-            case 12:
+                //checkStateCompletion(true);
+            case 15:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 13:
+            case 16:
                 pressBeacon();
                 break;
-            case 14:
+            case 17:
                 unpressBeacon();
                 break;
-            /*case 15:
-                turn(-20);
+            case 18:
+                drive(24);
                 break;
-            case 16:
-                drive(25);
-                break;*/
+            case 19:
+                driveToBeacon();
+                break;
+            case 20:
+                getBeaconColor();
+                delay(0.5);
+                robot.setTgtPos(0);
+                //checkStateCompletion(true);
+            case 21:
+                drive(getBeaconDriveDist(BEACON.RED));
+                break;
+            case 22:
+                pressBeacon();
+                break;
+            case 23:
+                unpressBeacon();
+                break;
+            case 24:
+                turn(-30);
+                break;
+            case 25:
+                drive(30);
+                break;
 
         }
+
+        switch(state2) {
+            //TODO: Maybe?
+        }
+        telemetry.addData("color", beaconColor ? "red" : "blue");
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);
-        telemetry.addData("color", beaconColor == BEACON.RED ? "red" : "blue");
         telemetry.addData("Say","Auto enabled: watch out!");
         updateTelemetry(telemetry);
     }
