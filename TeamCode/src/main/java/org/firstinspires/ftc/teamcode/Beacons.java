@@ -103,7 +103,7 @@ public class Beacons extends AutoMode {
                 unpressBeacon();
                 break;
             case 10:
-                turn(4);
+                turn(7);
                 break;
             case 11:
                 drive(19);

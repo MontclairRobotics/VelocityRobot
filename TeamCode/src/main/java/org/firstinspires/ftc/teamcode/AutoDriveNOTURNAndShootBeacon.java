@@ -98,21 +98,22 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
                 driveToWall(3);
                 break;
             case 10:
-                drive(-4.25);
+                drive(-4);
                 break;
             case 11:
-                turn(-80);
+                turn(-87.5);
                 break;
             case 12:
-                driveToBeaconBackwards();
+                drive(-10);
                 break;
             case 13:
-                state++;
+                driveToBeaconBackwards();
+                break;
             case 14:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
-                //checkStateCompletion(true);
+                break;
             case 15:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
@@ -123,31 +124,34 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
                 unpressBeacon();
                 break;
             case 18:
-                drive(24);
+                turn(7);
                 break;
             case 19:
-                driveToBeacon();
+                drive(19);
                 break;
             case 20:
+                driveToBeacon();
+                break;
+            case 21:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
-                //checkStateCompletion(true);
-            case 21:
-                drive(getBeaconDriveDist(BEACON.RED));
                 break;
             case 22:
-                pressBeacon();
+                drive(getBeaconDriveDist(BEACON.RED));
                 break;
             case 23:
-                unpressBeacon();
+                pressBeacon();
                 break;
             case 24:
+                unpressBeacon();
+                break;
+            /*case 24:
                 turn(-30);
                 break;
             case 25:
                 drive(30);
-                break;
+                break;*/
 
         }
 
