@@ -31,7 +31,7 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_SHOOT_2=-12;
 
     public static final double
-            BEACON_LEFT=9.5,
+            BEACON_LEFT=10.5,
             BEACON_RIGHT=2.5;
 
     int state = 0;

@@ -60,7 +60,7 @@ public class Beacons extends AutoMode {
     @Override
     public void init() {
         super.init();
-        state = 7;
+        state = 4;
     }
 
     /*
@@ -83,40 +83,46 @@ public class Beacons extends AutoMode {
                 turn(-82);
                 break;
             case 4:
-                driveToBeaconBackwards();
+                drive(-10);
                 break;
             case 5:
-                getBeaconColor();
-                delay(0.5);
-                robot.setTgtPos(0);
+                driveToBeaconBackwards();
                 break;
             case 6:
-                drive(getBeaconDriveDist(BEACON.RED));
-                break;
-            case 7:
-                pressBeacon();
-                break;
-            case 8:
-                unpressBeacon();
-                break;
-            case 9:
-                //turn(5);
-                state++;
-            case 10:
-                driveToBeacon();
-                break;
-            case 11:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
                 break;
-            case 12:
+            case 7:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 13:
+            case 8:
                 pressBeacon();
                 break;
+            case 9:
+                unpressBeacon();
+                break;
+            case 10:
+                turn(4);
+                break;
+            case 11:
+                drive(21);
+                break;
+            case 12:
+                driveToBeacon();
+                break;
+            case 13:
+                getBeaconColor();
+                delay(0.5);
+                robot.setTgtPos(0);
+                break;
             case 14:
+                drive(getBeaconDriveDist(BEACON.RED));
+                break;
+            case 15:
+                pressBeacon();
+                break;
+            case 16:
                 unpressBeacon();
                 break;
             /*case 15:
