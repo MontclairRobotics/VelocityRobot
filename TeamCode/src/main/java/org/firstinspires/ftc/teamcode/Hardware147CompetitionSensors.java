@@ -125,5 +125,10 @@ public class Hardware147CompetitionSensors
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
+    public void stop()
+    {
+        ultrasonics.interrupt();
+    }
 }
 

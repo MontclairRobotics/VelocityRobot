@@ -160,5 +160,11 @@ public class Hardware147CompetitionAutoSensors
         period.reset();
     }
 
+
+    public void stop()
+    {
+        ultrasonics.interrupt();
+    }
+
 }
 
