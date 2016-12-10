@@ -24,8 +24,9 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_TURN_SHOOT_1_TURN=40,
             AUTO_DRIVE_TURN_SHOOT_2=-3,
             AUTO_DRIVE_TURN_SHOOT_3=33,
-            AUTO_DRIVE_TURN_SHOOT_BEACON_1=4,
-            AUTO_DRIVE_TURN_SHOOT_BEACON_SPLIT=4,
+
+            BEACON_1=4,
+            BEACON_SPLIT=4,
 
             AUTO_DRIVE_SHOOT_0=18,
             AUTO_DRIVE_SHOOT_1=33,
@@ -34,6 +35,8 @@ public class AutoMode extends OpMode {
     int state = 0;
     double diff = 0;
     boolean shot = false;
+
+    BEACON beaconColor;
     public double timeStateStarted=0;
 
     /*
@@ -183,10 +186,16 @@ public class AutoMode extends OpMode {
         return Math.abs(d1-d2) < tolerance;
     }
 
-    public void driveToWall() {
+    /*public void driveToWall() {
         robot.setPower(0.5);
         diff = robot.setTgtPos(getDistanceFromWall());
         checkStateCompletion(diff < TOLERANCE);
+    }*/
+
+    public void driveToBeacon()
+    {
+        robot.setPower(0.2);
+        checkStateCompletion(getGroundSensor()>1.2);
     }
 
     public void turnToWall() {
@@ -209,14 +218,22 @@ public class AutoMode extends OpMode {
         BLUE
     }
 
-    public BEACON getBeaconColor() {
+    public void getBeaconColor() {
         if(getBeaconA() > getBeaconB()) {
-            return BEACON.BLUE;
+            beaconColor= BEACON.BLUE;
         } else {
-            return BEACON.RED;
+            beaconColor= BEACON.RED;
         }
     }
 
+    public double getBeaconDriveDist()
+    {
+        if(beaconColor==BEACON.RED)
+        {
+            return BEACON_1+BEACON_SPLIT;
+        }
+        return BEACON_1;
+    }
 
     public double getDistanceFromWall()
     {
