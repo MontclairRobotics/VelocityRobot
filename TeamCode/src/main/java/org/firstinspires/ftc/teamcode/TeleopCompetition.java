@@ -243,7 +243,7 @@ public class TeleopCompetition extends OpMode{
         //telemetry.addData("shooter", ip, shooterPos);
         //telemetry.addData("shooterPosition", ip, hardware.shooter.getCurrentPosition());
         //telemetry.addData("ms per cycle", dp,ms);
-        //telemetry.addData("buttonPusherPos",hardware.buttonPusher.getCurrentPosition());
+        telemetry.addData("buttonPusherPos",hardware.beaconPusher.getCurrentPosition());
         updateTelemetry(telemetry);
 
         time.reset();
@@ -251,6 +251,7 @@ public class TeleopCompetition extends OpMode{
 
     @Override
     public void stop() {
+        hardware.stop();
         telemetry.addData("say","Disabled");
         updateTelemetry(telemetry);
     }

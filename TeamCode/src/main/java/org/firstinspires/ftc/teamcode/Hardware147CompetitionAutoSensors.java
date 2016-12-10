@@ -186,16 +186,22 @@ public class Hardware147CompetitionAutoSensors
         period.reset();
     }
 
+
     public void loop() {
         float currentPosition = 0.0f;
-        for(DcMotor[] motorSide : motors) {
-            for(DcMotor motor : motorSide) {
+        for (DcMotor[] motorSide : motors) {
+            for (DcMotor motor : motorSide) {
                 currentPosition += motor.getCurrentPosition();
             }
         }
         currentPosition /= 4;
-        speed = currentPosition-lastPosition;
+        speed = currentPosition - lastPosition;
         lastPosition = currentPosition;
+    }
+
+    public void stop()
+    {
+        ultrasonics.interrupt();
     }
 
 }

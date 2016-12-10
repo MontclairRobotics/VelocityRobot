@@ -70,6 +70,11 @@ public class AutoMode extends OpMode {
         timer.reset();
     }
 
+    public void stop()
+    {
+        robot.stop();
+    }
+
     public void drive(double distance)
     {
         diff = robot.setTgtPos(distance*DEGREES_PER_INCH);
@@ -206,6 +211,7 @@ public class AutoMode extends OpMode {
     }
 
     public void turnToWall() {
+        robot.setPower(0.3);
         robot.setTurnDegrees(getAngleFromWall());
         checkStateCompletion(diff < TOLERANCE);
     }
