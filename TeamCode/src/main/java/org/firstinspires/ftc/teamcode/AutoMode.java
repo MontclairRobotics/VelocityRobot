@@ -24,6 +24,8 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_TURN_SHOOT_1_TURN=40,
             AUTO_DRIVE_TURN_SHOOT_2=-3,
             AUTO_DRIVE_TURN_SHOOT_3=33,
+            AUTO_DRIVE_TURN_SHOOT_BEACON_1=4,
+            AUTO_DRIVE_TURN_SHOOT_BEACON_SPLIT=4,
 
             AUTO_DRIVE_SHOOT_0=18,
             AUTO_DRIVE_SHOOT_1=33,
@@ -179,6 +181,40 @@ public class AutoMode extends OpMode {
 
     boolean isCloseTo(double d1, double d2, double tolerance) {
         return Math.abs(d1-d2) < tolerance;
+    }
+
+    public void driveToWall() {
+        robot.setPower(0.5);
+        diff = robot.setTgtPos(getDistanceFromWall());
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void turnToWall() {
+        robot.setTurnDegrees(getAngleFromWall());
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void pressBeacon() {
+        robot.beaconPusher.setTargetPosition(500);
+        checkStateCompletion(isCloseTo(500, robot.beaconPusher.getCurrentPosition(), TOLERANCE));
+    }
+
+    public void unpressBeacon() {
+        robot.beaconPusher.setTargetPosition(0);
+        checkStateCompletion(isCloseTo(0, robot.beaconPusher.getCurrentPosition(), TOLERANCE));
+    }
+
+    public enum BEACON {
+        RED,
+        BLUE
+    }
+
+    public BEACON getBeaconColor() {
+        if(getBeaconA() > getBeaconB()) {
+            return BEACON.BLUE;
+        } else {
+            return BEACON.RED;
+        }
     }
 
 

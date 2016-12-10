@@ -26,7 +26,7 @@ public class Hardware147CompetitionAutoSensors
     /* Public OpMode members. */
     public DcMotor[][] motors=new DcMotor[2][2];
     public int[][] motorOffset = new int[2][2];
-    public DcMotor  intake,shooter;
+    public DcMotor  intake,shooter,beaconPusher;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -50,6 +50,7 @@ public class Hardware147CompetitionAutoSensors
         motors[1][1]  = hwMap.dcMotor.get("right_b");
         intake = hwMap.dcMotor.get("aux_a");
         shooter = hwMap.dcMotor.get("aux_b");
+        beaconPusher = hwMap.dcMotor.get("aux_c");
 
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
