@@ -60,7 +60,7 @@ public class Beacons extends AutoMode {
     @Override
     public void init() {
         super.init();
-        state = 13;
+        state = 7;
     }
 
     /*
@@ -100,8 +100,8 @@ public class Beacons extends AutoMode {
                 unpressBeacon();
                 break;
             case 9:
-                turn(5);
-                break;
+                //turn(5);
+                state++;
             case 10:
                 driveToBeacon();
                 break;
