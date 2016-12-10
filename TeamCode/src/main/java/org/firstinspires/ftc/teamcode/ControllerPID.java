@@ -62,4 +62,5 @@ public class ControllerPID {
     {
         return drive.dpad_left;
     }
+    public boolean bangbangCtrl(){return drive.y;}
 }

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AutoMode extends OpMode {
 
     /* Declare OpMode members. */
-    Hardware147CompetitionAuto1 robot = new Hardware147CompetitionAuto1();
+    Hardware147CompetitionAutoSensors robot = new Hardware147CompetitionAutoSensors();
     ElapsedTime timer = new ElapsedTime();
 
     public static final double DEGREES_PER_INCH = 10000/85;
@@ -180,4 +180,27 @@ public class AutoMode extends OpMode {
     boolean isCloseTo(double d1, double d2, double tolerance) {
         return Math.abs(d1-d2) < tolerance;
     }
+
+
+    public double getDistanceFromWall()
+    {
+        return robot.ultrasonics.getDist();
+    }
+    public double getAngleFromWall()
+    {
+        return robot.ultrasonics.getAngle();
+    }
+    public double getGroundSensor()
+    {
+        return robot.lightGround.getRawLightDetected();
+    }
+    public double getBeaconA()
+    {
+        return robot.lightBeaconA.getRawLightDetected();
+    }
+    public double getBeaconB()
+    {
+        return robot.lightBeaconB.getRawLightDetected();
+    }
+
 }

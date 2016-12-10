@@ -14,8 +14,8 @@ public class Ultrasonic147 extends Thread {
             B_TO_MIDLINE=6*2.54,
             B_OFFSET=2;
 
-    public static long MS_BETWEEN_READINGS=100;
-    public static int SMOOTH_TIME=5;
+    public static long MS_BETWEEN_READINGS=50;
+    public static int SMOOTH_TIME=2;
 
     private Object edit=new Object();
 
@@ -66,7 +66,20 @@ public class Ultrasonic147 extends Thread {
         double b=getDistB();
         synchronized (edit) {
             ang = Math.atan2(b - a - B_OFFSET, DISTANCE_BETWEEN_SENSORS);
-            dist = (b+B_TO_MIDLINE) * Math.cos(ang) + B_TO_CENTER_OF_SIDE * Math.sin(ang);
+            double a1, b1;
+            if (ang > Math.toRadians(7.5)) {
+                a1 = Math.cos(ang - Math.toRadians(15)) * a;
+                b1 = Math.cos(ang - Math.toRadians(15)) * (b - B_OFFSET);
+            } else if (ang < Math.toRadians(-7.5)) {
+                a1 = Math.cos(ang + Math.toRadians(15)) * a;
+                b1 = Math.cos(ang + Math.toRadians(15)) * (b - B_OFFSET);
+            } else
+            {
+                a1=a;
+                b1=b-B_OFFSET;
+            }
+            //dist = (b+B_TO_MIDLINE) * Math.cos(ang) + B_TO_CENTER_OF_SIDE * Math.sin(ang);
+            dist=(a1*4+b1*8)/12;
         }
     }
 

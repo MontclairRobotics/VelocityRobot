@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Teleop Test PID", group="147")
 public class TeleopTestPID extends OpMode{
 
-    public static double DISTANCE_FROM_WALL=20;
+    public static double DISTANCE_FROM_WALL=40;
 
     /* Declare OpMode members. */
     Hardware147CompetitionSensors hardware = new Hardware147CompetitionSensors(); // use the class created to define a Pushbot's hardware
@@ -77,8 +77,8 @@ public class TeleopTestPID extends OpMode{
     String dp="%.2f";
 
     boolean distMode;
-    PID turnPID=new PID(0.3,0,0.0003),distPID=new PID(0.1,0,0.1);
-    double CHG=0.01;
+    PID turnPID=new PID(0.3,0,0.0003),distPID=new PID(-1,0,-0.1);
+    double CHG=0.1;
     double angle,dist,sec,tgtTurn;
 
     double lastPower,lastTurn;
@@ -142,7 +142,24 @@ public class TeleopTestPID extends OpMode{
         angle=hardware.ultrasonics.getAngle();
         dist=hardware.ultrasonics.getDist();
 
-        if(ctrl.activateTurnPID())
+        if(ctrl.bangbangCtrl()) {
+            double diff = hardware.ultrasonics.getDistA() - DISTANCE_FROM_WALL;
+            if (diff < -5)
+            {
+                turnPID.setTarget(Math.toRadians(5));
+            }
+            else if(diff>5)
+            {
+                turnPID.setTarget(Math.toRadians(-5));
+            }
+            else
+            {
+                turnPID.setTarget(0);
+            }
+            power=(power<0?-0.3:.3);
+            turn=turnPID.get();
+        }
+        else if(ctrl.activateTurnPID())
         {
             turnPID.setTarget(0);
             turnPID.update(angle,sec);
@@ -162,13 +179,15 @@ public class TeleopTestPID extends OpMode{
 
 
 
+
+
 /*
         power=constrain(power,lastPower-MAX_ACCEL*ms,lastPower+MAX_ACCEL*ms);
         turn=constrain(turn,lastTurn-TURN_ACCEL*ms,lastTurn+TURN_ACCEL*ms);
         lastPower=power;
         lastTurn=turn;*/
         hardware.setDriveTank(power+turn,power-turn);
-        
+
 
         //telemetry.addData("say","teleop mode enabled");
         telemetry.addData("power", dp , power);
@@ -211,6 +230,6 @@ public class TeleopTestPID extends OpMode{
     }
     public double constrainTurn(double val)
     {
-        return constrain(val,-Math.toRadians(10),Math.toRadians(10));
+        return constrain(val,-Math.toRadians(5),Math.toRadians(5));
     }
 }
