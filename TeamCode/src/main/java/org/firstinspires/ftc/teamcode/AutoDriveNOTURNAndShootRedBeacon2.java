@@ -172,7 +172,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
         /*switch(state2) {
             //TODO: Maybe?
         }*/
-        telemetry.addData("color", beaconColor ? "red" : "blue");
+        telemetry.addData("color", beaconColor ? "red blue" : "blue red");
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);
         telemetry.addData("Say","Auto enabled: watch out!");
