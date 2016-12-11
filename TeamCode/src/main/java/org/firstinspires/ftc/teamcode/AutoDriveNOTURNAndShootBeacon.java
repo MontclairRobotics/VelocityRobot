@@ -64,66 +64,77 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
 
     @Override
     public void loop() {
-        if(state > 4) {
+        if(state > 8) {
             robot.intake.setTargetPosition(TeleopCompetition.INTAKE_UP_POS);
         }
         switch (state) {
             case 0:
-                intakeHalf();
+                intakeDownSlow();
+            case 1:
+                intakeThird();
                 break;
-            case 1: //Shoot
+            case 2: //Shoot
                 shootUp();
                 break;
-            case 2:
+            case 3:
                 shootDown();
                 break;
-            case 3:
-                state++;
             case 4:
-                drive(18);
+                intakeUp();
                 break;
             case 5:
-                turn(-40);
+                intakeHalf();
                 break;
             case 6:
-                drive(64.5);
+                shootUp();
                 break;
             case 7:
-                turn(-40);
-                break;
+                shootDown();
             case 8:
-                drive(4);
+                drive(18);
                 break;
             case 9:
-                driveToWall(3);
+                turn(-40);
                 break;
             case 10:
-                drive(-4);
+                drive(64.5);
                 break;
             case 11:
-                turn(-87.5);
+                turn(-40);
                 break;
             case 12:
-                drive(-10);
+                drive(4);
                 break;
             case 13:
-                driveToBeaconBackwards();
+                driveToWall(3);
                 break;
             case 14:
+                drive(-4);
+                break;
+            case 15:
+                turn(-87.5);
+                break;
+            case 16:
+                drive(-10);
+                break;
+            case 17:
+                driveToBeaconBackwards();
+                break;
+            case 18:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
                 break;
-            case 15:
+            case 19:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 16:
+            case 20:
                 pressBeacon();
                 break;
-            case 17:
+            case 21:
                 unpressBeacon();
                 break;
-            case 18:
+            /*case 18:
                 turn(7);
                 break;
             case 19:
@@ -155,9 +166,9 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
 
         }
 
-        switch(state2) {
+        /*switch(state2) {
             //TODO: Maybe?
-        }
+        }*/
         telemetry.addData("color", beaconColor ? "red" : "blue");
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);
