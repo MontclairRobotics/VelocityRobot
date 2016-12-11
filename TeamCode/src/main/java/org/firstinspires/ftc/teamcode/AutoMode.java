@@ -20,18 +20,18 @@ public class AutoMode extends OpMode {
     public static final int
             AUTO_DRIVE_0=36,
 
-            AUTO_DRIVE_TURN_SHOOT_0=27,
-            AUTO_DRIVE_TURN_SHOOT_1_TURN=40,
-            AUTO_DRIVE_TURN_SHOOT_2=-3,
-            AUTO_DRIVE_TURN_SHOOT_3=33,
+            AUTO_DRIVE_TURN_SHOOT_0=10,
+            AUTO_DRIVE_TURN_SHOOT_1_TURN=30,
+            AUTO_DRIVE_TURN_SHOOT_2=0,
+            AUTO_DRIVE_TURN_SHOOT_3=46,
             //BEACON_SPLIT=4,
 
-            AUTO_DRIVE_SHOOT_0=4,
-            AUTO_DRIVE_SHOOT_1=33,
-            AUTO_DRIVE_SHOOT_2=-12;
+            AUTO_DRIVE_SHOOT_0=0,
+            AUTO_DRIVE_SHOOT_1=40,
+            AUTO_DRIVE_SHOOT_2=-13;
 
     public static final double
-            BEACON_LEFT=10.5,
+            BEACON_LEFT=9.5,
             BEACON_RIGHT=2.5;
 
     public static final double
@@ -43,12 +43,12 @@ public class AutoMode extends OpMode {
 
     public static final double
             BEACON_SUB_TIME_0=3,
-            BEACON_SUB_DRIVE_1=-4,
-            BEACON_SUB_TURN_2=-87.5,
+            BEACON_SUB_DRIVE_1=-7,
+            BEACON_SUB_TURN_2=-87.5, //-87.5
             BEACON_SUB_DRIVE_3=-10,
-            BEACON_SUB_TURN_4=7,
+            BEACON_SUB_TURN_4 = 4,   //7
             BEACON_SUB_DRIVE_5=19,
-            BEACON_SUB_TURN_6=-30,
+            BEACON_SUB_TURN_6=-20,
             BEACON_SUB_DRIVE_7=30;
 
     int state = 0;
@@ -254,9 +254,9 @@ public class AutoMode extends OpMode {
     private void driveToBeacon(boolean reverse)
     {
         if(reverse) {
-            robot.setDriveTank(-0.4, -0.4);
+            robot.setDriveTank(-0.3, -0.3);
         } else {
-            robot.setDriveTank(0.4, 0.4);
+            robot.setDriveTank(0.3, 0.3);
         }
         checkStateCompletion(getGroundSensor()>1.21);
     }

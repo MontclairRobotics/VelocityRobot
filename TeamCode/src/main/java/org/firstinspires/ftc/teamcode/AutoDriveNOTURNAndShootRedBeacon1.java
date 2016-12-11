@@ -74,6 +74,7 @@ public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
         if(state > 5) {
             robot.intake.setTargetPosition(TeleopCompetition.INTAKE_UP_POS);
             robot.shooter.setTargetPosition(TeleopCompetition.SHOOTER_DOWN_POS);
+            robot.shooter.setPower(1);
         }
         switch (state) {
             case 0:

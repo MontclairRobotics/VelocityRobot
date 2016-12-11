@@ -73,7 +73,7 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
                 drive(TARGET_DRIVE_0);
                 break;
             case 3:
-                delay(4);
+                delay(1);
                 break;
             case 4://Shoot
                 shootUp();
@@ -88,7 +88,7 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
                 intakeHalf();
                 break;
             case 8:
-                delay(4);
+                delay(1);
                 break;
             case 9:
                 shootUp();
