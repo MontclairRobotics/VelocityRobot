@@ -134,27 +134,27 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
             case 21:
                 unpressBeacon();
                 break;
-            /*case 18:
+            case 22:
                 turn(7);
                 break;
-            case 19:
+            case 23:
                 drive(19);
                 break;
-            case 20:
+            case 24:
                 driveToBeacon();
                 break;
-            case 21:
+            case 25:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
                 break;
-            case 22:
+            case 26:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 23:
+            case 27:
                 pressBeacon();
                 break;
-            case 24:
+            case 28:
                 unpressBeacon();
                 break;
             /*case 24:
