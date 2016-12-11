@@ -80,7 +80,7 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
                 drive(TARGET_DRIVE_2);
                 break;
             case 5:
-                delay(4);
+                delay(1);
                 break;
             case 6: //Shoot
                 shootUp();
@@ -94,7 +94,7 @@ public class AutoDriveLeftAndShoot2 extends AutoMode {
             case 9:
                 intakeHalf();
             case 10:
-                delay(4);
+                delay(1);
                 break;
             case 11://Shoot again
                 shootUp();

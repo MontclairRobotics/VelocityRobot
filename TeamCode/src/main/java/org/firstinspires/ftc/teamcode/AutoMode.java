@@ -46,7 +46,7 @@ public class AutoMode extends OpMode {
             BEACON_SUB_DRIVE_1=-7,
             BEACON_SUB_TURN_2=-87.5, //-87.5
             BEACON_SUB_DRIVE_3=-10,
-            BEACON_SUB_TURN_4 = 4,   //7
+            BEACON_SUB_TURN_4 = 7,   //7
             BEACON_SUB_DRIVE_5=19,
             BEACON_SUB_TURN_6=-20,
             BEACON_SUB_DRIVE_7=30;

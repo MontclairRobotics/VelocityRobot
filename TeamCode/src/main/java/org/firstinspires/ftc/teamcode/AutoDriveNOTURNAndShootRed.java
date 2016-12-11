@@ -49,8 +49,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive NO TURN And Shoot 2 BLUE", group="147")
-public class AutoDriveNOTURNAndShoot2 extends AutoMode {
+@Autonomous(name="Auto Drive NO TURN And Shoot Red", group="147")
+public class AutoDriveNOTURNAndShootRed extends AutoMode {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
@@ -61,52 +61,32 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
      */
     @Override
     public void loop() {
-        //robot.intake.setTargetPosition(-500);
+        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_HALF_POS);
         switch (state) {
-            case 0:
-                intakeDownSlow();
-                break;
-            case 1:
-                intakeThird();
-                break;
-            case 2: //Move forward
+            case 0: //Move forward
                 drive(TARGET_DRIVE_0);
                 break;
+            case 1:
+                delay(4);
+                break;
+            case 2: //Shoot
+                shootUp();
+                break;
             case 3:
-                delay(1);
-                break;
-            case 4://Shoot
-                shootUp();
-                break;
-            case 5:
-                shootDown();
-                break;
-            case 6:
                 intakeUp();
                 break;
-            case 7: // brings it back down
-                intakeHalf();
-                break;
-            case 8:
-                delay(1);
-                break;
-            case 9:
-                shootUp();
-                break;
-            case 10:
-                shootDown();
-                break;
-            case 11:
-                intakeUp();
-                break;
-            case 12: //Push ball off
+            case 4: //Push ball off
                 drive(TARGET_DRIVE_3);
                 break;
-            case 13:
-                turn(180);
+            case 5:
+                turn(-180);
                 break;
-            case 14:
+            case 6:
                 drive(TARGET_DRIVE_4);
+                break;
+            case 7:
+                shootDown();
+                break;
         }
         telemetry.addData("state",state);
         telemetry.addData("diff",diff);

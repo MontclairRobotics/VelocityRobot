@@ -49,8 +49,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive NO TURN And Shoot 2 BLUE", group="147")
-public class AutoDriveNOTURNAndShoot2 extends AutoMode {
+@Autonomous(name="Auto Drive NO TURN And Shoot 2 RED", group="147")
+public class AutoDriveNOTURNAndShoot2Red extends AutoMode {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
@@ -103,7 +103,7 @@ public class AutoDriveNOTURNAndShoot2 extends AutoMode {
                 drive(TARGET_DRIVE_3);
                 break;
             case 13:
-                turn(180);
+                turn(-180);
                 break;
             case 14:
                 drive(TARGET_DRIVE_4);
