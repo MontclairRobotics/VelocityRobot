@@ -61,7 +61,7 @@ public class AutoDriveNOTURNAndShootBlueBeacon1 extends AutoMode {
 
             BEACON_TIME_0=   BEACON_SUB_TIME_0,
             BEACON_DRIVE_1=  BEACON_SUB_DRIVE_1,
-            BEACON_TURN_2=   180-BEACON_SUB_TURN_2,
+            BEACON_TURN_2=   BEACON_SUB_TURN_2+5,
             BEACON_DRIVE_3=  -BEACON_SUB_DRIVE_3,
             BEACON_TURN_4=   -BEACON_SUB_TURN_4,
             BEACON_DRIVE_5=  -BEACON_SUB_DRIVE_5,

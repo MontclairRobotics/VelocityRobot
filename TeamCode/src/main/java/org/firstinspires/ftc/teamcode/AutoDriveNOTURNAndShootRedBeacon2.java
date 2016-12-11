@@ -62,7 +62,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
             BEACON_DRIVE_1= BEACON_SUB_DRIVE_1,
             BEACON_TURN_2=  BEACON_SUB_TURN_2,
             BEACON_DRIVE_3= BEACON_SUB_DRIVE_3,
-            BEACON_TURN_4=  BEACON_SUB_TURN_4,
+            BEACON_TURN_4=  BEACON_SUB_TURN_4-0.5,
             BEACON_DRIVE_5= BEACON_SUB_DRIVE_5,
             BEACON_TURN_6=  BEACON_SUB_TURN_6,
             BEACON_DRIVE_7= BEACON_SUB_DRIVE_7;
@@ -71,7 +71,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
 
     @Override
     public void loop() {
-        if(state > 5) {
+        if(state > 7) {
             robot.intake.setTargetPosition(TeleopCompetition.INTAKE_UP_POS);
             robot.shooter.setTargetPosition(TeleopCompetition.SHOOTER_DOWN_POS);
             robot.shooter.setPower(1);
@@ -92,79 +92,82 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
                 intakeHalf();
                 break;
             case 5:
-                shootUp();
+                delay(1);
                 break;
             case 6:
-                drive(DRIVE_0);
+                shootUp();
                 break;
             case 7:
-                turn(TURN_1);
+                drive(DRIVE_0);
                 break;
             case 8:
-                drive(DRIVE_2);
+                turn(TURN_1);
                 break;
             case 9:
-                turn(TURN_3);
+                drive(DRIVE_2);
                 break;
             case 10:
-                drive(DRIVE_4);
+                turn(TURN_3);
                 break;
             case 11:
-                driveToWall(BEACON_TIME_0);
+                drive(DRIVE_4);
                 break;
             case 12:
-                drive(BEACON_DRIVE_1);
+                driveToWall(BEACON_TIME_0);
                 break;
             case 13:
-                turn(BEACON_TURN_2);
+                drive(BEACON_DRIVE_1);
                 break;
             case 14:
-                drive(BEACON_DRIVE_3);
+                turn(BEACON_TURN_2);
                 break;
             case 15:
-                driveToBeaconBackwards();
+                drive(BEACON_DRIVE_3);
                 break;
             case 16:
-                getBeaconColor();
-                delay(0.5);
-                robot.setTgtPos(0);
+                driveToBeaconBackwards();
                 break;
             case 17:
-                drive(getBeaconDriveDist(BEACON.RED));
-                break;
-            case 18:
-                pressBeacon();
-                break;
-            case 19:
-                unpressBeacon();
-                break;
-            case 20:
-                turn(BEACON_TURN_4);
-                break;
-            case 21:
-                drive(BEACON_DRIVE_5);
-                break;
-            case 22:
-                driveToBeacon();
-                break;
-            case 23:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
                 break;
-            case 24:
+            case 18:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 25:
+            case 19:
                 pressBeacon();
                 break;
-            case 26:
+            case 20:
                 unpressBeacon();
                 break;
+            case 21:
+                turn(BEACON_TURN_4);
+                break;
+            case 22:
+                drive(BEACON_DRIVE_5);
+                break;
+            case 23:
+                driveToBeacon();
+                break;
+            case 24:
+                getBeaconColor();
+                delay(0.5);
+                robot.setTgtPos(0);
+                break;
+            case 25:
+                drive(getBeaconDriveDist(BEACON.RED));
+                break;
+            case 26:
+                pressBeacon();
+                break;
             case 27:
-                turn(BEACON_TURN_6);
+                unpressBeacon();
                 break;
             case 28:
+                turn(BEACON_TURN_6);
+                break;
+            case 29:
                 drive(BEACON_DRIVE_7);
                 break;
 

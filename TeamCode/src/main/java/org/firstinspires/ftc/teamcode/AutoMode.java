@@ -31,8 +31,8 @@ public class AutoMode extends OpMode {
             AUTO_DRIVE_SHOOT_2=-13;
 
     public static final double
-            BEACON_LEFT=9.5,
-            BEACON_RIGHT=2.5;
+            BEACON_LEFT=9,
+            BEACON_RIGHT=3.5;
 
     public static final double
             AUTO_BEACON_DRIVE_0=18,
@@ -74,7 +74,7 @@ public class AutoMode extends OpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Setup complete: Auto Mode selected");
+        telemetry.addData("Say", "Setup complete: Auto Mode selected v3");
         updateTelemetry(telemetry);
 
         robot.resetMotorOffset();
