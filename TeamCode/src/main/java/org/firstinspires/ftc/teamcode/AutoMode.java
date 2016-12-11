@@ -113,6 +113,19 @@ public class AutoMode extends OpMode {
         checkStateCompletion(diff < TOLERANCE);
     }
 
+    public void shootUpAndIntakeThird()
+    {
+        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_THIRD_POS);
+        setShoot(TeleopCompetition.SHOOTER_UP_POS);//end when shooter is up
+    }
+    public void shootDownAndIntakeThird()
+    {
+        robot.intake.setTargetPosition(TeleopCompetition.INTAKE_THIRD_POS);
+        robot.shooter.setPower(1);
+        robot.shooter.setTargetPosition((int) (TeleopCompetition.SHOOTER_DOWN_POS + 0.5));
+        checkStateCompletion(intakeIsAt(TeleopCompetition.INTAKE_THIRD_POS)&&shooterIsAt(TeleopCompetition.SHOOTER_DOWN_POS));
+    }
+
     public void shootUp()
     {
         setShoot(TeleopCompetition.SHOOTER_UP_POS);

@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name="Auto Drive Shoot RED BEACON", group="147")
-public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
+public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
     int
             TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
             TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
@@ -66,103 +66,99 @@ public class AutoDriveNOTURNAndShootBeacon extends AutoMode {
     public void loop() {
         if(state > 8) {
             robot.intake.setTargetPosition(TeleopCompetition.INTAKE_UP_POS);
+            robot.shooter.setTargetPosition(TeleopCompetition.SHOOTER_DOWN_POS);
         }
         switch (state) {
             case 0:
                 intakeDownSlow();
             case 1:
-                intakeThird();
+                shootUpAndIntakeThird();
                 break;
             case 2: //Shoot
-                shootUp();
+                shootDownAndIntakeThird();
                 break;
             case 3:
-                shootDown();
-                break;
-            case 4:
                 intakeUp();
                 break;
-            case 5:
+            case 4:
                 intakeHalf();
                 break;
-            case 6:
+            case 5:
                 shootUp();
                 break;
-            case 7:
-                shootDown();
-            case 8:
+            case 6:
                 drive(18);
+                break;
+            case 7:
+                turn(-40);
+                break;
+            case 8:
+                drive(64.5);
                 break;
             case 9:
                 turn(-40);
                 break;
             case 10:
-                drive(64.5);
-                break;
-            case 11:
-                turn(-40);
-                break;
-            case 12:
                 drive(4);
                 break;
-            case 13:
+            case 11:
                 driveToWall(3);
                 break;
-            case 14:
+            case 12:
                 drive(-4);
                 break;
-            case 15:
+            case 13:
                 turn(-87.5);
                 break;
-            case 16:
+            case 14:
                 drive(-10);
                 break;
-            case 17:
+            case 15:
                 driveToBeaconBackwards();
                 break;
-            case 18:
+            case 16:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
+                break;
+            case 17:
+                drive(getBeaconDriveDist(BEACON.RED));
+                break;
+            case 18:
+                pressBeacon();
                 break;
             case 19:
-                drive(getBeaconDriveDist(BEACON.RED));
-                break;
-            case 20:
-                pressBeacon();
-                break;
-            case 21:
                 unpressBeacon();
                 break;
-            case 22:
+            case 20:
                 turn(7);
                 break;
-            case 23:
+            case 21:
                 drive(19);
                 break;
-            case 24:
+            case 22:
                 driveToBeacon();
                 break;
-            case 25:
+            case 23:
                 getBeaconColor();
                 delay(0.5);
                 robot.setTgtPos(0);
                 break;
-            case 26:
+            case 24:
                 drive(getBeaconDriveDist(BEACON.RED));
                 break;
-            case 27:
+            case 25:
                 pressBeacon();
                 break;
-            case 28:
+            case 26:
                 unpressBeacon();
                 break;
-            /*case 24:
+            case 27:
                 turn(-30);
                 break;
-            case 25:
+            case 28:
                 drive(30);
-                break;*/
+                break;
 
         }
 
