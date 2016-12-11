@@ -44,12 +44,12 @@ public class AutoMode extends OpMode {
     public static final double
             BEACON_SUB_TIME_0=3,
             BEACON_SUB_DRIVE_1=-4,
-            BEACON_SUB_TURN_2=87.5,
-            BEACON_SUB_DRIVE_3=10,
-            BEACON_SUB_TURN_4=-7,
-            BEACON_SUB_DRIVE_5=-19,
+            BEACON_SUB_TURN_2=-87.5,
+            BEACON_SUB_DRIVE_3=-10,
+            BEACON_SUB_TURN_4=7,
+            BEACON_SUB_DRIVE_5=19,
             BEACON_SUB_TURN_6=-30,
-            BEACON_SUB_DRIVE_7=-30;
+            BEACON_SUB_DRIVE_7=30;
 
     int state = 0;
     double diff = 0;

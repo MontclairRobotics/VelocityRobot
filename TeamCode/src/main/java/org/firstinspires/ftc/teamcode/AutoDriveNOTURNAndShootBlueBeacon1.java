@@ -49,8 +49,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Shoot RED BEACON 2", group="147")
-public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
+@Autonomous(name="Auto Shoot RED BEACON 1", group="147")
+public class AutoDriveNOTURNAndShootBlueBeacon1 extends AutoMode {
     double
             DRIVE_0=    AUTO_BEACON_DRIVE_0,
             TURN_1=     -AUTO_BEACON_TURN_1,
@@ -58,14 +58,15 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
             TURN_3=     -AUTO_BEACON_TURN_3,
             DRIVE_4=    AUTO_BEACON_DRIVE_4,
 
-            BEACON_TIME_0=  BEACON_SUB_TIME_0,
-            BEACON_DRIVE_1= BEACON_SUB_DRIVE_1,
-            BEACON_TURN_2=  BEACON_SUB_TURN_2,
-            BEACON_DRIVE_3= BEACON_SUB_DRIVE_3,
-            BEACON_TURN_4=  BEACON_SUB_TURN_4,
-            BEACON_DRIVE_5= BEACON_SUB_DRIVE_5,
-            BEACON_TURN_6=  BEACON_SUB_TURN_6,
-            BEACON_DRIVE_7= BEACON_SUB_DRIVE_7;
+
+            BEACON_TIME_0=   BEACON_SUB_TIME_0,
+            BEACON_DRIVE_1=  BEACON_SUB_DRIVE_1,
+            BEACON_TURN_2=   180-BEACON_SUB_TURN_2,
+            BEACON_DRIVE_3=  -BEACON_SUB_DRIVE_3,
+            BEACON_TURN_4=   -BEACON_SUB_TURN_4,
+            BEACON_DRIVE_5=  -BEACON_SUB_DRIVE_5,
+            BEACON_TURN_6=   -BEACON_SUB_TURN_6,
+            BEACON_DRIVE_7=  -BEACON_SUB_DRIVE_7;
 
     int state2 = 0;
 
@@ -79,20 +80,22 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
             case 0:
                 intakeHalf();
             case 1:
-                shootUpAndIntakeThird();
+                shootUp();
                 break;
             case 2: //Shoot
-                shootDownAndIntakeThird();
+                shootDown();
                 break;
             case 3:
                 intakeUp();
                 break;
             case 4:
-                intakeHalf();
-                break;
+                state++;
+                //intakeHalf();
+                //break;
             case 5:
-                shootUp();
-                break;
+                state++;
+                //shootUp();
+                //break;
             case 6:
                 drive(DRIVE_0);
                 break;
@@ -121,7 +124,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
                 drive(BEACON_DRIVE_3);
                 break;
             case 15:
-                driveToBeaconBackwards();
+                driveToBeacon();
                 break;
             case 16:
                 getBeaconColor();
@@ -129,7 +132,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
                 robot.setTgtPos(0);
                 break;
             case 17:
-                drive(getBeaconDriveDist(BEACON.RED));
+                drive(getBeaconDriveDist(BEACON.BLUE));
                 break;
             case 18:
                 pressBeacon();
@@ -144,7 +147,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
                 drive(BEACON_DRIVE_5);
                 break;
             case 22:
-                driveToBeacon();
+                driveToBeaconBackwards();
                 break;
             case 23:
                 getBeaconColor();
@@ -152,7 +155,7 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
                 robot.setTgtPos(0);
                 break;
             case 24:
-                drive(getBeaconDriveDist(BEACON.RED));
+                drive(getBeaconDriveDist(BEACON.BLUE));
                 break;
             case 25:
                 pressBeacon();

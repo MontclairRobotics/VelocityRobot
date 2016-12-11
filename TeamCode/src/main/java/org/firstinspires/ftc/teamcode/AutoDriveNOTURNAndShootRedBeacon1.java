@@ -49,8 +49,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Shoot RED BEACON 2", group="147")
-public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
+@Autonomous(name="Auto Shoot RED BEACON 1", group="147")
+public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
     double
             DRIVE_0=    AUTO_BEACON_DRIVE_0,
             TURN_1=     -AUTO_BEACON_TURN_1,
@@ -79,20 +79,22 @@ public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
             case 0:
                 intakeHalf();
             case 1:
-                shootUpAndIntakeThird();
+                shootUp();
                 break;
             case 2: //Shoot
-                shootDownAndIntakeThird();
+                shootDown();
                 break;
             case 3:
                 intakeUp();
                 break;
             case 4:
-                intakeHalf();
-                break;
+                //intakeHalf();
+                //break;
+                state++;
             case 5:
-                shootUp();
-                break;
+                //shootUp();
+                //break;
+                state++;
             case 6:
                 drive(DRIVE_0);
                 break;
