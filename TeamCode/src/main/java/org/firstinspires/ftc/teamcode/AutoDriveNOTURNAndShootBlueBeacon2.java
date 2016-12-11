@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Shoot RED BEACON 2", group="147")
+@Autonomous(name="Auto Shoot BLUE beacon 2", group="147")
 public class AutoDriveNOTURNAndShootBlueBeacon2 extends AutoMode {
     double
             DRIVE_0=    AUTO_BEACON_DRIVE_0,
