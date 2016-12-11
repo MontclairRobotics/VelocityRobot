@@ -49,16 +49,23 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Auto Drive Shoot RED BEACON", group="147")
-public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
-    int
-            TARGET_DRIVE_0=AUTO_DRIVE_SHOOT_0,//25 forward 45 degrees left 6 forward shoot forward 20
-            TARGET_DRIVE_3=AUTO_DRIVE_SHOOT_1,
-            TARGET_DRIVE_4=AUTO_DRIVE_SHOOT_2;
+@Autonomous(name="Auto Shoot RED BEACON 1", group="147")
+public class AutoDriveNOTURNAndShootRedBeacon2 extends AutoMode {
+    double
+            DRIVE_0=    AUTO_BEACON_DRIVE_0,
+            TURN_1=     -AUTO_BEACON_TURN_1,
+            DRIVE_2=    AUTO_BEACON_DRIVE_2,
+            TURN_3=     -AUTO_BEACON_TURN_3,
+            DRIVE_4=    AUTO_BEACON_DRIVE_4,
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
+            BEACON_TIME_0=  -BEACON_SUB_TIME_0,
+            BEACON_DRIVE_1= -BEACON_SUB_DRIVE_1,
+            BEACON_TURN_2=  -BEACON_SUB_TURN_2,
+            BEACON_DRIVE_3= -BEACON_SUB_DRIVE_3,
+            BEACON_TURN_4=  -BEACON_SUB_TURN_4,
+            BEACON_DRIVE_5= -BEACON_SUB_DRIVE_5,
+            BEACON_TURN_6=  -BEACON_SUB_TURN_6,
+            BEACON_DRIVE_7= -BEACON_SUB_DRIVE_7;
 
     int state2 = 0;
 
@@ -70,12 +77,12 @@ public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
         }
         switch (state) {
             case 0:
-                intakeDownSlow();
+                intakeHalf();
             case 1:
-                shootUpAndIntakeThird();
+                shootUp();
                 break;
             case 2: //Shoot
-                shootDownAndIntakeThird();
+                shootDown();
                 break;
             case 3:
                 intakeUp();
@@ -87,31 +94,31 @@ public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
                 shootUp();
                 break;
             case 6:
-                drive(18);
+                drive(DRIVE_0);
                 break;
             case 7:
-                turn(-40);
+                turn(TURN_1);
                 break;
             case 8:
-                drive(64.5);
+                drive(DRIVE_2);
                 break;
             case 9:
-                turn(-40);
+                turn(TURN_3);
                 break;
             case 10:
-                drive(4);
+                drive(DRIVE_4);
                 break;
             case 11:
-                driveToWall(3);
+                driveToWall(BEACON_TIME_0);
                 break;
             case 12:
-                drive(-4);
+                drive(BEACON_DRIVE_1);
                 break;
             case 13:
-                turn(-87.5);
+                turn(BEACON_TURN_2);
                 break;
             case 14:
-                drive(-10);
+                drive(BEACON_DRIVE_3);
                 break;
             case 15:
                 driveToBeaconBackwards();
@@ -131,10 +138,10 @@ public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
                 unpressBeacon();
                 break;
             case 20:
-                turn(7);
+                turn(BEACON_TURN_4);
                 break;
             case 21:
-                drive(19);
+                drive(BEACON_DRIVE_5);
                 break;
             case 22:
                 driveToBeacon();
@@ -154,10 +161,10 @@ public class AutoDriveNOTURNAndShootRedBeacon extends AutoMode {
                 unpressBeacon();
                 break;
             case 27:
-                turn(-30);
+                turn(BEACON_TURN_6);
                 break;
             case 28:
-                drive(30);
+                drive(BEACON_DRIVE_7);
                 break;
 
         }

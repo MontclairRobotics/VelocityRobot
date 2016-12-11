@@ -34,6 +34,23 @@ public class AutoMode extends OpMode {
             BEACON_LEFT=10.5,
             BEACON_RIGHT=2.5;
 
+    public static final double
+            AUTO_BEACON_DRIVE_0=18,
+            AUTO_BEACON_TURN_1=40,
+            AUTO_BEACON_DRIVE_2=64.5,
+            AUTO_BEACON_TURN_3=40,
+            AUTO_BEACON_DRIVE_4=4;
+
+    public static final double
+            BEACON_SUB_TIME_0=3,
+            BEACON_SUB_DRIVE_1=-4,
+            BEACON_SUB_TURN_2=87.5,
+            BEACON_SUB_DRIVE_3=10,
+            BEACON_SUB_TURN_4=-7,
+            BEACON_SUB_DRIVE_5=-19,
+            BEACON_SUB_TURN_6=-30,
+            BEACON_SUB_DRIVE_7=-30;
+
     int state = 0;
     double diff = 0;
     boolean shot = false;
