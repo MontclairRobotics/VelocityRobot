@@ -186,11 +186,11 @@ public class TeleopCompetition extends OpMode{
         //===Manual Reset===
         if(ctrl.shooterUp())
         {
-            hardware.shooterOffset+=1*ms;
+            hardware.shooterOffset-=1*ms;
         }
         if(ctrl.shooterDown())
         {
-            hardware.shooterOffset-=1*ms;
+            hardware.shooterOffset+=1*ms;
         }
 //TODO
         /*if(ctrl.intakeUp())
