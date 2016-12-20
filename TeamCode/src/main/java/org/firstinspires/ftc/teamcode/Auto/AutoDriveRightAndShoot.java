@@ -34,9 +34,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.Auto.AutoCompetition;
-import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
-import org.firstinspires.ftc.teamcode.TeleopCompetition;
+import org.firstinspires.ftc.teamcode.auto.states.StateMachine;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.

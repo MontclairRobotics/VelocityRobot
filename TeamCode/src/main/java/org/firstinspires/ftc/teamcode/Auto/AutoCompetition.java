@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.auto;
 
-import org.firstinspires.ftc.teamcode.Auto.States.State;
-import org.firstinspires.ftc.teamcode.Auto.States.StateMachine;
-import org.firstinspires.ftc.teamcode.Auto.States.StateObj;
+import org.firstinspires.ftc.teamcode.auto.states.State;
+import org.firstinspires.ftc.teamcode.auto.states.StateMachine;
+import org.firstinspires.ftc.teamcode.auto.states.StateObj;
 import org.firstinspires.ftc.teamcode.Robot;
 
 /**

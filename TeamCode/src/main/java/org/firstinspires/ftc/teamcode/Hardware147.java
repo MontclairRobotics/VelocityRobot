@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Sensors.Ultrasonic147;
 
 /**
  * This is NOT an opmode.
@@ -33,7 +32,7 @@ public class Hardware147
 
     public DcMotor  intake,shooter;
 
-    public Ultrasonic147 ultrasonics;
+    //public Ultrasonic147 ultrasonics;
     public LightSensor lightGround;
 
     // public ColorSensor colorBeacon;
@@ -72,7 +71,7 @@ public class Hardware147
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //sensors
-        ultrasonics = new Ultrasonic147(ahwMap,"distA","distB");
+        //ultrasonics = new Ultrasonic147(ahwMap,"distA","distB");
 
         lightGround = hwMap.lightSensor.get("lightGround");
         lightGround.enableLed(true);
@@ -145,7 +144,7 @@ public class Hardware147
 
     public void disable()
     {
-        ultrasonics.interrupt();
+        //ultrasonics.interrupt();
         for(int i=0;i<motors[0].length;i++)
         {
             motors[0][i].setPower(0);

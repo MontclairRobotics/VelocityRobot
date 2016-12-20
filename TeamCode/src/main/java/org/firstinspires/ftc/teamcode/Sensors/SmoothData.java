@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Sensors;
+package org.firstinspires.ftc.teamcode.sensors;
 
 /**
  * Created by MHS Robotics on 2/12/16.
