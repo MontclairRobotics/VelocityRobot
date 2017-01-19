@@ -115,16 +115,16 @@ public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
                 driveToWall(BEACON_TIME_0);
                 break;
             case 12:
-                drive(BEACON_DRIVE_1);
+                driveHugLeft(BEACON_DRIVE_1);
                 break;
             case 13:
                 turn(BEACON_TURN_2);
                 break;
             case 14:
-                drive(BEACON_DRIVE_3);
+                driveHugLeft(BEACON_DRIVE_3);
                 break;
             case 15:
-                driveToBeaconBackwards();
+                driveToBeaconHugLeft(true);
                 break;
             case 16:
                 getBeaconColor();
@@ -132,7 +132,7 @@ public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
                 robot.setTgtPos(0);
                 break;
             case 17:
-                drive(getBeaconDriveDist(BEACON.RED));
+                driveHugLeft(getBeaconDriveDist(BEACON.RED));
                 break;
             case 18:
                 pressBeacon();
@@ -144,10 +144,10 @@ public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
                 turn(BEACON_TURN_4);
                 break;
             case 21:
-                drive(BEACON_DRIVE_5);
+                driveHugLeft(BEACON_DRIVE_5);
                 break;
             case 22:
-                driveToBeacon();
+                driveToBeaconHugLeft(false);
                 break;
             case 23:
                 getBeaconColor();
@@ -155,7 +155,7 @@ public class AutoDriveNOTURNAndShootRedBeacon1 extends AutoMode {
                 robot.setTgtPos(0);
                 break;
             case 24:
-                drive(getBeaconDriveDist(BEACON.RED));
+                driveHugLeft(getBeaconDriveDist(BEACON.RED));
                 break;
             case 25:
                 pressBeacon();

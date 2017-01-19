@@ -41,6 +41,8 @@ public class Hardware147CompetitionAutoSensors
     float lastPosition = 0.0f;
     float speed = 0.0f;
 
+    public static final float hugWeight = 1.15f;
+
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
@@ -118,11 +120,69 @@ public class Hardware147CompetitionAutoSensors
         return error/4;
     }
 
+    public double setTgtPosLeftWeight(int left, int right) {
+        setTgtPos((int)((left*hugWeight)+0.5), (int)(right+0.5));
+        double error = 0;
+        for(int i = 0; i < motors[1].length; i++) {
+            error += Math.abs(motors[1][i].getCurrentPosition() - (right+motorOffset[1][i]));
+        }
+
+        return error/2;
+    }
+
+    public double setTgtPosRightWeight(int left, int right) {
+        setTgtPos((int)(left+0.5), (int)((right*hugWeight)+0.5));
+        double error = 0;
+        for(int i = 0; i < motors[0].length; i++) {
+            error += Math.abs(motors[0][i].getCurrentPosition() - (left+motorOffset[0][i]));
+        }
+
+        return error/2;
+    }
+
     public void resetMotorOffset() {
         for(int i = 0; i < motors.length; i++) {
             for(int j = 0; j < motors[i].length; j++) {
                 motorOffset[i][j] = motors[i][j].getCurrentPosition();
             }
+        }
+    }
+
+    public void setPower(double left, double right) {
+        for(DcMotor m : motors[0]) {
+            m.setPower(left);
+        }
+
+        for(DcMotor m : motors[1]) {
+            m.setPower(right);
+        }
+    }
+
+    public void setPowerLeftWeight(double power) {
+        setPowerLeftWeight(power, power);
+    }
+
+    public void setPowerLeftWeight(double left, double right) {
+        for(DcMotor m : motors[0]) {
+            m.setPower(left*hugWeight);
+        }
+
+        for(DcMotor m : motors[1]) {
+            m.setPower(right);
+        }
+    }
+
+    public void setPowerRightWeight(double power) {
+        setPowerRightWeight(power, power);
+    }
+
+    public void setPowerRightWeight(double left, double right) {
+        for(DcMotor m : motors[0]) {
+            m.setPower(left);
+        }
+
+        for(DcMotor m : motors[1]) {
+            m.setPower(right*hugWeight);
         }
     }
 

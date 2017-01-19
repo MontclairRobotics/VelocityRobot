@@ -117,6 +117,36 @@ public class AutoMode extends OpMode {
         checkStateCompletion(diff < TOLERANCE);
     }
 
+    public void driveHugLeft(double distance)
+    {
+        diff = robot.setTgtPosRightWeight((int)(distance*DEGREES_PER_INCH), (int)(distance*DEGREES_PER_INCH));
+        if(diff > 5*DEGREES_PER_INCH) {
+            robot.setPowerRightWeight(0.8);
+        } else if(diff > 3*DEGREES_PER_INCH) {
+            robot.setPowerRightWeight(0.45);
+        } else if(diff > 1*DEGREES_PER_INCH) {
+            robot.setPowerRightWeight(0.2);
+        } else {
+            robot.setPowerRightWeight(0.1);
+        }
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
+    public void driveHugRight(double distance)
+    {
+        diff = robot.setTgtPosLeftWeight((int)(distance*DEGREES_PER_INCH), (int)(distance*DEGREES_PER_INCH));
+        if(diff > 5*DEGREES_PER_INCH) {
+            robot.setPowerLeftWeight(0.8);
+        } else if(diff > 3*DEGREES_PER_INCH) {
+            robot.setPowerLeftWeight(0.45);
+        } else if(diff > 1*DEGREES_PER_INCH) {
+            robot.setPowerLeftWeight(0.2);
+        } else {
+            robot.setPowerLeftWeight(0.1);
+        }
+        checkStateCompletion(diff < TOLERANCE);
+    }
+
     public void driveToWall(double time) {
         robot.setDriveTank(0.1,0.1);
         checkStateCompletion(timeInState()>=time);
@@ -259,6 +289,22 @@ public class AutoMode extends OpMode {
             robot.setDriveTank(0.3, 0.3);
         }
         checkStateCompletion(getGroundSensor()>1.21);
+    }
+
+    public void driveToBeaconHugLeft(boolean reverse) {
+        if(reverse) {
+            robot.setDriveTank(-0.3, -0.3*Hardware147CompetitionAutoSensors.hugWeight);
+        } else {
+            robot.setDriveTank(0.3, 0.3*Hardware147CompetitionAutoSensors.hugWeight);
+        }
+    }
+
+    public void driveToBeaconHugRight(boolean reverse) {
+        if(reverse) {
+            robot.setDriveTank(-0.3*Hardware147CompetitionAutoSensors.hugWeight, -0.3);
+        } else {
+            robot.setDriveTank(0.3*Hardware147CompetitionAutoSensors.hugWeight, 0.3);
+        }
     }
 
     public void driveSlowToBeacon(boolean reverse) {
