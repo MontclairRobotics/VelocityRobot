@@ -37,12 +37,12 @@ public class Hardware147CompetitionAuto1
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        motors[0][0]   = hwMap.dcMotor.get("left_a");
-        motors[0][1]   = hwMap.dcMotor.get("left_b");
-        motors[1][0]  = hwMap.dcMotor.get("right_a");
-        motors[1][1]  = hwMap.dcMotor.get("right_b");
-        intake = hwMap.dcMotor.get("aux_a");
-        shooter = hwMap.dcMotor.get("aux_b");
+        motors[0][0]   = hwMap.dcMotor.get("left_driveA");
+        motors[0][1]   = hwMap.dcMotor.get("left_driveB");
+        motors[1][0]  = hwMap.dcMotor.get("right_driveA");
+        motors[1][1]  = hwMap.dcMotor.get("right_driveB");
+        intake = hwMap.dcMotor.get("intake");
+        shooter = hwMap.dcMotor.get("shooter");
 
         // Set all motors to zero power
         for(int i=0;i<motors.length;i++)
